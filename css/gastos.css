@@ -1,0 +1,238 @@
+/* gastos.css */
+/* Colores: 
+#2f323f gris oscuro
+#64647c secundario
+#c49f3b amarillo
+#030711 azul oscuro
+*/
+
+body {
+  font-family: Arial, sans-serif;
+  background: #030711;
+  margin: 0;
+  height: 100vh;
+}
+
+.contenedor {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #030711;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+.container {
+  width: 600px;
+  max-width: 1000px;
+  height: 400px;
+  margin: 0 auto;
+  background-color: #2f323f;
+  padding: 40px;
+  border-radius: 20px;
+  /* overflow-x: auto; <-- quitado */
+}
+
+.categorias {
+  display: flex;
+  flex-wrap: wrap;          /* permite que las categorías salten a la siguiente fila */
+  gap: 10px;
+  max-height: 320px;        /* altura límite para mostrar varias filas y activar scroll */
+  overflow-y: auto;         /* scroll vertical si se pasa de altura */
+  padding-bottom: 10px;
+  /* elimina overflow-x para evitar scroll horizontal */
+}
+
+.categoria {
+  
+  width: 150px;
+  height: 150px;
+  background-color: #64647c;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.categoria:hover {
+  background-color: #c49f3b;
+  color: white;
+}
+
+.vista-gastos, .vista-cuotas, .formulario {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.gasto, .cuota {
+  background-color: white;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boton {
+  background-color: #2196F3;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 14px;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.boton:hover {
+  background-color: #1976d2;
+}
+
+.boton.editar {
+  background-color: #ff9800;
+}
+
+.boton.editar:hover {
+  background-color: #ef6c00;
+}
+
+.boton.eliminar {
+  background-color: #f44336;
+}
+
+.boton.eliminar:hover {
+  background-color: #d32f2f;
+}
+
+.total-categoria {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 10px;
+  text-align: right;
+  color: #333;
+}
+
+.oculto {
+  display: none;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  width: calc(100% - 16px);
+  padding: 6px 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: #2196F3;
+  outline: none;
+}
+
+/* NUEVO: ajuste específico para cuotas y formularios de cuotas */
+
+#vista-cuotas {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#form-cuota {
+  background-color: white;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#form-cuota input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+#form-cuota button {
+  align-self: flex-start;
+}
+
+/* Para que los botones de cuotas se vean consistentes */
+
+.cuota button {
+  margin-left: 5px;
+  font-size: 13px;
+  padding: 4px 10px;
+}
+
+/* BOTÓN VOLVER - para que siempre sea visible y claro */
+
+.boton.volver {
+  background-color: #64647c;
+  color: white;
+  margin-bottom: 15px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton.volver:hover {
+  background-color: #c49f3b;
+  color: white;
+}
+
+/* Para navegadores WebKit (Chrome, Edge, Safari, Opera) */
+
+::-webkit-scrollbar {
+  width: 12px;            /* ancho barra vertical */
+  height: 12px;           /* alto barra horizontal */
+}
+
+::-webkit-scrollbar-track {
+  background: #2f323f;    /* color fondo track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c49f3b;  /* color "thumb" (la parte que se mueve) */
+  border-radius: 10px;
+  border: 3px solid #2f323f;  /* espacio alrededor */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ffce54;  /* color al pasar el mouse */
+}
