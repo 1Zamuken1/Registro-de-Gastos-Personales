@@ -1,152 +1,122 @@
 .side-nav {
   width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  flex: 0 0 250px;
   background: #efce6a;
   color: #353642;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  position: fixed;   /* <-- Añade esto */
-  top: 0;            /* <-- Añade esto */
-  left: 0;           /* <-- Añade esto */
-  z-index: 100;      /* <-- Opcional, asegura que esté encima */
+  position: relative; /* desplazable, no fija */
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transition: width 0.2s, min-width 0.2s, max-width 0.2s, flex-basis 0.2s;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+/* Fuerza el ancho de los hijos principales de la barra lateral */
+.side-nav,
+.side-nav-main,
+.side-nav-header,
+.side-nav-top-group,
+.side-nav-footer {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* COLAPSADO */
+.side-nav.collapsed {
+  width: 90px !important;
+  min-width: 90px !important;
+  max-width: 90px !important;
+  flex: 0 0 90px !important;
+  transition: width 0.2s, min-width 0.2s, max-width 0.2s, flex-basis 0.2s;
+}
+
+/* Cuando está colapsada, asegúrate que los hijos también colapsen */
+.side-nav.collapsed,
+.side-nav.collapsed .side-nav-main,
+.side-nav.collapsed .side-nav-header,
+.side-nav.collapsed .side-nav-top-group,
+.side-nav.collapsed .side-nav-footer {
+  width: 90px !important;
+  min-width: 0 !important;
+  max-width: 90px !important;
+  box-sizing: border-box;
+}
+
+/* RESTO DE TU CSS (sin cambios en lógica, solo ordenado) */
+.side-nav-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
 }
 
 .side-nav-header {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  padding: 24px 20px 0 20px;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 24px 0 0 0;
   position: relative;
 }
 
+.side-nav-brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
 .side-nav-logo {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
+}
+
+.side-nav-logo img {
+  width: 28px;
+  height: 28px;
+  display: block;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(1100%)
+    hue-rotate(200deg) brightness(90%) contrast(90%);
 }
 
 .side-nav-title {
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-weight: bold;
   color: #353642;
   letter-spacing: 1px;
-  margin-bottom: 0;
-  margin-left: 0;
+  margin: 0;
 }
 
 .side-nav-separator {
   width: 90%;
   border: none;
   border-top: 4px solid #353642;
-  margin: 0 auto 0 auto;
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  bottom: -16px;
+  margin: 16px auto 0 auto; /* Aumenta el espacio inferior */
+  position: static;
 }
 
 .side-nav-top-group {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 36px;
+  margin-top: 0;
   margin-bottom: 0;
   flex: 0 1 auto;
-}
-
-/* Línea separadora del sistema igual a la de Gastu */
-.side-nav-footer {
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  /* border-top: 4px solid #353642;  <-- ELIMINADA */
-  padding: 0;
-  margin-top: 100px; /* Aumenta este valor para bajar más el menú del sistema */
-  margin-bottom: 0;
-}
-
-.side-nav-footer::before {
-  content: "";
-  display: block;
-  width: 90%;
-  border-top: 4px solid #353642;
-  position: absolute;
-  top: 0;
-  left: 5%;
-  right: 5%;
-}
-
-.side-nav-footer-link {
-  display: flex;
-  align-items: center;
-  color: #353642;
-  text-decoration: none;
-  padding: 12px 20px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  transition: background 0.2s, color 0.2s;
-  gap: 10px;
-  padding-left: 20px !important;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.side-nav-footer-link:hover {
-  background: #23242e;
-  color: #fff;
-}
-
-.side-nav-footer-link.active,
-.side-nav-footer-link:hover {
-  background: #2F323F; /* Cambiado al color solicitado */
-  color: #fff;
-  border-left: 4px solid #2F323F; /* Añadido para consistencia */
-}
-
-.side-nav-footer-link .side-nav-icon img {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-  filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(1100%) hue-rotate(200deg) brightness(90%) contrast(90%);
-}
-
-.side-nav-footer-link:hover .side-nav-icon img {
-  filter: brightness(0) invert(1);
-}
-
-.side-nav-menu-btn {
-  background: none;
-  border: none;
-  color: #353642;
-  font-size: 1.2rem;
-  padding: 10px 0 10px 0;
-  text-align: left;
-  cursor: pointer;
-  font-weight: bold;
-  width: 100%;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 20px !important;
-}
-
-.side-nav-menu-icon {
-  margin-right: 8px;
-  display: flex;
-  align-items: center;
-}
-
-.side-nav-menu-icon img {
-  filter: none;
-  display: block;
-  margin-right: 8px;
-  vertical-align: middle;
 }
 
 .side-nav-list {
@@ -175,35 +145,65 @@
   padding-left: 20px !important;
 }
 
-/* OPCIÓN ACTIVA: fondo color background, texto blanco */
 .side-nav-list li.active a,
 .side-nav-list li a.active {
-  background: #2F323F; /* Cambiado al color solicitado */
+  background: #2f323f;
   color: #fff;
-  border-left: 4px solid #2F323F;
+  border-left: 4px solid #2f323f;
 }
 
 .side-nav-list li a:hover {
-  background: #2F323F; /* Cambiado al color solicitado */
+  background: #2f323f;
   color: #fff;
-  border-left: 4px solid #2F323F;
+  border-left: 4px solid #2f323f;
 }
 
-/* ÍCONOS: color fondo principal normalmente, blancos en activo */
 .side-nav-icon img {
-  width: 22px;
-  height: 22px;
-  margin-right: 8px;
-  filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(1100%) hue-rotate(200deg) brightness(90%) contrast(90%);
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(1100%)
+    hue-rotate(200deg) brightness(90%) contrast(90%);
 }
 
 .side-nav-list li.active .side-nav-icon img,
 .side-nav-list li a.active .side-nav-icon img,
 .side-nav-list li a:hover .side-nav-icon img {
-  filter: brightness(0) invert(1); /* Blanco */
+  filter: brightness(0) invert(1);
 }
 
-/* Footer: barra y menú del sistema */
+.side-nav-menu-btn {
+  background: none;
+  border: none;
+  color: #353642;
+  font-size: 1.2rem;
+  padding: 10px 0 10px 0;
+  text-align: left;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px !important;
+}
+
+.side-nav-menu-icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.side-nav-menu-icon img {
+  width: 28px;
+  height: 28px;
+  filter: none;
+  display: block;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 .side-nav-footer {
   width: 100%;
   position: relative;
@@ -211,10 +211,20 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  /* border-top: 4px solid #353642;  <-- ELIMINADA */
   padding: 0;
-  margin-top: 100px; /* Aumenta este valor para bajar más el menú del sistema */
-  margin-bottom: 0;
+  margin-top: 40px;   /* Aumenta la separación respecto al menú principal */
+  margin-bottom: 24px; /* Opcional: separa del fondo si lo deseas */
+}
+
+.side-nav-footer::before {
+  content: "";
+  display: block;
+  width: 90%;
+  border-top: 4px solid #353642;
+  position: absolute;
+  top: -12px;
+  left: 5%;
+  right: 5%;
 }
 
 .side-nav-footer-link {
@@ -239,45 +249,75 @@
 
 .side-nav-footer-link.active,
 .side-nav-footer-link:hover {
-  background: #2F323F; /* Cambiado al color solicitado */
+  background: #2f323f;
   color: #fff;
-  border-left: 4px solid #2F323F; /* Añadido para consistencia */
+  border-left: 4px solid #2f323f;
 }
 
 .side-nav-footer-link .side-nav-icon img {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   margin-right: 8px;
-  filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(1100%) hue-rotate(200deg) brightness(90%) contrast(90%);
+  filter: brightness(0) saturate(100%) invert(22%) sepia(7%) saturate(1100%)
+    hue-rotate(200deg) brightness(90%) contrast(90%);
 }
 
 .side-nav-footer-link:hover .side-nav-icon img {
   filter: brightness(0) invert(1);
 }
 
-/* Alinea todos los íconos y el botón de menú con el logo */
 .side-nav-menu-btn,
 .side-nav-list li a,
 .side-nav-footer-link {
   padding-left: 20px !important;
 }
 
-/* Opcional: elimina el margin-left del título para mejor alineación */
 .side-nav-title {
   margin-left: 0;
 }
 
-/* Ajusta el icono del menú para que no tenga espacio extra */
-.side-nav-menu-icon {
-  margin-right: 8px;
-  display: flex;
-  align-items: center;
-}
-
-/* Ajusta los íconos para que estén alineados verticalmente */
 .side-nav-icon img,
 .side-nav-menu-icon img {
   display: block;
   margin-right: 8px;
   vertical-align: middle;
+}
+
+/* COLAPSADO: OCULTA TEXTO Y AJUSTA ICONOS */
+.side-nav.collapsed .side-nav-title,
+.side-nav.collapsed .side-nav-menu-btn span:not(.side-nav-menu-icon),
+.side-nav.collapsed .side-nav-list li a span:not(.side-nav-icon),
+.side-nav.collapsed .side-nav-footer-link span:not(.side-nav-icon) {
+  display: none !important;
+}
+.side-nav.collapsed .side-nav-logo {
+  margin: 24px auto 0 auto;
+  display: block;
+}
+.side-nav.collapsed .side-nav-list li a,
+.side-nav.collapsed .side-nav-footer-link,
+.side-nav.collapsed .side-nav-menu-btn {
+  justify-content: center;
+  padding-left: 0 !important;
+  text-align: center;
+}
+.side-nav.collapsed .side-nav-icon img,
+.side-nav.collapsed .side-nav-menu-icon img {
+  margin-right: 0;
+}
+.side-nav.collapsed .side-nav-text {
+  display: none !important;
+}
+
+/* RESPONSIVE: SIEMPRE COLAPSADA EN MÓVIL */
+@media (max-width: 700px) {
+  .side-nav {
+    width: 90px !important;
+    min-width: 90px !important;
+    max-width: 90px !important;
+  }
+  .layout .page-content,
+  .layout.nav-collapsed .page-content {
+    margin-left: 90px !important;
+  }
 }

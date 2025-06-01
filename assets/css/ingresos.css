@@ -5,16 +5,35 @@ body {
   margin: 0;
   padding: 0;
 }
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+.side-nav {
+  flex: 0 0 250px;
+}
+.side-nav.collapsed {
+  flex: 0 0 90px !important;
+}
+.page-content {
+  flex: 1 1 0%;
+  min-width: 0;
+  background: #2f323f;
+  display: flex;
+  flex-direction: column;
+}
 .contenedor {
   max-width: 1400px;
   margin: 40px auto;
-  /* Importante para Nav-Bar*/
-  margin-left: 250px;
-  /*Fin nav-bar*/
   padding: 24px;
   background: #2f323f;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+@media (max-width: 700px) {
+  .contenedor {
+    padding: 8px;
+  }
 }
 h1 {
   color: #efce6a;
@@ -134,7 +153,21 @@ h1 {
   .tarjetas-ingresos { grid-template-columns: repeat(2, 1fr);}
 }
 @media (max-width: 700px) {
-  .tarjetas-ingresos { grid-template-columns: 1fr;}
+  .side-nav {
+    width: 90px !important;
+    min-width: 90px !important;
+  }
+  .tarjetas-ingresos {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .contenedor {
+    padding: 8px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
   .tarjeta-ingreso.expandida .cabecera-tarjeta {
     width: 100%; border-right: none; margin-right: 0; padding-right: 0;
     margin-bottom: 16px; border-bottom: 1px solid #64647c;

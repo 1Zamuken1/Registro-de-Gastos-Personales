@@ -1,57 +1,63 @@
 <nav class="side-nav">
-  <div class="side-nav-header">
-    <img src="../assets/images/gastu_logo.jfif" alt="Logo Gasty" class="side-nav-logo" />
-    <span class="side-nav-title">Gastu</span>
-    <hr class="side-nav-separator" />
-  </div>
-  <div class="side-nav-top-group">
-    <button class="side-nav-menu-btn">
-      <span class="side-nav-menu-icon">
-        <img src="../assets/icons/barras.svg" alt="Menú" width="22" height="22" />
-      </span>
-      Menú
-    </button>
-    <ul class="side-nav-list">
-      <li data-page="inicio">
-        <a href="../views/Inicio.html">
-          <span class="side-nav-icon"><img src="../assets/icons/casa.svg" alt="Inicio" /></span>
-          Inicio
-        </a>
-      </li>
-      <li data-page="ingresos">
-        <a href="../views/Ingresos.html">
-          <span class="side-nav-icon"><img src="../assets/icons/ingresos.svg" alt="Ingresos" /></span>
-          Ingresos
-        </a>
-      </li>
-      <li data-page="egresos">
-        <a href="../views/Gastos.html">
-          <span class="side-nav-icon"><img src="../assets/icons/egresos.svg" alt="Egresos" /></span>
-          Egresos
-        </a>
-      </li>
-      <li data-page="ahorro">
-        <a href="../views/Presupuesto.html">
-          <span class="side-nav-icon"><img src="../assets/icons/ahorro.svg" alt="Ahorro" /></span>
-          Ahorro
-        </a>
-      </li>
-      <li data-page="reportes">
-        <a href="../views/Reportes.html">
-          <span class="side-nav-icon"><img src="../assets/icons/reportes.svg" alt="Reportes" /></span>
-          Reportes
-        </a>
-      </li>
-    </ul>
+  <div class="side-nav-main">
+    <div class="side-nav-header">
+      <div class="side-nav-brand">
+        <span class="side-nav-logo">
+          <img src="../assets/icons/gastu_logo.svg" alt="Logo Gasty" />
+        </span>
+        <span class="side-nav-title side-nav-text">Gastu</span>
+      </div>
+      <hr class="side-nav-separator" />
+    </div>
+    <div class="side-nav-top-group">
+      <button class="side-nav-menu-btn" id="side-nav-toggle">
+        <span class="side-nav-menu-icon">
+          <img src="../assets/icons/barras.svg" alt="Menú" width="22" height="22" />
+        </span>
+        <span class="side-nav-text">Menú</span>
+      </button>
+      <ul class="side-nav-list">
+        <li data-page="inicio">
+          <a href="../views/Inicio.html">
+            <span class="side-nav-icon"><img src="../assets/icons/casa.svg" alt="Inicio" /></span>
+            <span class="side-nav-text">Inicio</span>
+          </a>
+        </li>
+        <li data-page="ingresos">
+          <a href="../views/Ingresos.html">
+            <span class="side-nav-icon"><img src="../assets/icons/ingresos.svg" alt="Ingresos" /></span>
+            <span class="side-nav-text">Ingresos</span>
+          </a>
+        </li>
+        <li data-page="egresos">
+          <a href="../views/Gastos.html">
+            <span class="side-nav-icon"><img src="../assets/icons/egresos.svg" alt="Egresos" /></span>
+            <span class="side-nav-text">Egresos</span>
+          </a>
+        </li>
+        <li data-page="ahorro">
+          <a href="../views/Presupuesto.html">
+            <span class="side-nav-icon"><img src="../assets/icons/ahorro.svg" alt="Ahorro" /></span>
+            <span class="side-nav-text">Ahorro</span>
+          </a>
+        </li>
+        <li data-page="reportes">
+          <a href="../views/Reportes.html">
+            <span class="side-nav-icon"><img src="../assets/icons/reportes.svg" alt="Reportes" /></span>
+            <span class="side-nav-text">Reportes</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="side-nav-footer">
-    <a href="../views/Ayuda.html" class="side-nav-footer-link">
+    <a href="../views/Ayuda.html" class="side-nav-footer-link" data-page="ayuda">
       <span class="side-nav-icon"><img src="../assets/icons/pregunta.svg" alt="Ayuda" /></span>
-      Ayuda
+      <span class="side-nav-text">Ayuda</span>
     </a>
-    <a href="../views/Perfil.html" class="side-nav-footer-link">
+    <a href="../views/Perfil.html" class="side-nav-footer-link" data-page="perfil">
       <span class="side-nav-icon"><img src="../assets/icons/perfil.svg" alt="Perfil" /></span>
-      Perfil
+      <span class="side-nav-text">Perfil</span>
     </a>
   </div>
 </nav>
