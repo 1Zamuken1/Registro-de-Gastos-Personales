@@ -62,7 +62,7 @@ function setActiveNavAuto() {
   if (path.includes('inicio')) setActiveNav('inicio');
   else if (path.includes('ingresos')) setActiveNav('ingresos');
   else if (path.includes('gastos')) setActiveNav('egresos');
-  else if (path.includes('presupuesto')) setActiveNav('ahorro');
+  else if (path.includes('ahorro')) setActiveNav('ahorro');
   else if (path.includes('reportes')) setActiveNav('reportes');
   else if (path.includes('ayuda')) setActiveNav('ayuda');
   else if (path.includes('perfil')) setActiveNav('perfil');
