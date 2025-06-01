@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ingresos</title>
-    <link rel="stylesheet" href="css/ingresos.css" />
+    <link rel="stylesheet" href="../assets/css/nav-bar.css" />
+    <link rel="stylesheet" href="../assets/css/ingresos.css" />
   </head>
   <body>
+    <!-- Barra lateral de navegación -->
+    <link rel="stylesheet" href="../assets/css/nav-bar.css" />
+    <div id="nav-bar"></div>
+    <script src="../assets/js/nav-bar.js"></script>
+
     <!-- =======================
      COMPONENTE: TARJETAS DE INGRESOS
 ======================= -->
-    <div class="contenedor">
+    <div class="contenedor" style="margin-left: 250px">
       <h1>Mis Ingresos</h1>
       <div class="tarjetas-ingresos">
         <!-- Tarjeta para agregar ingreso -->
@@ -21,7 +27,7 @@
           <div class="agregar-contenido">
             <span class="agregar-icono">
               <img
-                src="src/icons/plus.svg"
+                src="../assets/icons/plus.svg"
                 alt="Agregar"
                 width="32"
                 height="32"
@@ -40,7 +46,7 @@
             <div class="acciones">
               <button class="btn-editar" title="Editar">
                 <img
-                  src="src/icons/update.svg"
+                  src="../assets/icons/update.svg"
                   alt="Editar"
                   width="20"
                   height="20"
@@ -48,7 +54,7 @@
               </button>
               <button class="btn-eliminar" title="Eliminar">
                 <img
-                  src="src/icons/delete.svg"
+                  src="../assets/icons/delete.svg"
                   alt="Eliminar"
                   width="20"
                   height="20"
@@ -74,14 +80,25 @@
     <div id="modal-ingreso" class="modal-ingreso-oculto">
       <div class="modal-contenido">
         <span class="modal-cerrar" id="cerrar-modal">
-          <img src="src/icons/close.svg" alt="Cerrar" width="28" height="28" />
+          <img
+            src="../assets/icons/close.svg"
+            alt="Cerrar"
+            width="28"
+            height="28"
+          />
         </span>
         <h2 id="modal-titulo">Detalle del Ingreso</h2>
         <div class="modal-campos">
-          <div><strong>Concepto:</strong> <span id="modal-concepto"></span></div>
+          <div>
+            <strong>Concepto:</strong> <span id="modal-concepto"></span>
+          </div>
           <div><strong>Monto:</strong> <span id="modal-monto"></span></div>
-          <div><strong>Descripción:</strong> <span id="modal-descripcion"></span></div>
-          <div><strong>Fecha creación:</strong> <span id="modal-fecha"></span></div>
+          <div>
+            <strong>Descripción:</strong> <span id="modal-descripcion"></span>
+          </div>
+          <div>
+            <strong>Fecha creación:</strong> <span id="modal-fecha"></span>
+          </div>
           <div><strong>Fijo:</strong> <span id="modal-fijo"></span></div>
         </div>
       </div>
@@ -95,7 +112,12 @@
         <div class="modal-barra-superior">
           <h2 id="modal-titulo-editar">Editar Ingreso</h2>
           <span class="modal-cerrar" id="cerrar-modal-editar">
-            <img src="src/icons/close.svg" alt="Cerrar" width="28" height="28" />
+            <img
+              src="../assets/icons/close.svg"
+              alt="Cerrar"
+              width="28"
+              height="28"
+            />
           </span>
         </div>
         <form id="form-editar-ingreso" autocomplete="off">
@@ -135,11 +157,21 @@
     <div id="modal-eliminar-ingreso" class="modal-ingreso-oculto">
       <div class="modal-contenido modal-eliminar">
         <span class="modal-cerrar" id="cerrar-modal-eliminar">
-          <img src="src/icons/close.svg" alt="Cerrar" width="28" height="28" />
+          <img
+            src="../assets/icons/close.svg"
+            alt="Cerrar"
+            width="28"
+            height="28"
+          />
         </span>
         <!-- Ícono de eliminar SVG -->
         <div class="modal-eliminar-icono">
-          <img src="src/icons/delete.svg" alt="Eliminar" width="48" height="48" />
+          <img
+            src="../assets/icons/delete.svg"
+            alt="Eliminar"
+            width="48"
+            height="48"
+          />
         </div>
         <h2>¿Eliminar ingreso?</h2>
         <p>
@@ -157,6 +189,25 @@
         </div>
       </div>
     </div>
-    <script src="js/ingresos.js"></script>
+    <script src="../assets/js/ingresos.js"></script>
+    <script src="../assets/js/nav-bar.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("../components/nav-bar.html")
+          .then((res) => res.text())
+          .then((html) => {
+            document.getElementById("nav-bar").innerHTML = html;
+            if (typeof setActiveNav === "function") {
+              const path = window.location.pathname.toLowerCase();
+              if (path.includes("inicio")) setActiveNav("inicio");
+              else if (path.includes("ingresos")) setActiveNav("ingresos");
+              else if (path.includes("gastos")) setActiveNav("gastos");
+              else if (path.includes("presupuesto"))
+                setActiveNav("presupuesto");
+              else if (path.includes("reportes")) setActiveNav("reportes");
+            }
+          });
+      });
+    </script>
   </body>
 </html>

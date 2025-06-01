@@ -1,0 +1,333 @@
+body {
+  background: #2f323f;
+  color: #fff;
+  font-family: "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.contenedor {
+  max-width: 1400px;
+  margin: 40px auto;
+  /* Importante para Nav-Bar*/
+  margin-left: 250px;
+  /*Fin nav-bar*/
+  padding: 24px;
+  background: #2f323f;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+h1 {
+  color: #efce6a;
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 2.8rem;
+  font-weight: bold;
+}
+
+/* =======================
+   COMPONENTE: TARJETAS DE INGRESOS
+======================= */
+.tarjetas-ingresos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.tarjeta-ingreso, .tarjeta-agregar {
+  background: #23242e;
+  border-radius: 12px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(44, 44, 44, 0.08);
+  transition:
+    transform 0.15s,
+    flex-direction 0.3s,
+    border-color 0.2s,
+    background 0.2s;
+  cursor: pointer;
+  position: relative;
+  min-width: 0;
+  border: 2px solid #64647c;
+  padding: 20px 16px;
+}
+.tarjeta-ingreso:hover, .tarjeta-agregar:hover {
+  border-color: #efce6a;
+  background: #2f323f;
+  transform: translateY(-4px) scale(1.02);
+}
+.cabecera-tarjeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  flex: 1;
+}
+.concepto {
+  color: #efce6a;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.monto {
+  color: #c49f3b;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+.acciones button {
+  background: none;
+  border: none;
+  color: #efce6a;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.acciones button:hover {
+  background: #64647c;
+}
+.detalle-tarjeta {
+  display: none;
+  margin-top: 16px;
+  padding: 12px;
+  background: #23242e;
+  border-radius: 8px;
+  border: 1px solid #64647c;
+  color: #fff;
+  font-size: 0.98rem;
+  animation: fadeIn 0.3s;
+  flex: 1;
+  word-break: break-word;
+}
+.tarjeta-ingreso.expandida {
+  grid-column: span 4;
+  flex-direction: row;
+  align-items: flex-start;
+  min-height: 160px;
+  z-index: 2;
+}
+.tarjeta-ingreso.expandida .cabecera-tarjeta {
+  width: 40%;
+  border-right: 1px solid #64647c;
+  margin-right: 24px;
+  padding-right: 16px;
+}
+.tarjeta-ingreso.expandida .detalle-tarjeta {
+  display: block;
+  margin-top: 0;
+  margin-left: 0;
+  background: #23242e;
+  border: none;
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+/* Responsive: 2 columnas en tablets, 1 columna en móviles */
+@media (max-width: 1100px) {
+  .tarjetas-ingresos { grid-template-columns: repeat(2, 1fr);}
+}
+@media (max-width: 700px) {
+  .tarjetas-ingresos { grid-template-columns: 1fr;}
+  .tarjeta-ingreso.expandida .cabecera-tarjeta {
+    width: 100%; border-right: none; margin-right: 0; padding-right: 0;
+    margin-bottom: 16px; border-bottom: 1px solid #64647c;
+  }
+  .tarjeta-ingreso.expandida { flex-direction: column;}
+}
+
+/* =======================
+   COMPONENTE: TARJETA AGREGAR INGRESO
+======================= */
+.tarjeta-agregar {
+  border: 2px dashed #c49f3b;
+  color: #c49f3b;
+  align-items: center;
+  justify-content: center;
+}
+.agregar-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.agregar-icono {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.agregar-texto {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #efce6a;
+}
+.agregar-icono, .agregar-texto {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* =======================
+   COMPONENTE: MODALES (DETALLE, EDITAR, ELIMINAR)
+======================= */
+#modal-ingreso, #modal-editar-ingreso, #modal-eliminar-ingreso {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(47,50,63,0.85);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#modal-eliminar-ingreso { z-index: 1002; }
+.modal-contenido, .modal-eliminar {
+  background: #23242e;
+  border: 2px solid #64647c;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: fadeIn 0.3s;
+}
+.modal-contenido {
+  padding: 36px 40px 32px 40px;
+  min-width: 420px;
+  max-width: 98vw;
+}
+.modal-eliminar {
+  min-width: 340px;
+  max-width: 95vw;
+  text-align: center;
+  padding: 32px 24px;
+}
+.modal-cerrar {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 2rem;
+  color: #efce6a;
+  cursor: pointer;
+  font-weight: bold;
+}
+#modal-titulo, #modal-editar-ingreso h2, .modal-eliminar h2 {
+  color: #efce6a;
+  text-align: center;
+  margin-bottom: 10px;
+  user-select: none;
+  cursor: move;
+  margin-top: 0;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.modal-campos div { margin-bottom: 12px; }
+.modal-campos strong, #modal-editar-ingreso .modal-campos label {
+  color: #efce6a;
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+}
+#modal-editar-ingreso .modal-campos input,
+#modal-editar-ingreso .modal-campos select {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #64647c;
+  background: #2f323f;
+  color: #fff;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.modal-barra-superior {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: move;
+  user-select: none;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.btn-guardar, .btn-eliminar-confirmar {
+  background: #c49f3b;
+  color: #23242e;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 36px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 18px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(44,44,44,0.08);
+  min-width: 180px;
+}
+.btn-guardar:hover, .btn-eliminar-confirmar:hover {
+  background: #efce6a;
+  color: #23242e;
+}
+.btn-eliminar-cancelar {
+  background: #64647c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 36px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 18px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(44,44,44,0.08);
+  min-width: 180px;
+}
+.btn-eliminar-cancelar:hover {
+  background: #4a5bb3;
+  color: #fff;
+}
+.modal-eliminar-botones {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+}
+.modal-eliminar-icono {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.modal-eliminar-icono img {
+  filter: brightness(0) saturate(100%) invert(81%) sepia(41%) saturate(617%) hue-rotate(7deg) brightness(97%) contrast(92%);
+  width: 48px; height: 48px;
+}
+
+/* =======================
+   COMPONENTE: ICONOS SVG
+======================= */
+.btn-editar img, .btn-eliminar img, .agregar-icono img, .modal-cerrar img {
+  filter: brightness(0) saturate(100%) invert(81%) sepia(41%) saturate(617%) hue-rotate(7deg) brightness(97%) contrast(92%);
+  transition: filter 0.2s;
+  vertical-align: middle;
+  pointer-events: none;
+}
+.btn-editar:hover img, .btn-eliminar:hover img, .modal-cerrar:hover img {
+  filter: brightness(0) saturate(100%) invert(65%) sepia(99%) saturate(748%) hue-rotate(1deg) brightness(101%) contrast(101%);
+}
+
+/* =======================
+   UTILIDADES
+======================= */
+.modal-ingreso-oculto { display: none !important; }
