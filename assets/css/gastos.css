@@ -8,15 +8,14 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #030711;
+  background: #000000;
   margin: 0;
   height: 100vh;
 }
-
 .contenedor {
   max-width: 700px;
   margin: 0 auto;
-  background: #030711;
+  background: #0f0e17;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
@@ -24,7 +23,7 @@ body {
 
 h1 {
   text-align: center;
-  color: white;
+  color: #a7a9be;
 }
 
 .container {
@@ -32,41 +31,41 @@ h1 {
   max-width: 1000px;
   height: 400px;
   margin: 0 auto;
-  background-color: #2f323f;
-  padding: 40px;
+  padding: 20px 20px 20px 20px; /* más espacio arriba */
   border-radius: 20px;
-  /* overflow-x: auto; <-- quitado */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #c49f3b;
 }
 
 .categorias {
   display: flex;
-  flex-wrap: wrap;          /* permite que las categorías salten a la siguiente fila */
+  flex-wrap: wrap;
   gap: 10px;
-  max-height: 320px;        /* altura límite para mostrar varias filas y activar scroll */
-  overflow-y: auto;         /* scroll vertical si se pasa de altura */
-  padding-bottom: 10px;
-  /* elimina overflow-x para evitar scroll horizontal */
+  max-height: 320px;
+  overflow-y: auto;
 }
 
 .categoria {
-  
-  width: 150px;
-  height: 150px;
-  background-color: #64647c;
-  color: white;
+  width: calc((100% - 20px) / 3); /* 3 columnas por fila */
+  height: 100px;
+  background-color: #000000;
+  color:#FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 20px;
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.3s ease;
   text-align: center;
+  font-size: 20px;
+ transition: background-color  0.2s ease, transform 0.1s ease;
 }
-
 .categoria:hover {
-  background-color: #c49f3b;
-  color: white;
+  background-color: #FFFFFF;
+  color: #000000;
+  transform: translateY(-1px);
 }
 
 .vista-gastos, .vista-cuotas, .formulario {
