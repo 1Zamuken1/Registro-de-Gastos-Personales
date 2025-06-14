@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="" type="image/x-icon" />
+
+    <title>Dashboard</title>
+  </head>
+ <body>
+  <div class="layout">
+    <div id="sidebar"></div> <!-- Aquí se inyecta tu barra -->
+
+    <main class="page-content">
+      <h1>Dashboard</h1>
+      <p>Contenido aquí</p>
+    </main>
+  </div>
+
+  <script>
+    // Insertas la barra lateral desde el componente
+    fetch('../assets/js/nav-bar.js')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('sidebar').innerHTML = html;
+      });
+  </script>
+  </body>
+  <script src="js/usuario.js"></script>
+</html>
