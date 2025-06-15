@@ -14,9 +14,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const ahorrosSimulados = totalAhorros;
 
   const gastosRecientes = [
-    { categoria: "Transporte", monto: 12000 },
+    { categoria: "Transporte", monto: 120000 },
     { categoria: "Comida", monto: 95000 },
-    { categoria: "Entretenimiento", monto: 250000 },
+    { categoria: "Entretenimiento", monto: 20000 },
     { categoria: "Servicios", monto: 30000 },
     { categoria: "Salud", monto: 15000 },
   ];
