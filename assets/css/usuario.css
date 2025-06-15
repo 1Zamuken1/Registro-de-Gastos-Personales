@@ -1,5 +1,401 @@
-body{
-    height: 100vh;
-    margin: 0;
-    width: 100%;
+/* Global */
+body {
+  height: 100vh;
+  margin: 0;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0A0E27;
+}
+
+/* Layout principal */
+.page-content {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 1.5fr 1fr;
+  grid-template-columns: 3fr 1fr 1fr; 
+  grid-template-areas:
+    "graficos graficos graficos"
+    "resumen alertas alertas"; 
+  background: #b3b7cf;
+  color: #FFFFFF;
+  gap: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* GRAFICOS */
+.graficos {
+  background: #b3b7cf;
+  color: #FFFFFF;
+  display: grid;
+  grid-area: graficos;
+  grid-template-rows: 1fr 8fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "titulo1 titulo2 titulo2 titulo3"
+    "ahorro balance balance neto"
+    "btn-ahorro btn-ingresos btn-egresos neto";
+  border-radius: 15px;
+  gap: 6px;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.graficos:hover {
+  box-shadow: 0 12px 40px rgba(155, 89, 182, 0.3);
+}
+
+/* Títulos */
+.titulo1, .titulo2, .titulo3 {
+  background: #9B59B6;
+  color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.titulo1::before, .titulo2::before, .titulo3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(155, 89, 182, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.titulo1:hover::before, .titulo2:hover::before, .titulo3:hover::before {
+  left: 100%;
+}
+
+.titulo1:hover, .titulo2:hover, .titulo3:hover {
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.6);
+}
+
+.titulo1 { grid-area: titulo1; }
+.titulo2 { grid-area: titulo2; }
+.titulo3 { grid-area: titulo3; }
+
+/* Gráficos - sin border radius inferior */
+.ahorro {
+  grid-area: ahorro;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -6px 20px rgba(155, 89, 182, 0.4);
+  transition: all 0.3s ease;
+}
+
+.ahorro:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4);
+}
+
+.balance {
+  grid-area: balance;
+  background: #ffffff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -6px 20px rgba(155, 89, 182, 0.4);
+  transition: all 0.3s ease;
+  padding: 10px;
+}
+
+.balance:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4);
+}
+
+/* Divs de botones - con fondo blanco y sin border radius superior */
+.btn-ahorro, .btn-ingresos, .btn-egresos {
+  background: #ffffff;
+  color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 12px 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+}
+
+/* Hover para divs de botones - solo elevación, sin cambio de color */
+.btn-ahorro:hover, .btn-ingresos:hover, .btn-egresos:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4);
+}
+
+.btn-ahorro { grid-area: btn-ahorro; }
+.btn-ingresos { grid-area: btn-ingresos; }
+.btn-egresos { grid-area: btn-egresos; }
+
+/* Botones - menos brillo */
+.boton {
+  background: linear-gradient(135deg, #9B59B6 0%, #8E4EC6 100%);
+  color: #FFFFFF;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 15px;
+  padding: 12px 20px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(155, 89, 182, 0.2);
+  font-size: 13px;
+}
+
+.boton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+  background: linear-gradient(135deg, #8E4EC6 0%, #9B59B6 100%);
+}
+
+.boton:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 6px rgba(155, 89, 182, 0.2);
+}
+
+/* NETO */
+.neto {
+  grid-area: neto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 -6px 20px rgba(155, 89, 182, 0.4);
+  transition: all 0.3s ease;
+}
+
+.neto:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4);
+}
+
+/* Cuadro neto - color que combine con el div neto */
+.cuadro-neto {
+  width: 80%;
+  max-width: 800px;
+  height: 300px;
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  color: #FFFFFF;
+}
+
+.total-ingresos, .total-egresos, .saldo-neto {
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  box-shadow: 0 6px 30px rgba(155, 89, 182, 0.8);
+}
+
+.total-ingresos {
+  border-left: 4px solid #9B59B6;
+}
+
+.total-egresos {
+  border-left: 4px solid #9B59B6;
+}
+
+.saldo-neto {
+  border-left: 4px solid #9B59B6;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 5px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
+/* RESUMEN */
+.resumen {
+  grid-area: resumen;
+  background: #b3b7cf;
+  color: #FFFFFF;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(155, 89, 182, 0.5);
+  transition: all 0.3s ease;
+  padding: 15px;
+}
+
+.resumen:hover {
+  box-shadow: 0 12px 40px rgba(155, 89, 182, 0.3);
+}
+
+/* ALERTAS - CORREGIDO */
+.alertas {
+  background-color: #b3b7cf;
+  color: #FFFFFF;
+  grid-area: alertas;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr 2fr 1fr;
+  grid-template-areas:
+    "alerta recordatorio"
+    "alerta recordatorio"
+    "mensaje mensaje";
+  gap: 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  padding: 15px;
+  font-family: sans-serif;
+  box-shadow: 0 8px 32px rgba(155, 89, 182, 0.5);
+  transition: all 0.3s ease;
+}
+
+.alertas:hover {
+  box-shadow: 0 12px 40px rgba(155, 89, 182, 0.3);
+}
+
+/* Alerta - color de la paleta en lugar de rojo */
+.alerta {
+  grid-area: alerta;
+  background-color: #9B59B6;
+  color: #FFFFFF;
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.alerta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
+}
+
+.recordatorio {
+  grid-area: recordatorio;
+  background-color: #9B59B6;
+  color: #FFFFFF;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.recordatorio:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
+}
+
+.mensaje {
+  grid-area: mensaje;
+  background-color: #9B59B6;
+  color: #FFFFFF;
+  padding: 15px;
+  font-style: italic;
+  font-weight: bold;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mensaje:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
+}
+
+/* Animaciones adicionales */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.cuadro-neto:hover {
+  animation: pulse 2s infinite;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .page-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 1fr 1fr;
+    grid-template-areas:
+      "graficos"
+      "resumen"
+      "alertas";
+  }
+  
+  .graficos {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "titulo1 titulo2"
+      "titulo3 titulo3"
+      "ahorro balance"
+      "neto neto";
+  }
+}
+
+.apexcharts-tooltip-text,
+.apexcharts-tooltip-title {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+.apexcharts-tooltip {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3) !important;
+}
+
+/* Cambia el color del texto dentro del menú desplegable */
+.apexcharts-menu {
+  color: #000000 !important;
+  font-weight: bold;
+}
+
+/* Cambia el color de los ítems del menú */
+.apexcharts-menu-item {
+  color: #000000 !important;
+  font-weight: bold;
+}
+
+/* Cambia el color de los ítems del menú */
+.apexcharts-menu-item:hover {
+  background-color: #E6E6E6 !important;
+  color: #000000 !important;
+}
+
+/* Cambiar el fondo del menú completo */
+.apexcharts-menu {
+  background-color: #FFFFFF !important;
+}
+
+/* Borde y sombra opcional */
+.apexcharts-menu {
+  border: 1px solid #ccc !important;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
 }

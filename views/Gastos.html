@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Gestión de Gastos</title>
-  <link rel="stylesheet" href="../assets/css/gastos.css" />
-</head>
-<body>
-  <div class="contenedor">
-    <h1>Gestión de Gastos</h1>
-    <div class="container">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestión de Gastos</title>
+    <link rel="stylesheet" href="../assets/css/nav-bar.css" />
+    <link rel="stylesheet" href="../assets/css/gastos.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <nav class="side-nav" id="nav-bar"></nav>
+      <main class="page-content">
+        <div class="contenedor">
+          <h1>Gestión de Gastos</h1>
+          <div class="container">
+            <!-- Lista de categorías -->
+            <div id="categorias" class="categorias"></div>
 
-      <!-- Lista de categorías -->
-      <div id="categorias" class="categorias"></div>
+            <!-- Contenedor para mostrar gastos de una categoría -->
+            <div id="vista-gastos" class="vista-gastos oculto"></div>
 
-      <!-- Contenedor para mostrar gastos de una categoría -->
-      <div id="vista-gastos" class="vista-gastos oculto"></div>
-
-      <!-- Contenedor para formulario de edición/creación de gasto -->
-      <div id="formulario-gasto" class="formulario oculto"></div>
-
+            <!-- Contenedor para formulario de edición/creación de gasto -->
+            <div id="formulario-gasto" class="formulario oculto"></div>
+          </div>
+        </div>
+      </main>
     </div>
-  </div>
-
-  <script src="../assets/js/gastos.js"></script>
-</body>
+    <script src="../assets/js/nav-bar.js"></script>
+    <script src="../assets/js/gastos.js"></script>
+  </body>
 </html>
