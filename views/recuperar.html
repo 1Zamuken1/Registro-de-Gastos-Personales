@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recuperar Contraseña</title>
+  <link rel="stylesheet" href="../assets/css/inicioSesion-Recuperar.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="container recover-container">
+
+    <!-- Panel izquierdo -->
+    <div class="recover-panel">
+      <h2>¿Recordaste tu contraseña?</h2>
+      <p>Vuelve al inicio de sesión.</p>
+      <a href="Inicio sesion.html" class="btn white-outline">
+        <i class='bx bx-log-in'></i> Volver al login
+      </a>
+    </div>
+
+    <!-- Panel derecho -->
+    <div class="recover-form-box">
+      <form id="recoverForm" class="recover-form">
+        <h1 class="recover-title">Recuperar Contraseña</h1>
+
+        <div class="input-box">
+          <input type="email" id="recoverEmail" placeholder="Correo electrónico" required />
+          <i class='bx bxs-envelope'></i>
+          <span class="error" id="recoverEmailError"></span>
+        </div>
+
+        <button type="submit" class="btn">Enviar enlace</button>
+      </form>
+
+      <form id="resetForm" class="recover-form" style="display: none;">
+        <h1 class="recover-title">Nueva Contraseña</h1>
+
+        <input type="hidden" id="resetEmail" />
+
+        <div class="input-box">
+          <input type="password" id="newPassword" placeholder="Nueva contraseña" required />
+          <i class='bx bxs-lock-alt'></i>
+          <span class="error" id="newPasswordError"></span>
+        </div>
+
+        <button type="submit" class="btn">Actualizar</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="../assets/js/recuperar.js"></script>
+</body>
+</html>

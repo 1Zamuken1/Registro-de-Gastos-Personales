@@ -1,0 +1,550 @@
+/* Importa la fuente Poppins desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Reset general para todos los elementos */
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family:"Poppins", sans-serif;
+}
+
+/* Estilos generales del cuerpo */
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height:100vh ;
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+}
+
+/* Contenedor principal de formularios */
+.container{
+    position: relative;
+    width: 850px;
+    height: 550px;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    margin: 20px;
+    overflow: hidden;
+    max-height: 90vh;
+}
+
+/* Título principal */
+.container h1 {
+    font-size: 28px;
+}
+
+/* Caja de formularios login y registro */
+.form-box{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    color:#333;
+    text-align: center;
+    padding: 40px;
+    z-index: 1;
+    transition: transform 1.2s ease-in-out;
+}
+
+/* Formulario de login por defecto visible */
+.form-box.login {
+  transform: translateX(0%);
+  z-index: 2;
+}
+
+/* Formulario de registro oculto inicialmente */
+.form-box.register {
+  transform: translateX(100%);
+  z-index: 1;
+}
+
+/* Al activar el contenedor (cambio de vista) */
+.container.active .form-box.login {
+  transform: translateX(-100%);
+  z-index: 1;
+}
+
+.container.active .form-box.register {
+  transform: translateX(0%);
+  z-index: 2;
+}
+
+.container.active .form-box{
+    right: 50%;
+}
+
+.container.active .form-box.register{
+    visibility: visible;
+}
+
+/* Estilo general de formulario */
+form{
+    width: 100%;
+}
+
+/* Formulario de registro con desplazamiento interno */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Título dentro de formularios */
+.container h1{
+    font-size: 36px;
+    margin: -10px 0;
+}
+
+/* Caja de entrada (input + ícono) */
+.input-box{
+    position: relative;
+    margin: 8px 0; 
+}
+
+/* Campo de entrada */
+.input-box input{
+    width: 100%;
+    padding: 10px 40px 10px 16px;
+    background: #eee;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Placeholder dentro del input */
+.input-box input::placeholder{
+    color: #888;
+    font-weight: 400;
+}
+
+/* Ícono dentro del input */
+.input-box i{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #888;
+}
+
+/* Opciones adicionales: recordar y olvidé contraseña */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: -5px 0 20px;
+    font-size: 14px;
+    gap: 10px;
+}
+
+/* Checkbox de "Recordarme" */
+.options .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #333;
+    white-space: nowrap;
+}
+
+/* Link de recuperación */
+.options .forgot-link{
+    white-space: nowrap;
+}
+
+.options .forgot-link a {
+    color: #333;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Redundante pero asegura el estilo */
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #333;
+}
+
+/* Botón principal */
+.btn{
+    width: 100%;
+    height: 36px;
+    background: #7494ec;
+    border-radius: 8px ;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Formulario de registro oculto por defecto */
+.form-box.register{
+    visibility: hidden;
+    padding: 40px 30px 30px 30px; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* Caja para animación del fondo azul */
+.toggle-box{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* Fondo animado azul que se desliza */
+.toggle-box::before{
+    content: '';
+    left: -250%;
+    position: absolute;
+    width: 300%;
+    height: 100%;
+    background: #7494ec;
+    border-radius: 150px;
+    z-index: 2;
+    transition: 1.8s ease-in-out;
+}
+
+/* Al activar contenedor, el fondo azul se mueve */
+.container.active .toggle-box::before{
+    left: 50%;
+}
+
+/* Panel que muestra el mensaje alternativo (login/registro) */
+.toggle-panel{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transition: .6s ease-in-out;
+}
+
+/* Panel izquierdo */
+.toggle-panel.toggle-left{
+    left: 0;
+    transition-delay: 1.2s;
+}
+
+/* Se mueve fuera de vista al activar contenedor */
+.container.active .toggle-panel.toggle-left{
+    left: -50%;
+    transition-delay: .6s;
+}
+
+/* Panel derecho */
+.toggle-panel.toggle-right{
+    right: -50%;
+    transition-delay:.6s ;
+}
+
+/* Se mueve dentro de vista */
+.container.active .toggle-panel.toggle-right{
+    right: 0;
+    transition-delay: 1.2s;
+}
+
+/* Texto en panel alternativo */
+.toggle-panel p{
+    margin-bottom: 20px;
+}
+
+/* Botón en panel alternativo */
+.toggle-panel .btn{
+    width: 160px;
+    height: 46px;
+    background: transparent;
+    border: 2px solid #fff;
+    box-shadow: none;
+}
+
+/* Cursor de ayuda al pasar sobre íconos con título */
+.input-box i[title] {
+  cursor: help;
+}
+
+/* Caja de términos y condiciones */
+.terms-box {
+    margin: 10px 0 20px;
+    text-align: left;
+    font-size: 13px;
+    color: #333;
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Etiqueta del checkbox de términos */
+.terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+/* Checkbox visualmente alineado */
+.terms-label input[type="checkbox"] {
+    margin-top: 3px;
+}
+
+/* Link a términos de uso */
+.terms-label a {
+    color: #3f51b5;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Estilos responsivos para pantallas pequeñas */
+@media screen  and (max-width:650px) {
+    .container{
+        height: calc(100vh - 40px) ;
+    }
+
+    .form-box{
+        bottom: 0;
+        width: 100%;
+        height: 70%;
+    }
+
+    .container.active .form-box{
+        right: 0;
+        bottom: 30%;
+    }
+
+    .toggle-box::before{
+        left: 0;
+        top: -270%;
+        width: 100%;
+        height: 300%;
+        border-radius: 20vw;
+    }
+
+    .container.active .toggle-box::before{
+        left: 0;
+        top: 70%;
+    }
+
+    .toggle-panel{
+        width: 100%;
+        height: 30%;
+    }
+
+    .toggle-panel.toggle-left{
+        top:0;
+    }
+
+    .container.active .toggle-panel.toggle-left{
+        left: 0;   
+        top: -30%;
+    }
+
+    .toggle-panel.toggle-right{
+        right: 0;
+        bottom: -30%;
+    }
+
+    .container.active .toggle-panel.toggle-right{
+        bottom: 0;
+    }
+
+    .options {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-bottom: 15px;
+        margin-top: 10px;
+    }
+
+    .options .remember-me {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .options .forgot-link {
+        align-self: flex-end;
+        font-size: 14px;
+        white-space: nowrap;
+        margin-top: 6px;
+    }
+
+    .form-box.register .input-box {
+        padding: 10px 40px 10px 16px;
+        font-size: 14px;
+        height: 38px;
+        margin: 14px 0;
+    }
+
+    .form-box.register .btn{
+        height: 34px;
+        font-size: 14px;
+        margin-top: 12px;
+        margin-bottom: 0;
+    }
+
+    .form-box.register{
+        padding: 25px 35px;
+    }
+}
+
+/* Más ajustes para pantallas aún más pequeñas */
+@media screen  and (max-width:400px){
+    .form-box{
+       padding: 20px; 
+    }
+
+    .toggle-panel h1{
+       font-size: 30px; 
+    }
+}
+
+/* Título formulario de registro */
+.form-box.register h1 {
+    margin-bottom: 6px; 
+    text-align: center;
+    width: 100%;
+}
+
+/* Botón registro con margen */
+.form-box.register .btn {
+    margin-top: 24px; 
+    margin-bottom: 0;
+}
+
+/* Estilo de mensajes de error */
+.error {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* === Recuperación de contraseña === */
+
+/* Contenedor del panel de recuperación */
+.container.recover-container {
+  display: flex;
+  width: 850px;
+  height: 550px;
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+/* Formulario de recuperación */
+.recover-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 40px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.recover-form h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Panel azul de recuperación */
+.recover-panel {
+  flex: 1;
+  background: #7494ec;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.recover-panel h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.recover-panel p {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Botón dentro del panel */
+.recover-panel .btn {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.recover-panel .btn:hover {
+  background-color: white;
+  color: #7494ec;
+}
+
+.recover-panel .btn i {
+  margin-right: 8px;
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+/* Caja blanca del formulario de recuperación */
+.recover-form-box {
+  flex: 1;
+  background-color: #fff;
+  padding: 40px;
+}
+
+/* Fondo de los inputs */
+.input-box input {
+  background: #eee;
+}
+
+/* Responsive para recuperación */
+@media screen and (max-width: 768px) {
+  .container.recover-container {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+  }
+
+  .recover-panel,
+  .recover-form-box {
+    width: 100%;
+    height: auto;
+    padding: 30px;
+  }
+
+  .recover-panel {
+    border-radius: 30px 30px 0 0;
+  }
+
+  .recover-form-box {
+    border-radius: 0 0 30px 30px;
+  }
+}
