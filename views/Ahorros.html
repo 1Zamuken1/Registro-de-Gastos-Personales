@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ahorros</title>
+    <link rel="stylesheet" href="../assets/css/nav-bar.css" />
+    <link rel="stylesheet" href="../assets/css/ahorros.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Barra lateral de navegación -->
+      <nav class="side-nav" id="nav-bar"></nav>
+      <div class="page-content">
+        <!-- COMPONENTE: TARJETAS DE AHORROS -->
+        <div class="contenedor">
+          <h1>Mis Ahorros</h1>
+          <div class="tarjetas-ahorros">
+            <div class="tarjeta-ahorro tarjeta-agregar" id="tarjeta-agregar-ahorro">
+              <div class="agregar-contenido">
+                <span class="agregar-icono">
+                  <img src="../assets/icons/plus.svg" alt="Agregar" width="32" height="32" />
+                </span>
+                <span class="agregar-texto">Añadir ahorro</span>
+              </div>
+            </div>
+            <div class="tarjeta-ahorro">
+              <div class="cabecera-tarjeta">
+                <div>
+                  <div class="concepto">Viaje a San Andrés</div>
+                  <div class="monto">$5,000,000</div>
+                </div>
+                <div class="acciones">
+                  <button class="btn-editar" title="Editar">
+                    <img src="../assets/icons/update.svg" alt="Editar" width="20" height="20" />
+                  </button>
+                  <button class="btn-cuotas" title="Cuotas">
+                    <img src="../assets/icons/plus.svg" alt="Cuotas" width="20" height="20" />
+                  </button>
+                  <button class="btn-eliminar" title="Eliminar">
+                    <img src="../assets/icons/delete.svg" alt="Eliminar" width="20" height="20" />
+                  </button>
+                </div>
+              </div>
+              <div class="detalle-tarjeta">
+                <div><strong>Meta:</strong> $5,000,000</div>
+                <div><strong>Fecha inicio:</strong> 2024-04-15</div>
+                <div><strong>Fecha fin:</strong> 2025-04-15</div>
+                <div><strong>Frecuencia:</strong> Mensual</div>
+                <div><strong>Número de cuotas:</strong> 12</div>
+                <div><strong>Cuota:</strong> $100,000</div>
+                <div><strong>Descripción:</strong> Ahorro para viaje</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal detalle ahorro -->
+        <div id="modal-ahorro" class="modal-ahorro-oculto">
+          <div class="modal-contenido">
+            <span class="modal-cerrar" id="cerrar-modal">
+              <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
+            </span>
+            <h2 id="modal-titulo">Detalle del Ahorro</h2>
+            <div class="modal-campos">
+              <div><strong>Meta:</strong> <span id="modal-meta"></span></div>
+              <div><strong>Fecha inicio:</strong> <span id="modal-inicio"></span></div>
+              <div><strong>Fecha fin:</strong> <span id="modal-fin"></span></div>
+              <div><strong>Frecuencia:</strong> <span id="modal-frecuencia"></span></div>
+              <div><strong>Número de cuotas:</strong> <span id="modal-numcuota"></span></div>
+              <div><strong>Cuota:</strong> <span id="modal-cuota"></span></div>
+              <div><strong>Descripción:</strong> <span id="modal-descripcion"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal editar ahorro -->
+        <div id="modal-editar-ahorro" class="modal-ahorro-oculto">
+          <div class="modal-contenido">
+            <div class="modal-barra-superior">
+              <h2 id="modal-titulo-editar">Editar Ahorro</h2>
+              <span class="modal-cerrar" id="cerrar-modal-editar">
+                <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
+              </span>
+            </div>
+            <form id="form-editar-ahorro" autocomplete="off">
+              <div class="modal-campos">
+                <div>
+                  <label><strong>Meta:</strong></label>
+                  <input type="number" id="editar-meta" required />
+                </div>
+                <div>
+                  <label><strong>Fecha inicio:</strong></label>
+                  <input type="date" id="editar-inicio" required />
+                </div>
+                <div>
+                  <label><strong>Fecha fin:</strong></label>
+                  <input type="date" id="editar-fin" required />
+                </div>
+                <div>
+                  <label><strong>Frecuencia:</strong></label>
+                  <select id="editar-frecuencia" required>
+                    <option value="Mensual">Mensual</option>
+                    <option value="Quincenal">Quincenal</option>
+                  </select>
+                </div>
+                <div>
+                  <label><strong>Número de cuotas:</strong></label>
+                  <input type="number" id="editar-numcuota" required />
+                </div>
+                <div>
+                  <label><strong>Cuota:</strong></label>
+                  <input type="number" id="editar-cuota" required />
+                </div>
+                <div>
+                  <label><strong>Descripción:</strong></label>
+                  <input type="text" id="editar-descripcion" />
+                </div>
+              </div>
+              <button type="submit" class="btn-guardar">Guardar</button>
+            </form>
+          </div>
+        </div>
+        <div id="modal-cuotas-ahorro" class="modal-ahorro-oculto">
+          <div class="modal-contenido modal-cuotas">
+            <span class="modal-cerrar" id="cerrar-modal-cuotas">
+              <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
+            </span>
+             <h2>Cuotas del Ahorro</h2>
+             <table class="tabla-cuotas">
+               <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Monto</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                 </tr>
+                </thead>
+      <tbody id="cuerpo-cuotas">
+        <!-- filas dinámicas -->
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Modal de cuotas -->
+<div id="modal-cuotas-ahorro" class="modal-ahorro modal-ahorro-oculto"> 
+  <div class="modal-contenido-cuotas">
+    <h2>Cuotas del Ahorro</h2>
+    <table class="tabla-cuotas">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Monto</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpo-cuotas">
+        <!-- Las filas se agregan dinámicamente -->
+      </tbody>
+    </table>
+    <button id="cerrar-modal-cuotas" class="btn-cerrar-modal">Cerrar</button>
+  </div>
+</div>
+        <!-- Modal eliminar ahorro -->
+        <div id="modal-eliminar-ahorro" class="modal-ahorro-oculto">
+          <div class="modal-contenido modal-eliminar">
+            <span class="modal-cerrar" id="cerrar-modal-eliminar">
+              <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
+            </span>
+            <div class="modal-eliminar-icono">
+              <img src="../assets/icons/delete.svg" alt="Eliminar" width="48" height="48" />
+            </div>
+            <h2>¿Eliminar ahorro?</h2>
+            <p>
+              ¿Estás seguro de que deseas eliminar el ahorro
+              <strong id="nombre-ahorro-eliminar"></strong>? Esta acción no se
+              puede deshacer.
+            </p>
+            <div class="modal-eliminar-botones">
+              <button id="btn-confirmar-eliminar" class="btn-eliminar-confirmar">
+                Sí, eliminar
+              </button>
+              <button id="btn-cancelar-eliminar" class="btn-eliminar-cancelar">
+                No, cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Scripts -->
+    <script src="../assets/js/nav-bar.js"></script>
+    <script src="../assets/js/ahorros.js"></script>
+  </body>
+</html>
+
