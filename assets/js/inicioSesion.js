@@ -23,22 +23,62 @@ function clearErrors() {
   document.querySelectorAll('.error').forEach(span => span.textContent = '');
 }
 
-// --- Usuarios iniciales ---
+// --- Función para asignar IDs a usuarios existentes que no los tengan ---
+function asignarIDsAUsuariosExistentes() {
+  const usuarios = JSON.parse(sessionStorage.getItem("usuarios")) || [];
+  let cambiosRealizados = false;
+  let siguienteId = 1;
+
+  usuarios.forEach((usuario, index) => {
+    if (!usuario.id) {
+      usuario.id = siguienteId;
+      cambiosRealizados = true;
+    }
+    siguienteId = Math.max(siguienteId, (usuario.id || 0)) + 1;
+  });
+
+  if (cambiosRealizados) {
+    sessionStorage.setItem("usuarios", JSON.stringify(usuarios));
+    console.log("IDs asignados a usuarios existentes");
+  }
+
+  return usuarios;
+}
+
+// --- Función para obtener el próximo ID disponible ---
+function obtenerSiguienteId() {
+  // Primero asegurar que todos los usuarios tengan ID
+  const usuarios = asignarIDsAUsuariosExistentes();
+  if (usuarios.length === 0) return 1;
+  
+  // Filtra usuarios que tienen ID válido y encuentra el ID más alto
+  const usuariosConId = usuarios.filter(u => u.id && typeof u.id === 'number');
+  if (usuariosConId.length === 0) return 1;
+  
+  const maxId = Math.max(...usuariosConId.map(u => u.id));
+  return maxId + 1;
+}
+
+// --- Usuarios iniciales con IDs únicos ---
 const usuariosIniciales = [
-  { usuario: "valeria", password: "valeria123", email: "valeria@mail.com", rol: "estudiante"},
-  { usuario: "admin", password: "admin123", email: "admin@mail.com", rol: "administrador" },
-  { usuario: "jose", password: "jose123", email: "jose@mail.com", rol: "profesor" },
-  { usuario: "camila", password: "camila321", email: "camila@mail.com", rol: "estudiante" },
-  { usuario: "pedro", password: "pedrito", email: "pedro@mail.com", rol: "profesor" },
-   { usuario: "laura", password: "lauraAdmin", rol: "administrador" }
+  { id: 1, usuario: "valeria", password: "valeria123", email: "valeria@mail.com", phone: "3001234567", rol: "estudiante" },
+  { id: 2, usuario: "admin", password: "admin123", email: "admin@mail.com", phone: "3100000000", rol: "administrador" },
+  { id: 3, usuario: "jose", password: "jose123", email: "jose@mail.com", phone: "3111111111", rol: "profesor" },
+  { id: 4, usuario: "camila", password: "camila321", email: "camila@mail.com", phone: "3122222222", rol: "estudiante" },
+  { id: 5, usuario: "pedro", password: "pedrito", email: "pedro@mail.com", phone: "3133333333", rol: "profesor" },
+  { id: 6, usuario: "laura", password: "lauraAdmin", email: "laura@mail.com", phone: "3144444444", rol: "administrador" }
 ];
 
+// Inicializar usuarios solo si no existen en sessionStorage
 if (!sessionStorage.getItem("usuarios")) {
   sessionStorage.setItem("usuarios", JSON.stringify(usuariosIniciales));
+} else {
+  // Si ya existen usuarios, asegurar que todos tengan IDs
+  asignarIDsAUsuariosExistentes();
 }
 
 // --- Registrar nuevo usuario ---
-function registrarUsuario(usuario, password, email) {
+function registrarUsuario(usuario, password, email, phone) {
   const usuarios = JSON.parse(sessionStorage.getItem("usuarios")) || [];
   const existe = usuarios.find(u => u.usuario === usuario || u.email === email);
 
@@ -46,9 +86,22 @@ function registrarUsuario(usuario, password, email) {
     return { exito: false, mensaje: "El usuario o el correo ya existen." };
   }
 
-  usuarios.push({ usuario, password, email, rol: "estudiante" });
+  // Generar ID único automáticamente
+  const nuevoId = obtenerSiguienteId();
+  
+  // Crear nuevo usuario con ID único
+  const nuevoUsuario = { 
+    id: nuevoId, 
+    usuario, 
+    password, 
+    email, 
+    phone, 
+    rol: "estudiante" 
+  };
+  
+  usuarios.push(nuevoUsuario);
   sessionStorage.setItem("usuarios", JSON.stringify(usuarios));
-  return { exito: true, mensaje: "Usuario registrado correctamente." };
+  return { exito: true, mensaje: "Usuario registrado correctamente.", id: nuevoId };
 }
 
 // --- Validar inicio de sesión ---
@@ -88,6 +141,8 @@ if (loginForm) {
       if (resultado.exito) {
         const usuario = resultado.usuario;
         sessionStorage.setItem("usuarioActivo", usuario.usuario);
+        // También podemos guardar el ID del usuario activo si lo necesitas
+        sessionStorage.setItem("usuarioActivoId", usuario.id);
 
         if (usuario.rol === "estudiante") {
           window.location.href = "dashboard.html";
@@ -145,9 +200,9 @@ if (registerForm) {
     }
 
     if (valid) {
-      const resultado = registrarUsuario(username, password, email);
+      const resultado = registrarUsuario(username, password, email, phone);
       if (resultado.exito) {
-        alert("Usuario registrado con éxito. Ahora puedes iniciar sesión.");
+        alert(`Usuario registrado con éxito con Nombre: ${resultado.username}. Ahora puedes iniciar sesión.`);
         registerForm.reset();
         container.classList.remove('active'); // cambia a login
       } else {
@@ -155,4 +210,19 @@ if (registerForm) {
       }
     }
   });
+}
+
+// --- Función auxiliar para obtener usuario por ID (útil para futuras funcionalidades) ---
+function obtenerUsuarioPorId(id) {
+  const usuarios = JSON.parse(sessionStorage.getItem("usuarios")) || [];
+  return usuarios.find(u => u.id === id);
+}
+
+// --- Función auxiliar para obtener el usuario activo actual ---
+function obtenerUsuarioActivo() {
+  const usuarioActivoId = sessionStorage.getItem("usuarioActivoId");
+  if (usuarioActivoId) {
+    return obtenerUsuarioPorId(parseInt(usuarioActivoId));
+  }
+  return null;
 }

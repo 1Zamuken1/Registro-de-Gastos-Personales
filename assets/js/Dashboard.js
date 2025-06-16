@@ -166,7 +166,7 @@ window.addEventListener("DOMContentLoaded", () => {
       ],
       chart: {
         type: "treemap",
-        height: 350,
+        height: 332,
         background: "#b3b7cf",
       },
       title: {

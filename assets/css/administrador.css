@@ -1,0 +1,583 @@
+/* | Color HEX               | Uso principal                                  | Nombre descriptivo                        |
+| ----------------------- | ---------------------------------------------- | ----------------------------------------- |
+| #b3b7cf               | Fondo de .page-content, .graficos, etc.    | Lavanda grisácea claro                    |
+| #9B59B6               | Títulos, alertas, botones, sombras principales | Morado vibrante (Amethyst)                |
+| #8E4EC6               | Gradiente alternativo en botones               | Púrpura medio                             |
+| #FFFFFF               | Fondo de gráficos y botones, texto en general  | Blanco                                    |
+| #000000               | Texto en elementos blancos                     | Negro                                     |
+| rgba(155, 89, 182, X) | Sombra y efectos visuales                      | Morado translúcido (varía según opacidad) | */
+/* Fondo general */
+/* Fondo general */
+body {
+  height: 100vh;
+  margin: 0;
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #b3b7cf; /* Lavanda grisácea claro */
+}
+
+/* Contenido principal */
+.page-content {
+  display: grid;
+  grid-template-columns: 2fr 0.5fr 2fr 3fr;
+  grid-template-rows: 2fr 1fr 1fr 0.5fr;
+  grid-template-areas:
+    "informacion . gestion-usuarios gestion-usuarios"
+    "informacion . gestion-usuarios gestion-usuarios"
+    ". . gestion-usuarios gestion-usuarios"
+    ". . . .";
+  gap: 24px; /* Más aire entre secciones */
+  padding: 24px;
+  box-sizing: border-box;
+  background-color: #b3b7cf;
+}
+
+/* Tarjeta de información */
+/* Tarjeta de información mejorada */
+.informacion {
+  grid-area: informacion;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f6fc 100%);
+  border-radius: 20px;
+  padding: 32px 28px;
+  color: #000000;
+  box-shadow: 0 8px 24px rgba(155, 89, 182, 0.15), 0 4px 8px rgba(155, 89, 182, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(155, 89, 182, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo sutil en el fondo */
+.informacion::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #9b59b6, transparent);
+  opacity: 0.6;
+}
+
+.informacion:hover {
+  box-shadow: 0 12px 32px rgba(155, 89, 182, 0.2), 0 6px 12px rgba(155, 89, 182, 0.12);
+  transform: translateY(-3px);
+  border-color: rgba(155, 89, 182, 0.2);
+}
+
+.informacion h2 {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #9b59b6;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(155, 89, 182, 0.1);
+  line-height: 1.2;
+}
+
+.informacion p {
+  font-size: 1.05rem;
+  color: #444444;
+  margin: 0;
+  line-height: 1.5;
+  background: rgba(155, 89, 182, 0.04);
+  padding: 16px 20px;
+  border-radius: 12px;
+  border-left: 4px solid #9b59b6;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gestion-usuarios .boton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.consultar-usuarios .boton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+/* Contenedor de tarjetas */
+.gestion-usuarios {
+  display: grid;
+  grid-area: gestion-usuarios;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "crear-usuarios consultar-usuarios"
+    "actualizar-usuarios eliminar-usuarios";
+  gap: 20px;
+  padding: 8px;
+  box-sizing: border-box;
+  background-color: #b3b7cf;
+}
+
+.crear-usuarios,
+.consultar-usuarios,
+.actualizar-usuarios,
+.eliminar-usuarios {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.15); /* sombra permanente */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.crear-usuarios:hover,
+.consultar-usuarios:hover,
+.actualizar-usuarios:hover,
+.eliminar-usuarios:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4); /* sombra más notoria al hacer hover */
+}
+
+/* Títulos y textos */
+.crear-usuarios h3,
+.consultar-usuarios h3,
+.actualizar-usuarios h3,
+.eliminar-usuarios h3 {
+  color: #9B59B6;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.crear-usuarios p,
+.consultar-usuarios p,
+.actualizar-usuarios p,
+.eliminar-usuarios p {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 16px;
+  max-width: 90%;
+}
+
+/* Botón centrado y estilizado */
+.crear-usuarios button,
+.consultar-usuarios button,
+.actualizar-usuarios button,
+.eliminar-usuarios button {
+  background-color: #9B59B6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  align-self: center;
+}
+
+.crear-usuarios button:hover,
+.consultar-usuarios button:hover,
+.actualizar-usuarios button:hover,
+.eliminar-usuarios button:hover {
+  background-color: #8E4EC6;
+  box-shadow: 0 0 10px rgba(155, 89, 182, 0.4);
+}
+
+
+/* Botones dentro de las tarjetas */
+.crear-usuarios button,
+.consultar-usuarios button,
+.actualizar-usuarios button,
+.eliminar-usuarios button {
+  background-color: #9b59b6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.crear-usuarios button:hover,
+.consultar-usuarios button:hover,
+.actualizar-usuarios button:hover,
+.eliminar-usuarios button:hover {
+  background-color: #8e4ec6;
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.4);
+}
+
+.crear-usuarios:hover,
+.consultar-usuarios:hover,
+.actualizar-usuarios:hover,
+.eliminar-usuarios:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(155, 89, 182, 0.25);
+}
+
+/* Asignar a cada tarjeta su área */
+.crear-usuarios {
+  grid-area: crear-usuarios;
+}
+.consultar-usuarios {
+  grid-area: consultar-usuarios;
+}
+.actualizar-usuarios {
+  grid-area: actualizar-usuarios;
+}
+.eliminar-usuarios {
+  grid-area: eliminar-usuarios;
+}
+
+/* Crear usuario por formulario modal */
+#modalCrearUsuario .modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  color: #000000;
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.25); /* sombra morada */
+}
+
+#modalCrearUsuario h2 {
+  color: #9b59b6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#modalCrearUsuario .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #9b59b6;
+}
+
+/* Formulario interno */
+#formCrearUsuario label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #000000;
+}
+
+#formCrearUsuario input,
+#formCrearUsuario select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+#formCrearUsuario button {
+  background-color: #9b59b6;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#formCrearUsuario button:hover {
+  background-color: #8e4ec6;
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.4);
+}
+
+/* Consultar Usuarios tabla*/
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+}
+
+.modal .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+/* Estilo Datatable*/
+/* Ajustes a DataTable */
+table.dataTable {
+  width: 100% !important;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.dataTables_wrapper {
+  width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  margin-bottom: 12px;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+  margin-top: 16px;
+}
+
+table.dataTable th,
+table.dataTable td {
+  padding: 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Editar usuario por formulario modal */
+#modalEditarUsuario .modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  color: #000000;
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.25); /* sombra morada */
+}
+
+#modalEditarUsuario h2 {
+  color: #9b59b6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#modalEditarUsuario .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #9b59b6;
+}
+
+/* Formulario interno */
+#formEditarUsuario label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #000000;
+}
+
+#formEditarUsuario input,
+#formEditarUsuario select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+#formEditarUsuario button {
+  background-color: #9b59b6;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#formEditarUsuario button:hover {
+  background-color: #8e4ec6;
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.4);
+}
+
+/* Eliminar usuario */
+
+/* === Modal Confirmación de Eliminación === */
+#modalEliminarConfirmacion .modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  color: #000000;
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.25); /* sombra morada */
+  text-align: center;
+}
+
+#modalEliminarConfirmacion h2 {
+  color: #dc3545; /* rojo para advertencia */
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+#modalEliminarConfirmacion p {
+  font-size: 16px;
+  margin: 20px 0;
+  color: #000000;
+}
+
+#modalEliminarConfirmacion .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #9b59b6;
+}
+
+#modalEliminarConfirmacion button {
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 6px;
+}
+
+#modalEliminarConfirmacion button:first-of-type {
+  background-color: #dc3545; /* rojo eliminar */
+  color: #ffffff;
+}
+
+#modalEliminarConfirmacion button:first-of-type:hover {
+  background-color: #c0392b;
+}
+
+#modalEliminarConfirmacion button:last-of-type {
+  background-color: #9b59b6; /* botón cancelar */
+  color: #ffffff;
+}
+
+#modalEliminarConfirmacion button:last-of-type:hover {
+  background-color: #8e4ec6;
+}
+
+/* === DataTables adaptado al tema === */
+table.dataTable {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  color: #000000;
+}
+
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+  color: #000000;
+  font-weight: 500;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  background-color: #ffffff;
+  color: #9b59b6 !important;
+  border: 1px solid #9b59b6;
+  border-radius: 4px;
+  margin: 0 2px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: #9b59b6;
+  color: #ffffff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: #9b59b6;
+  color: #ffffff !important;
+  border: 1px solid #9b59b6;
+}
+
+table.dataTable thead th {
+  background-color: #9b59b6;
+  color: #ffffff;
+  border-bottom: 2px solid #8e4ec6;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+  background-color: #f4effa;
+}
+
+table.dataTable tbody tr:hover {
+  background-color: #f0e6f8;
+}
+
+/* Botón Editar */
+.btn-editar {
+  background-color: #9b59b6;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 6px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-editar:hover {
+  background-color: #8e4ec6;
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.4);
+}
+
+/* Botón Eliminar */
+.btn-eliminar {
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-eliminar:hover {
+  background-color: #c0392b;
+  box-shadow: 0 0 8px rgba(220, 53, 69, 0.4);
+}

@@ -1,11 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <script src="js/administrador.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Estilos principales -->
+    <link rel="stylesheet" href="../assets/css/administrador.css" />
+
+    <!-- DataTables -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+
+    <!-- Scripts necesarios para DataTables -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <title>Panel Administrador</title>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Navegación lateral -->
+      <nav class="side-nav" id="nav-bar"></nav>
+
+      <!-- Protección de sesión -->
+      <header>
+        <script src="../assets/js/auth.js"></script>
+      </header>
+
+      <!-- Contenido principal -->
+      <main class="page-content">
+        <!-- Información superior -->
+        <div class="informacion">
+          <h2>Panel de Administración</h2>
+          <p>Cargando información del usuario...</p>
+        </div>
+
+        <!-- Tarjetas CRUD -->
+        <div class="gestion-usuarios">
+          <div class="crear-usuarios">
+            <h3>Crear Usuario</h3>
+            <p>Registra nuevos usuarios en el sistema.</p>
+            <div class="boton">
+            <button onclick="abrirFormularioCreacion()">Crear</button>
+            </div>
+          </div>
+
+          <div class="consultar-usuarios">
+            <h3>Consultar Usuarios</h3>
+            <p>Consulta, edita o elimina usuarios del sistema.</p>
+            <div class="boton">
+            <button onclick="mostrarUsuarios()">Ver todos</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal para crear usuario -->
+    <div id="modalCrearUsuario" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModalCreacion()">&times;</span>
+        <h2>Crear Nuevo Usuario</h2>
+        <form id="formCrearUsuario">
+          <label for="nuevoUsuario">Usuario:</label>
+          <input type="text" id="nuevoUsuario" required />
+
+          <label for="nuevoCorreo">Correo:</label>
+          <input type="email" id="nuevoCorreo" required />
+
+          <label for="nuevoPhone">Teléfono:</label>
+          <input type="tel" id="nuevoPhone" />
+
+          <label for="nuevoPassword">Contraseña:</label>
+          <input type="password" id="nuevoPassword" required />
+
+          <label for="nuevoRol">Rol:</label>
+          <select id="nuevoRol" required>
+            <option value="administrador">Administrador</option>
+            <option value="estudiante">Estudiante</option>
+            <option value="profesor">Profesor</option>
+          </select>
+
+          <br /><br />
+          <button type="submit">Guardar Usuario</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Agrega este botón dentro del modalUsuarios, justo encima de la tabla -->
+    <div id="modalUsuarios" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModalUsuarios()">&times;</span>
+        <h2>Usuarios del sistema</h2>
+
+        <div style="clear: both"></div>
+
+        <table id="tablaUsuarios" class="display nowrap" style="width: 100%">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuario</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal para editar usuario -->
+    <div id="modalEditarUsuario" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModalEdicion()">&times;</span>
+        <h2>Editar Usuario</h2>
+        <form id="formEditarUsuario">
+          <input type="hidden" id="editarIdUsuario" />
+
+          <label for="editarUsuario">Usuario:</label>
+          <input type="text" id="editarUsuario" required />
+
+          <label for="editarCorreo">Correo:</label>
+          <input type="email" id="editarCorreo" required />
+
+          <label for="editarPhone">Teléfono:</label>
+          <input type="tel" id="editarPhone" required />
+
+          <label for="editarRol">Rol:</label>
+          <select id="editarRol" required>
+            <option value="administrador">Administrador</option>
+            <option value="estudiante">Estudiante</option>
+            <option value="profesor">Profesor</option>
+          </select>
+
+          <br /><br />
+          <button type="submit">Guardar Cambios</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Eliminar Usuario -->
+    <!-- Modal de confirmación de eliminación -->
+    <div id="modalEliminarConfirmacion" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarModalEliminacion()">&times;</span>
+        <h2>¿Eliminar Usuario?</h2>
+        <p>
+          ⚠️ Esta acción es permanente y no se puede deshacer. ¿Deseas
+          continuar?
+        </p>
+        <div style="text-align: center">
+          <button
+            onclick="confirmarEliminacionUsuario()">
+            Sí, eliminar
+          </button>
+          <button
+            onclick="cerrarModalEliminacion()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts del proyecto -->
+    <script src="../assets/js/nav-bar.js"></script>
+    <script src="../assets/js/administrador.js"></script>
+  </body>
 </html>

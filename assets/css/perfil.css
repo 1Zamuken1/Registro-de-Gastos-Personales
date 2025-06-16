@@ -1,38 +1,215 @@
+/* | Color HEX               | Uso principal                                  | Nombre descriptivo                        |
+| ----------------------- | ---------------------------------------------- | ----------------------------------------- |
+| #b3b7cf               | Fondo de .page-content, .graficos, etc.    | Lavanda grisácea claro                    |
+| #9B59B6               | Títulos, alertas, botones, sombras principales | Morado vibrante (Amethyst)                |
+| #8E4EC6               | Gradiente alternativo en botones               | Púrpura medio                             |
+| #FFFFFF               | Fondo de gráficos y botones, texto en general  | Blanco                                    |
+| #000000               | Texto en elementos blancos                     | Negro                                     |
+| rgba(155, 89, 182, X) | Sombra y efectos visuales                      | Morado translúcido (varía según opacidad) | */
+/* Fondo general */
+/* Fondo general */
+/* Fondo general */
 body {
-  background: #2f323f;
-  color: #fff;
-  font-family: "Segoe UI", Arial, sans-serif;
+  height: 100vh;
   margin: 0;
-  padding: 0;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #b3b7cf;
 }
-.layout {
-  display: flex;
-  min-height: 100vh;
-}
-.side-nav {
-  flex: 0 0 250px;
-}
-.side-nav.collapsed {
-  flex: 0 0 90px !important;
-}
+
+/* Layout principal */
 .page-content {
-  flex: 1 1 0%;
-  min-width: 0;
-  background: #2f323f;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas: 
+    "perfil notificaciones acercade";
+  gap: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  align-items: start;
+}
+
+
+/* Tarjetas principales */
+.perfil, .notificaciones, .acercade {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.perfil:hover,
+.notificaciones:hover,
+.acercade:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(155, 89, 182, 0.5);
+}
+
+/* Inputs */
+.info-perfil .campo {
+  width: 100%;
+  text-align: left;
   display: flex;
   flex-direction: column;
+  margin-bottom: 16px;
 }
-.contenedor {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 24px;
-  background: #2f323f;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+
+.input-con-icono {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 6px 10px;
+  box-shadow: 0 2px 8px rgba(155, 89, 182, 0.3);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
-h1 {
-  color: #efce6a;
-  text-align: center;
-  font-size: 2.2rem;
+.input-con-icono:hover {
+  box-shadow: 0 4px 20px rgba(155, 89, 182, 0.5);
+  transform: scale(1.02);
+}
+.input-con-icono input {
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #000000;
+}
+
+/* Íconos de editar */
+.input-con-icono img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  filter: invert(41%) sepia(99%) saturate(535%) hue-rotate(230deg) brightness(100%) contrast(95%);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.input-con-icono img:hover {
+  transform: scale(1.2) rotate(5deg);
+  filter: invert(41%) sepia(99%) saturate(800%) hue-rotate(260deg) brightness(120%) contrast(120%);
+}
+
+/* Botones perfil */
+.perfil button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #9B59B6;
+  color: #ffffff;
   font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 10px rgba(155, 89, 182, 0.3);
+}
+.perfil button:hover {
+  background-color: #8E4EC6;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.6);
+}
+
+/* Notificaciones: íconos toggle */
+.notificaciones i {
+  font-size: 24px;
+  cursor: pointer;
+  color: #8E4EC6;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+.notificaciones i:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 8px rgba(155, 89, 182, 0.6);
+}
+
+/* Acerca de: botones */
+.acercade button {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #9B59B6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 10px rgba(155, 89, 182, 0.3);
+}
+.acercade button:hover {
+  background-color: #8E4EC6;
+  transform: translateX(5px);
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
+}
+/* Estilos del ícono SVG y del ícono de ojo */
+.input-con-icono img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.input-con-icono img:hover {
+  transform: scale(1.2);
+}
+
+/* Ícono de ojo */
+.input-con-icono .toggle-password {
+  font-size: 20px;
+  cursor: pointer;
+  color: #8E4EC6;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+.input-con-icono .toggle-password:hover {
+  transform: scale(1.2);
+  text-shadow: 0 0 8px rgba(155, 89, 182, 0.6);
+}
+/* Modal general */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenido del modal */
+.modal-contenido {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 10px 25px rgba(155, 89, 182, 0.5);
+  text-align: center;
+}
+
+.modal-contenido h3 {
+  margin-bottom: 15px;
+  color: #9B59B6;
+}
+
+.modal-contenido input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 2px solid #9B59B6;
+  border-radius: 6px;
+}
+
+.modal-contenido button {
+  background-color: #9B59B6;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.modal-contenido button:hover {
+  background-color: #8E4EC6;
 }

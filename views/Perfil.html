@@ -1,21 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Perfil</title>
-    <link rel="stylesheet" href="../assets/css/nav-bar.css" />
-    <link rel="stylesheet" href="../assets/css/perfil.css" />
-  </head>
-  <body>
-    <div class="layout">
-      <nav class="side-nav" id="nav-bar"></nav>
-      <div class="page-content">
-        <div class="contenedor">
-          <h1>Estoy en Perfil</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="../assets/css/perfil.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <title>Perfil</title>
+</head>
+<body>
+  <div class="layout">
+    <nav class="side-nav" id="nav-bar"></nav>
+
+    <header>
+      <script src="../assets/js/auth.js"></script>
+    </header>
+
+    <main class="page-content">
+      <!-- Perfil -->
+        
+        <div class="perfil">
+            <div class="titulo-perfil"><h2>Perfil</h2></div>
+            <div class="info-perfil">
+                 <div class="campo">
+                    <h3>Rol</h3>
+                    <div class="input-con-icono">
+                    <input type="text" disabled class="rol" />
+                    </div>
+                </div>
+                <div class="campo">
+                    <h3>Nombre</h3>
+                    <div class="input-con-icono">
+                    <input type="text" disabled class="nombre" />
+                    <img src="../assets/icons/update.svg" alt="Editar" />
+                    </div>
+                </div>
+                <div class="campo">
+                    <h3>Correo</h3>
+                    <div class="input-con-icono">
+                    <input type="text" disabled class="correo" />
+                    <img src="../assets/icons/update.svg" alt="Editar"/>
+                    </div>
+                </div>
+                <div class="campo">
+                    <h3>Teléfono</h3>
+                    <div class="input-con-icono">
+                    <input type="text" disabled class="telefono"/>
+                    <img src="../assets/icons/update.svg" alt="Editar" />
+                    </div>
+                </div>
+               <div class="campo">
+                    <h3>Contraseña</h3>
+                    <div class="input-con-icono">
+                        <input type="password" disabled class="contrasena" id="inputContrasena" />
+                        <i class="bi bi-eye-slash toggle-password" id="togglePassword" title="Mostrar contraseña"></i>
+                        <img src="../assets/icons/update.svg" alt="Editar" />
+                    </div>
+                </div>
+
+            </div>
+            <button type="button" class="btn-danger">Eliminar cuenta</button>
+            <button type="button" id="btnCerrarSesion">Cerrar sesión</button>
+
         </div>
-      </div>
-    </div>
-    <script src="../assets/js/nav-bar.js"></script>
-  </body>
+
+      <!-- Notificaciones -->
+        <div class="notificaciones">
+            <div class="titulo-notificacion"><h2>Notificaciones</h2></div>
+            <div class="info-notificacion">
+                <div class="not-generales">
+                    <p>Recibir notificaciones generales</p> 
+                    <i class="bi bi-toggle-on" id="toggleIcon1"></i>
+                </div>
+                <div class="not-correo">
+                    <p>Notificación por correo</p>
+                    <i class="bi bi-toggle-on" id="toggleIcon2"></i>
+                </div>
+                <div class="not-sms">
+                <p>Notificación por SMS</p> 
+                <i class="bi bi-toggle-on " id="toggleIcon3"></i>
+                </div>
+            
+            </div>
+        </div>
+
+      <!-- Acerca de -->
+        <div class="acercade">
+            <div class="titulo-acercade"><h2>Acerca de</h2></div>
+            <div class="info-acercade">
+            <button type="button">Política de privacidad</button>
+            <button type="button">Condiciones de servicio</button>
+            </div>
+        </div>
+        <!-- Modal de edición -->
+            <div id="modal-editar" class="modal">
+            <div class="modal-contenido">
+                <h3 id="modal-titulo">Editar campo</h3>
+                <input type="text" id="modal-input" placeholder="Nuevo valor..." />
+                <button id="modal-guardar">Guardar</button>
+            </div>
+            </div>
+
+    </main>
+  </div>
+
+  <script src="../assets/js/nav-bar.js"></script>
+  <script src="../assets/js/perfil.js"></script>
+</body>
 </html>

@@ -1,31 +1,148 @@
-<!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Gestión de Gastos</title>
     <link rel="stylesheet" href="../assets/css/nav-bar.css" />
     <link rel="stylesheet" href="../assets/css/gastos.css" />
-  </head>
-  <body>
+</head>
+<body>
     <div class="layout">
-      <nav class="side-nav" id="nav-bar"></nav>
-      <main class="page-content">
-        <div class="contenedor">
-          <h1>Gestión de Gastos</h1>
-          <div class="container">
-            <!-- Lista de categorías -->
-            <div id="categorias" class="categorias"></div>
-
-            <!-- Contenedor para mostrar gastos de una categoría -->
-            <div id="vista-gastos" class="vista-gastos oculto"></div>
-
-            <!-- Contenedor para formulario de edición/creación de gasto -->
-            <div id="formulario-gasto" class="formulario oculto"></div>
-          </div>
+        <nav class="side-nav" id="nav-bar"></nav>
+        <main class="page-content">
+            <div class="contenedor">
+                <h1>Gestión de Gastos</h1>
+                <div class="container">
+                    <!-- Lista de categorías -->
+                    <div id="categorias" class="categorias"></div>
+                    
+                    <!-- Contenedor para mostrar gastos de una categoría -->
+                    <div id="vista-gastos" class="vista-gastos oculto">
+                        <div id="gastos-header"></div>
+                        <div id="gastos-lista"></div>
+                        <div id="gastos-total"></div>
+                        <div id="gastos-botones"></div>
+                    </div>
+                </div>
+            </div>
+       
+    <!-- Modal para nuevo gasto -->
+    <div id="modal-nuevo-gasto" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Gasto</h3>
+                <span class="close" id="close-nuevo-gasto">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="form-nuevo-gasto">
+                    <div class="form-group">
+                        <label for="nuevo-desc">Descripción:</label>
+                        <input type="text" id="nuevo-desc" placeholder="Descripción" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevo-monto">Monto:</label>
+                        <input type="number" id="nuevo-monto" placeholder="Monto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nuevo-tipo">Tipo:</label>
+                        <select id="nuevo-tipo">
+                            <option value="variable">Variable</option>
+                            <option value="fijo">Fijo</option>
+                        </select>
+                    </div>
+                    <div id="nuevo-fechas-fijo" class="form-group oculto">
+                        <label for="nuevo-fecha-inicio">Fecha inicio:</label>
+                        <input type="date" id="nuevo-fecha-inicio">
+                        <label for="nuevo-fecha-fin">Fecha fin:</label>
+                        <input type="date" id="nuevo-fecha-fin">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="boton" id="btn-guardar-nuevo">Guardar</button>
+                <button type="button" class="boton eliminar" id="btn-cancelar-nuevo">Cancelar</button>
+            </div>
         </div>
-      </main>
     </div>
-    <script src="../assets/js/nav-bar.js"></script>
-    <script src="../assets/js/gastos.js"></script>
+
+    <!-- Modal para editar gasto -->
+    <div id="modal-editar-gasto" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Gasto</h3>
+                <span class="close" id="close-editar-gasto">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="form-editar-gasto">
+                    <div class="form-group">
+                        <label for="editar-desc">Descripción:</label>
+                        <input type="text" id="editar-desc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editar-monto">Monto:</label>
+                        <input type="number" id="editar-monto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editar-tipo">Tipo:</label>
+                        <select id="editar-tipo">
+                            <option value="variable">Variable</option>
+                            <option value="fijo">Fijo</option>
+                        </select>
+                    </div>
+                    <div id="editar-fechas-fijo" class="form-group oculto">
+                        <label for="editar-fecha-inicio">Fecha inicio:</label>
+                        <input type="date" id="editar-fecha-inicio">
+                        <label for="editar-fecha-fin">Fecha fin:</label>
+                        <input type="date" id="editar-fecha-fin">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="boton" id="btn-guardar-editar">Guardar</button>
+                <button type="button" class="boton eliminar" id="btn-cancelar-editar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para categorías disponibles -->
+    <div id="modal-categorias" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Categoría</h3>
+                <span class="close" id="close-categorias">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="lista-categorias-disponibles"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="boton eliminar" id="btn-cancelar-categorias">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cuotas -->
+    <div id="modal-cuotas" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gestionar Cuotas</h3>
+                <span class="close" id="close-cuotas">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="cuotas-actuales"></div>
+                <div class="form-group">
+                    <label for="nueva-cuota-monto">Nuevo monto de cuota:</label>
+                    <input type="number" id="nueva-cuota-monto" placeholder="Monto de la cuota">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="boton" id="btn-agregar-cuota">Agregar Cuota</button>
+                <button type="button" class="boton eliminar" id="btn-cancelar-cuotas">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/nav-bar.js"></script>
+  <script src="../assets/js/gastos.js"></script>
   </body>
 </html>

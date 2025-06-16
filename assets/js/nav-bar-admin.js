@@ -1,9 +1,9 @@
 // Carga la barra lateral y resalta la opción activa automáticamente
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('../components/nav-bar.html')
+  fetch('../components/nav-bar-admin.html')
     .then(res => res.text())
     .then(html => {
-      document.getElementById('nav-bar').innerHTML = html;
+      document.getElementById('nav-bar-admin').innerHTML = html;
       setActiveNavAuto();
 
       // Toggle collapse
@@ -59,11 +59,7 @@ function setActiveNav(page) {
 
 function setActiveNavAuto() {
   const path = window.location.pathname.toLowerCase();
-  if (path.includes('dashboard')) setActiveNav('dashboard');
-  else if (path.includes('ingresos')) setActiveNav('ingresos');
-  else if (path.includes('gastos')) setActiveNav('egresos');
-  else if (path.includes('ahorro')) setActiveNav('ahorro');
-  else if (path.includes('reportes')) setActiveNav('reportes');
+  if (path.includes('administrador')) setActiveNav('administrador');
   else if (path.includes('ayuda')) setActiveNav('ayuda');
   else if (path.includes('perfil')) setActiveNav('perfil');
 }

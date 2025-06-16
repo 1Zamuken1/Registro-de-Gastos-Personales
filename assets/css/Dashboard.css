@@ -2,9 +2,8 @@
 body {
   height: 100vh;
   margin: 0;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #0A0E27;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Layout principal */
@@ -19,8 +18,9 @@ body {
   background: #b3b7cf;
   color: #FFFFFF;
   gap: 8px;
-  padding: 8px;
   box-sizing: border-box;
+  padding: 8px;
+  overflow: hidden;
 }
 
 /* GRAFICOS */
@@ -38,6 +38,7 @@ body {
   border-radius: 15px;
   gap: 6px;
   padding: 10px;
+  box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
@@ -58,23 +59,6 @@ body {
   text-align: center;
   box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.titulo1::before, .titulo2::before, .titulo3::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(155, 89, 182, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.titulo1:hover::before, .titulo2:hover::before, .titulo3:hover::before {
-  left: 100%;
 }
 
 .titulo1:hover, .titulo2:hover, .titulo3:hover {
@@ -109,6 +93,7 @@ body {
   box-shadow: 0 -6px 20px rgba(155, 89, 182, 0.4);
   transition: all 0.3s ease;
   padding: 10px;
+  box-sizing: border-box;
 }
 
 .balance:hover {
@@ -195,6 +180,7 @@ body {
   flex-direction: column;
   justify-content: space-around;
   color: #FFFFFF;
+  box-sizing: border-box;
 }
 
 .total-ingresos, .total-egresos, .saldo-neto {
@@ -226,7 +212,7 @@ h2 {
   color: #000000;
 }
 
-/* RESUMEN */
+/* RESUMEN - CON ANIMACIÓN DE BARRA HORIZONTAL */
 .resumen {
   grid-area: resumen;
   background: #b3b7cf;
@@ -235,13 +221,32 @@ h2 {
   box-shadow: 0 8px 32px rgba(155, 89, 182, 0.5);
   transition: all 0.3s ease;
   padding: 15px;
+  box-sizing: border-box; 
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.resumen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.resumen:hover::before {
+  left: 100%;
 }
 
 .resumen:hover {
   box-shadow: 0 12px 40px rgba(155, 89, 182, 0.3);
 }
 
-/* ALERTAS - CORREGIDO */
+/* ALERTAS - CON ANIMACIONES ESPECÍFICAS */
 .alertas {
   background-color: #b3b7cf;
   color: #FFFFFF;
@@ -257,16 +262,18 @@ h2 {
   border-radius: 15px;
   font-size: 14px;
   padding: 15px;
+  box-sizing: border-box; 
   font-family: sans-serif;
   box-shadow: 0 8px 32px rgba(155, 89, 182, 0.5);
   transition: all 0.3s ease;
+  min-height: 0; 
 }
 
 .alertas:hover {
   box-shadow: 0 12px 40px rgba(155, 89, 182, 0.3);
 }
 
-/* Alerta - color de la paleta en lugar de rojo */
+/* Alerta - con animación de barra horizontal */
 .alerta {
   grid-area: alerta;
   background-color: #9B59B6;
@@ -274,12 +281,31 @@ h2 {
   border-radius: 10px;
   font-weight: bold;
   padding: 15px;
+  box-sizing: border-box;
   box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.alerta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.alerta:hover::before {
+  left: 100%;
 }
 
 .alerta:hover {
@@ -293,12 +319,31 @@ h2 {
   color: #FFFFFF;
   border-radius: 10px;
   padding: 15px;
+  box-sizing: border-box;
   box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.recordatorio::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.recordatorio:hover::before {
+  left: 100%;
 }
 
 .recordatorio:hover {
@@ -311,6 +356,7 @@ h2 {
   background-color: #9B59B6;
   color: #FFFFFF;
   padding: 15px;
+  box-sizing: border-box;
   font-style: italic;
   font-weight: bold;
   border-radius: 10px;
@@ -320,6 +366,24 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.mensaje::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.mensaje:hover::before {
+  left: 100%;
 }
 
 .mensaje:hover {
@@ -365,6 +429,7 @@ h2 {
   color: #000000 !important;
   font-weight: bold !important;
 }
+
 .apexcharts-tooltip {
   background: rgba(255, 255, 255, 0.9) !important;
   border-radius: 10px !important;
