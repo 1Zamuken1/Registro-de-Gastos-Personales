@@ -1,9 +1,9 @@
-/* CSS SUPER SIMPLE - SIN VARIABLES COMPLICADAS */
+/* CSS SUPER SIMPLE - TEMA OSCURO VERDE ESMERALDA */
 
 /* Fondo de toda la página */
 body {
-  background: #b3b7cf;
-  color: #2c3e50;
+  background: #101624;
+  color: #eaffea;
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -16,15 +16,15 @@ body {
 }
 
 .page-content {
-  background: #b3b7cf;
+  background: #101624;
   padding: 24px;
 }
 
-/* Caja principal blanca */
+/* Caja principal */
 .contenedor {
-  background: white;
+  background: #182032;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(155, 89, 182, 0.3);
+  box-shadow: 0 8px 32px rgba(45, 227, 138, 0.2);
   padding: 32px;
   max-width: 1400px;
   margin: 0 auto;
@@ -33,12 +33,12 @@ body {
 
 .contenedor:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(155, 89, 182, 0.4);
+  box-shadow: 0 12px 40px rgba(45, 227, 138, 0.3);
 }
 
-/* Título principal morado */
+/* Título principal verde esmeralda */
 h1 {
-  color: #9B59B6;
+  color: #2de38a;
   text-align: center;
   margin-bottom: 40px;
   font-size: 2.8rem;
@@ -48,30 +48,30 @@ h1 {
 /* Cuadrícula de tarjetas */
 .tarjetas-ingresos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* antes 260px */
-  gap: 32px; /* más espacio entre tarjetas */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
   align-items: start;
 }
 
 /* Tarjetas normales */
 .tarjeta-ingreso {
-  background: white;
+  background: #182032;
   border-radius: 16px;
-  border: 2px solid #e9ecef;
+  border: 2px solid #23304a;
   padding: 24px;
-  min-height: 180px; /* un poco más alto */
-  min-width: 0; /* permite que el grid controle el ancho */
+  min-height: 180px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(155, 89, 182, 0.1);
+  box-shadow: 0 4px 16px rgba(45, 227, 138, 0.1);
   position: relative;
-  word-break: break-word; /* fuerza salto de línea en textos largos */
+  word-break: break-word;
   overflow: hidden;
 }
 
-/* Línea morada que aparece arriba al pasar el mouse */
+/* Línea verde que aparece arriba al pasar el mouse */
 .tarjeta-ingreso::before {
   content: '';
   position: absolute;
@@ -79,7 +79,7 @@ h1 {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #9B59B6, #8E4EC6);
+  background: linear-gradient(90deg, #2de38a, #43ffb0);
   transform: scaleX(0);
   transition: all 0.3s ease;
 }
@@ -90,9 +90,9 @@ h1 {
 
 /* Efecto al pasar el mouse sobre las tarjetas */
 .tarjeta-ingreso:hover {
-  border-color: #9B59B6;
+  border-color: #2de38a;
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 32px rgba(155, 89, 182, 0.3);
+  box-shadow: 0 12px 32px rgba(45, 227, 138, 0.3);
 }
 
 /* Parte superior de cada tarjeta */
@@ -108,18 +108,18 @@ h1 {
 
 /* Nombre del concepto */
 .concepto {
-  color: #9B59B6;
+  color: #2de38a;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 8px;
   word-break: break-word;
-  max-width: 200px; /* evita que el texto empuje los íconos */
+  max-width: 200px;
   overflow-wrap: break-word;
 }
 
 /* Cantidad de dinero */
 .monto {
-  color: #8E4EC6;
+  color: #43ffb0;
   font-size: 1.8rem;
   font-weight: 700;
   white-space: nowrap;
@@ -148,9 +148,9 @@ h1 {
 }
 
 .acciones button {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  color: #9B59B6;
+  background: #23304a;
+  border: 1px solid #23304a;
+  color: #2de38a;
   cursor: pointer;
   padding: 8px;
   border-radius: 8px;
@@ -158,21 +158,22 @@ h1 {
 }
 
 .acciones button:hover {
-  background: #9B59B6;
-  color: white;
+  background: #2de38a;
+  color: #101624;
   transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+  box-shadow: 0 4px 12px rgba(45, 227, 138, 0.3);
 }
 
 /* Detalles que se muestran cuando se hace clic */
 .detalle-tarjeta {
   display: none;
   padding: 20px;
-  background: #f8f9fa;
+  background: #23304a;
   border-radius: 12px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #23304a;
   margin-top: 16px;
   font-size: 0.95rem;
+  color: #baffd9;
 }
 
 /* Cuando una tarjeta está expandida */
@@ -185,7 +186,7 @@ h1 {
 }
 
 .tarjeta-ingreso.expandida .cabecera-tarjeta {
-  border-right: 2px solid #e9ecef;
+  border-right: 2px solid #23304a;
   padding-right: 24px;
   margin-bottom: 0;
 }
@@ -202,7 +203,7 @@ h1 {
 }
 
 .detalle-tarjeta strong {
-  color: #9B59B6;
+  color: #2de38a;
   font-weight: 600;
   min-width: 120px;
   margin-right: 12px;
@@ -210,8 +211,8 @@ h1 {
 
 /* Tarjeta especial para agregar nuevo */
 .tarjeta-agregar {
-  background: rgba(155, 89, 182, 0.05);
-  border: 2px dashed #9B59B6;
+  background: rgba(45, 227, 138, 0.05);
+  border: 2px dashed #2de38a;
   border-radius: 16px;
   padding: 24px;
   min-height: 160px;
@@ -228,9 +229,9 @@ h1 {
 }
 
 .tarjeta-agregar:hover {
-  border-color: #8E4EC6;
+  border-color: #43ffb0;
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 32px rgba(155, 89, 182, 0.3);
+  box-shadow: 0 12px 32px rgba(45, 227, 138, 0.3);
 }
 
 .agregar-contenido {
@@ -244,7 +245,7 @@ h1 {
 /* Símbolo + grande */
 .agregar-icono {
   font-size: 3rem;
-  color: #9B59B6;
+  color: #2de38a;
   margin-bottom: 12px;
   transition: all 0.3s ease;
 }
@@ -255,7 +256,7 @@ h1 {
 
 /* Texto "Agregar Nuevo" */
 .agregar-texto {
-  color: #8E4EC6;
+  color: #43ffb0;
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -267,7 +268,7 @@ h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(47, 50, 63, 0.9);
+  background: rgba(16, 22, 36, 0.9);
   backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
@@ -283,32 +284,70 @@ h1 {
 #modal-confirmar-programado {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(47, 50, 63, 0.9);
+  background: rgba(16, 22, 36, 0.9);
   backdrop-filter: blur(8px);
-  z-index: 2000 !important; /* más alto que los otros modales */
+  z-index: 2000 !important;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Agrega esta regla para centrar el modal del formulario programado */
+#modal-formulario-programado {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(16, 22, 36, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-formulario-programado .modal-contenido {
+  max-height: 90vh;
+  overflow: auto;
+}
+
+/* Cuando está oculto */
+#modal-formulario-programado.modal-ingreso-oculto {
+  display: none !important;
+}
+
+#modal-formulario-variable {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(16, 22, 36, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cuando está oculto */
+#modal-formulario-variable.modal-ingreso-oculto {
+  display: none !important;
+}
+
 /* Contenido de las ventanas */
 .modal-contenido, .modal-eliminar {
-  background: white;
-  border: 2px solid #9B59B6;
+  background: #182032;
+  border: 2px solid #2de38a;
   border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 20px 60px rgba(155, 89, 182, 0.3);
-  color: #2c3e50;
+  box-shadow: 0 20px 60px rgba(45, 227, 138, 0.3);
+  color: #eaffea;
   position: relative;
   max-width: 90vw;
-  max-height: 80vh;      /* más alto pero no todo */
+  max-height: 80vh;
   overflow-y: auto;
   padding: 40px 32px;
 }
 
 .modal-contenido {
   min-width: 480px;
-  max-width: 700px;      /* antes 90vw, ahora más controlado */
+  max-width: 700px;
   width: 90vw;
 }
 
@@ -318,7 +357,7 @@ h1 {
   top: 16px;
   right: 20px;
   font-size: 1.5rem;
-  color: #9B59B6;
+  color: #2de38a;
   cursor: pointer;
   padding: 4px;
   border-radius: 50%;
@@ -326,14 +365,14 @@ h1 {
 }
 
 .modal-cerrar:hover {
-  background: #9B59B6;
-  color: white;
+  background: #2de38a;
+  color: #101624;
   transform: rotate(90deg);
 }
 
 /* Títulos de las ventanas */
 #modal-titulo, #modal-editar-ingreso h2, .modal-eliminar h2 {
-  color: #9B59B6;
+  color: #2de38a;
   text-align: center;
   font-size: 1.8rem;
   font-weight: 600;
@@ -348,7 +387,7 @@ h1 {
 }
 
 .modal-campos label {
-  color: #9B59B6;
+  color: #2de38a;
   font-weight: 600;
   margin-bottom: 8px;
   display: block;
@@ -357,10 +396,10 @@ h1 {
 .modal-campos input, .modal-campos select {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e9ecef;
+  border: 2px solid #23304a;
   border-radius: 8px;
-  background: #f8f9fa;
-  color: #2c3e50;
+  background: #23304a;
+  color: #eaffea;
   font-size: 1rem;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -368,15 +407,15 @@ h1 {
 
 .modal-campos input:focus, .modal-campos select:focus {
   outline: none;
-  border-color: #9B59B6;
-  box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+  border-color: #2de38a;
+  box-shadow: 0 0 0 3px rgba(45, 227, 138, 0.1);
   transform: translateY(-2px);
 }
 
 /* Botones principales */
 .btn-guardar, .btn-eliminar-confirmar {
-  background: linear-gradient(135deg, #9B59B6, #8E4EC6);
-  color: white;
+  background: linear-gradient(135deg, #2de38a, #43ffb0);
+  color: #101624;
   border: none;
   border-radius: 8px;
   padding: 14px 28px;
@@ -385,7 +424,7 @@ h1 {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 24px;
-  box-shadow: 0 4px 16px rgba(155, 89, 182, 0.3);
+  box-shadow: 0 4px 16px rgba(45, 227, 138, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -408,14 +447,14 @@ h1 {
 
 .btn-guardar:hover, .btn-eliminar-confirmar:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(155, 89, 182, 0.4);
+  box-shadow: 0 8px 24px rgba(45, 227, 138, 0.4);
 }
 
 /* Botón cancelar */
 .btn-eliminar-cancelar {
-  background: #e9ecef;
-  color: #2c3e50;
-  border: 2px solid #e9ecef;
+  background: #23304a;
+  color: #eaffea;
+  border: 2px solid #23304a;
   border-radius: 8px;
   padding: 14px 28px;
   font-size: 1.1rem;
@@ -426,8 +465,8 @@ h1 {
 }
 
 .btn-eliminar-cancelar:hover {
-  background: #2c3e50;
-  color: white;
+  background: #eaffea;
+  color: #101624;
   transform: translateY(-2px);
 }
 
@@ -446,7 +485,7 @@ h1 {
 /* Para móviles - CAMBIO PRINCIPAL AQUÍ */
 @media (max-width: 768px) {
   .layout {
-    grid-template-columns: 140px 1fr; /* Cambiado de 90px a 140px para hacer la navbar más ancha */
+    grid-template-columns: 140px 1fr;
   }
   
   .contenedor {
@@ -471,7 +510,7 @@ h1 {
   
   .tarjeta-ingreso.expandida .cabecera-tarjeta {
     border-right: none;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 2px solid #23304a;
     padding-right: 0;
     padding-bottom: 16px;
     margin-bottom: 16px;
@@ -488,28 +527,28 @@ h1 {
   }
 }
 
-/* Para pantallas extra pequeñas - Si necesitas ajustar aún más */
+/* Para pantallas extra pequeñas */
 @media (max-width: 480px) {
   .layout {
-    grid-template-columns: 120px 1fr; /* Un poco más estrecho en pantallas muy pequeñas */
+    grid-template-columns: 120px 1fr;
   }
   
   .page-content {
-    padding: 16px 12px; /* Menos padding en el contenido */
+    padding: 16px 12px;
   }
 }
 
 #form-agregar-ingreso {
-  max-width: 900px;         /* antes 600px */
+  max-width: 900px;
   margin: 0 auto 32px auto;
-  background: #fff;         /* blanco puro para más contraste */
+  background: #182032;
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(155, 89, 182, 0.18); /* sombra más notoria */
-  padding: 48px 40px;       /* más espacio interno */
+  box-shadow: 0 8px 32px rgba(45, 227, 138, 0.18);
+  padding: 48px 40px;
   display: flex;
   flex-direction: column;
   gap: 22px;
-  border: 2px solid #e1d5ee; /* borde sutil pero visible */
+  border: 2px solid #23304a;
 }
 
 /* Barra de desplazamiento personalizada */
@@ -518,17 +557,17 @@ h1 {
 }
 
 ::-webkit-scrollbar-track {
-  background: #e9ecef;
+  background: #23304a;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9B59B6;
+  background: #2de38a;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8E4EC6;
+  background: #43ffb0;
 }
 
 .filtros-ingresos {
@@ -539,9 +578,9 @@ h1 {
 }
 
 .btn-filtro-ingresos {
-  background: #f8f9fa;
-  color: #9B59B6;
-  border: 2px solid #e1d5ee;
+  background: #23304a;
+  color: #2de38a;
+  border: 2px solid #23304a;
   border-radius: 8px;
   padding: 12px 28px;
   font-size: 1.08rem;
@@ -552,8 +591,217 @@ h1 {
 
 .btn-filtro-ingresos.activo,
 .btn-filtro-ingresos:hover {
-  background: linear-gradient(135deg, #9B59B6, #8E4EC6);
-  color: #fff;
-  border-color: #9B59B6;
+  background: linear-gradient(135deg, #2de38a, #43ffb0);
+  color: #101624;
+  border-color: #2de38a;
 }
 
+/* Tarjetas de conceptos en el modal */
+.tarjeta-concepto {
+  background: #23304a;
+  border-radius: 12px;
+  padding: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(35, 48, 74, 0.5);
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 2px solid transparent;
+  color: #baffd9;
+}
+.tarjeta-concepto:hover {
+  box-shadow: 0 4px 16px rgba(45, 227, 138, 0.4);
+  border-color: #2de38a;
+  transform: translateY(-2px) scale(1.03);
+}
+
+#modal-conceptos {
+  z-index: 3000 !important;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  padding: 40px 32px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(45, 227, 138, 0.18);
+  margin: 0 auto;
+  background: rgba(16, 22, 36, 0.9);
+  backdrop-filter: blur(8px);
+}
+#modal-conceptos:not(.modal-ingreso-oculto) {
+  display: flex;
+}
+
+#modal-conceptos .modal-contenido {
+  min-width: 600px;
+  max-width: 1200px;
+  width: 90vw;
+  padding: 40px 32px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(45, 227, 138, 0.18);
+  margin: 0 auto;
+  background: #182032;
+  max-height: 90vh;
+  overflow: visible;
+}
+
+#lista-conceptos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+@media (max-width: 900px) {
+  #modal-conceptos .modal-contenido {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 18px 4vw;
+  }
+  #lista-conceptos {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tarjeta-concepto {
+  background: #23304a;
+  border-radius: 16px;
+  padding: 24px 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(35, 48, 74, 0.5);
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 2px solid transparent;
+  min-width: 0;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  font-size: 1rem;
+  grid-column: span 1;
+  color: #baffd9;
+}
+
+.tarjeta-concepto[data-grande="true"] {
+  grid-column: span 2;
+}
+
+.tarjeta-concepto:hover {
+  box-shadow: 0 4px 16px rgba(45, 227, 138, 0.4);
+  border-color: #2de38a;
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Gráfico y leyenda */
+#chart, #chart-programados, #chart-variables {
+  background: transparent;
+}
+
+.apexcharts-legend {
+  justify-content: center !important;
+  margin-top: 18px !important;
+  margin-bottom: 0 !important;
+  gap: 24px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  max-width: 900px;
+  flex-wrap: wrap;
+}
+.apexcharts-legend-series {
+  display: flex !important;
+  align-items: center !important;
+  min-width: 180px;
+}
+.apexcharts-legend-text {
+  color: #baffd9 !important;
+  font-weight: 700 !important;
+  font-size: 1.08rem !important;
+  max-width: 160px;
+  overflow: visible;
+  white-space: normal !important;
+}
+
+.apexcharts-legend-marker {
+  border: 2px solid #101624 !important;
+}
+
+/* ApexCharts toolbar (descargar, zoom, etc) */
+.apexcharts-menu, .apexcharts-menu-item {
+  background: #182032 !important;
+  color: #43ffb0 !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  border: 1px solid #43ffb0 !important;
+}
+.apexcharts-menu-item:hover {
+  background: #43ffb0 !important;
+  color: #182032 !important;
+}
+
+/* ApexCharts toolbar iconos */
+.apexcharts-toolbar {
+  background: transparent !important;
+}
+.apexcharts-toolbar svg {
+  fill: #43ffb0 !important;
+  stroke: #43ffb0 !important;
+}
+.apexcharts-toolbar svg:hover {
+  fill: #00eaff !important;
+  stroke: #00eaff !important;
+}
+
+/* Selector de tiempo */
+#select-rango-grafico {
+  background: #182032;
+  color: #2de38a;
+  border: 2px solid #43ffb0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+#select-rango-grafico:focus {
+  outline: none;
+  border-color: #2de38a;
+  box-shadow: 0 0 0 2px #2de38a55;
+}
+
+/* Estilos para el título y subtítulo del gráfico */
+#grafico-titulo {
+  color: #2de38a;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  word-break: break-word;
+}
+
+#grafico-subtitulo {
+  color: #43ffb0;
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: 0.1px;
+  word-break: break-word;
+}
+
+/* Por defecto: íconos en verde esmeralda */
+.tarjeta-ingreso .acciones img {
+  filter: brightness(0) saturate(100%) invert(73%) sepia(98%) saturate(469%) hue-rotate(86deg) brightness(102%) contrast(101%);
+  /* Este filtro da un verde similar a #2de38a */
+  transition: filter 0.2s;
+}
+
+.acciones img,
+.tarjeta-ingreso .acciones button:hover img {
+  filter: none;
+}
