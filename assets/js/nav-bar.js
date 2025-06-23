@@ -3,49 +3,59 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('../components/nav-bar.html')
     .then(res => res.text())
     .then(html => {
-      document.getElementById('nav-bar').innerHTML = html;
+      // Inserta el HTML en un contenedor temporal
+      const temp = document.createElement('div');
+      temp.innerHTML = html.trim();
+      // Busca el nav real
+      const realNav = temp.querySelector('.side-nav');
+      // Reemplaza el contenedor por el nav real
+      const navBarContainer = document.getElementById('nav-bar');
+      navBarContainer.replaceWith(realNav);
+
       setActiveNavAuto();
 
       // Toggle collapse
-      const nav = document.querySelector('.side-nav');
+      const nav = realNav;
       const layout = document.querySelector('.layout');
-      const toggleBtn = document.getElementById('side-nav-toggle');
-      const logo = document.querySelector('.side-nav-logo');
-      const title = document.querySelector('.side-nav-title');
+      const toggleBtn = nav.querySelector('#side-nav-toggle');
 
       function toggleNav() {
         nav.classList.toggle('collapsed');
         layout.classList.toggle('nav-collapsed');
+        // Guarda el estado
+        localStorage.setItem('sidebarCollapsed', nav.classList.contains('collapsed'));
       }
 
-      if (toggleBtn && nav) {
+      // Restaurar estado guardado
+      const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+      if (isCollapsed) {
+        nav.classList.add('collapsed');
+        layout.classList.add('nav-collapsed');
+      }
+
+      // Botón de colapso
+      if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleNav);
-      }
-      if (logo && nav) {
-        logo.addEventListener('click', toggleNav);
-      }
-      if (title && nav) {
-        title.addEventListener('click', toggleNav);
       }
 
       // Responsive: colapsar automáticamente en móvil
-      handleNavCollapse();
-      window.addEventListener('resize', handleNavCollapse);
+      function handleResize() {
+        if (window.innerWidth <= 700) {
+          nav.classList.add('collapsed');
+          layout.classList.add('nav-collapsed');
+        } else {
+          // Restaurar estado guardado solo en pantallas grandes
+          const savedState = localStorage.getItem('sidebarCollapsed') === 'true';
+          if (!savedState) {
+            nav.classList.remove('collapsed');
+            layout.classList.remove('nav-collapsed');
+          }
+        }
+      }
+      window.addEventListener('resize', handleResize);
+      handleResize();
     });
 });
-
-function handleNavCollapse() {
-  const nav = document.querySelector('.side-nav');
-  const layout = document.querySelector('.layout');
-  if (!nav || !layout) return;
-  if (window.innerWidth <= 700) {
-    nav.classList.add('collapsed');
-    layout.classList.add('nav-collapsed');
-  } else {
-    nav.classList.remove('collapsed');
-    layout.classList.remove('nav-collapsed');
-  }
-}
 
 // Resalta la opción activa según la URL
 function setActiveNav(page) {

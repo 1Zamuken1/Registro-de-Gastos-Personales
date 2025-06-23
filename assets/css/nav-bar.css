@@ -1,77 +1,172 @@
+/* --- LAYOUT GENERAL --- */
 .layout {
   display: flex;
-  height: 100vh;
   width: 100%;
+  min-height: 100vh;
 }
 
 .page-content {
   flex-grow: 1;
   padding: 24px;
   box-sizing: border-box;
+  margin-left: 250px;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* --- SIDEBAR BASE --- */
 .side-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 250px;
   min-width: 250px;
   max-width: 250px;
-  flex: 0 0 250px;
-  background: #ffffff;
-  color: #2d3748;
   height: 100vh;
+  background: #fff;
+  color: #2d3748;
   display: flex;
   flex-direction: column;
-  position: relative;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  justify-content: flex-start;
-  box-sizing: border-box;
+  z-index: 1000;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08), 2px 0 8px rgba(0, 0, 0, 0.04);
   border-right: 1px solid rgba(226, 232, 240, 0.8);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              min-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Fuerza el ancho de los hijos principales de la barra lateral */
-.side-nav,
-.side-nav-main,
+/* --- SIDEBAR INTERIOR --- */
 .side-nav-header,
-.side-nav-top-group,
 .side-nav-footer {
+  flex-shrink: 0;
   width: 100%;
-  min-width: 0;
-  max-width: 100%;
   box-sizing: border-box;
 }
 
-/* COLAPSADO */
+.side-nav-main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.side-nav-top-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  flex: 0 1 auto;
+  width: 100%;
+}
+
+/* --- COLAPSADO (MEJORADO) --- */
 .side-nav.collapsed {
-  width: 90px !important;
-  min-width: 90px !important;
-  max-width: 90px !important;
-  flex: 0 0 90px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 130px;
+  min-width: 130px;
+  max-width: 130px;
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06);
 }
 
-/* Cuando está colapsada, asegúrate que los hijos también colapsen */
-.side-nav.collapsed,
-.side-nav.collapsed .side-nav-main,
-.side-nav.collapsed .side-nav-header,
-.side-nav.collapsed .side-nav-top-group,
-.side-nav.collapsed .side-nav-footer {
-  width: 90px !important;
-  min-width: 0 !important;
-  max-width: 90px !important;
-  box-sizing: border-box;
+.layout.nav-collapsed .page-content {
+  margin-left: 130px;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* RESTO DE TU CSS CON NUEVO DISEÑO */
-.side-nav-main {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
+/* Oculta textos y ajusta iconos en colapsado */
+.side-nav.collapsed .side-nav-title,
+.side-nav.collapsed .side-nav-text {
+  display: none;
 }
 
+.side-nav.collapsed .side-nav-brand {
+  justify-content: center;
+  padding: 0;
+}
+
+.side-nav.collapsed .side-nav-logo {
+  margin: 24px auto 0 auto;
+}
+
+.side-nav.collapsed .side-nav-list li a,
+.side-nav.collapsed .side-nav-footer-link,
+.side-nav.collapsed .side-nav-menu-btn {
+  justify-content: center;
+  padding: 12px 4px;
+  text-align: center;
+  border-radius: 8px;
+  margin: 4px 4px;
+}
+
+.side-nav.collapsed .side-nav-list li a:hover,
+.side-nav.collapsed .side-nav-footer-link:hover,
+.side-nav.collapsed .side-nav-menu-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.side-nav.collapsed .side-nav-icon img,
+.side-nav.collapsed .side-nav-menu-icon img {
+  margin-right: 0;
+}
+
+/* Ajustes específicos para el separador en modo colapsado */
+.side-nav.collapsed .side-nav-separator {
+  width: 70%;
+  margin: 16px auto 0 auto;
+}
+
+/* --- RESPONSIVE (MEJORADO) --- */
+@media (max-width: 700px) {
+  .side-nav {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .page-content {
+    margin-left: 60px;
+  }
+  
+  /* Aplicar estilos de colapsado automáticamente en móvil */
+  .side-nav .side-nav-title,
+  .side-nav .side-nav-text {
+    display: none;
+  }
+  
+  .side-nav .side-nav-brand {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .side-nav .side-nav-logo {
+    margin: 24px auto 0 auto;
+  }
+  
+  .side-nav .side-nav-list li a,
+  .side-nav .side-nav-footer-link,
+  .side-nav .side-nav-menu-btn {
+    justify-content: center;
+    padding: 12px 4px;
+    text-align: center;
+    border-radius: 8px;
+    margin: 4px 4px;
+  }
+  
+  .side-nav .side-nav-icon img,
+  .side-nav .side-nav-menu-icon img {
+    margin-right: 0;
+  }
+  
+  .side-nav .side-nav-separator {
+    width: 70%;
+    margin: 16px auto 0 auto;
+  }
+}
+
+/* --- SIDEBAR ELEMENTOS --- */
 .side-nav-header {
   display: flex;
   flex-direction: column;
@@ -107,15 +202,13 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .side-nav-logo::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -136,16 +229,14 @@
   height: 28px;
   display: block;
   object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(20%) sepia(15%) saturate(1200%)
-    hue-rotate(200deg) brightness(95%) contrast(95%);
+  filter: brightness(0) saturate(100%) invert(20%) sepia(15%) saturate(1200%) hue-rotate(200deg) brightness(95%) contrast(95%);
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
 }
 
 .side-nav-logo:hover img {
-  filter: brightness(0) saturate(100%) invert(45%) sepia(50%) saturate(1500%)
-    hue-rotate(200deg) brightness(110%) contrast(110%);
+  filter: brightness(0) saturate(100%) invert(45%) sepia(50%) saturate(1500%) hue-rotate(200deg) brightness(110%) contrast(110%);
 }
 
 .side-nav-title {
@@ -159,6 +250,8 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .side-nav-separator {
@@ -169,17 +262,10 @@
   margin: 16px auto 0 auto;
   position: static;
   height: 2px;
+  transition: width 0.3s ease, margin 0.3s ease;
 }
 
-.side-nav-top-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 0;
-  margin-bottom: 0;
-  flex: 0 1 auto;
-}
-
+/* --- LISTA DE OPCIONES --- */
 .side-nav-list {
   list-style: none;
   padding: 0;
@@ -222,20 +308,17 @@
   font-weight: 500;
   gap: 12px;
   background: transparent;
-  padding-left: 20px !important;
   border-radius: 0 12px 12px 0;
   margin: 2px 0;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .side-nav-list li a::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -262,29 +345,34 @@
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
 }
 
+.side-nav-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
 .side-nav-icon img {
   width: 24px;
   height: 24px;
   margin-right: 10px;
-  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%)
-    hue-rotate(200deg) brightness(95%) contrast(95%);
+  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%) hue-rotate(200deg) brightness(95%) contrast(95%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .side-nav-list li.active .side-nav-icon img,
 .side-nav-list li a.active .side-nav-icon img,
 .side-nav-list li a:hover .side-nav-icon img {
-  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%)
-    hue-rotate(250deg) brightness(110%) contrast(110%);
+  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%) hue-rotate(250deg) brightness(110%) contrast(110%);
   transform: scale(1.1);
 }
 
+/* --- BOTÓN MENÚ --- */
 .side-nav-menu-btn {
   background: none;
   border: none;
   color: #4a5568;
   font-size: 1.1rem;
-  padding: 14px 0 14px 0;
+  padding: 14px 20px;
   text-align: left;
   cursor: pointer;
   font-weight: 500;
@@ -293,20 +381,18 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 20px !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 0 12px 12px 0;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  gap: 12px;
 }
 
 .side-nav-menu-btn::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -323,7 +409,7 @@
 }
 
 .side-nav-menu-icon {
-  margin-right: 12px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -336,19 +422,16 @@
 .side-nav-menu-icon img {
   width: 24px;
   height: 24px;
-  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%)
-    hue-rotate(200deg) brightness(95%) contrast(95%);
+  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%) hue-rotate(200deg) brightness(95%) contrast(95%);
   display: block;
-  margin-right: 8px;
-  vertical-align: middle;
   transition: all 0.3s ease;
 }
 
 .side-nav-menu-btn:hover .side-nav-menu-icon img {
-  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%)
-    hue-rotate(250deg) brightness(110%) contrast(110%);
+  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%) hue-rotate(250deg) brightness(110%) contrast(110%);
 }
 
+/* --- FOOTER --- */
 .side-nav-footer {
   width: 100%;
   position: relative;
@@ -371,6 +454,14 @@
   top: -12px;
   left: 10%;
   right: 10%;
+  transition: width 0.3s ease, left 0.3s ease, right 0.3s ease;
+}
+
+/* Ajuste del separador del footer en modo colapsado */
+.side-nav.collapsed .side-nav-footer::before {
+  width: 60%;
+  left: 20%;
+  right: 20%;
 }
 
 .side-nav-footer-link {
@@ -383,21 +474,18 @@
   font-weight: 500;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 12px;
-  padding-left: 20px !important;
   width: 100%;
   box-sizing: border-box;
   border-radius: 0 12px 12px 0;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .side-nav-footer-link::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -423,97 +511,19 @@
   width: 22px;
   height: 22px;
   margin-right: 8px;
-  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%)
-    hue-rotate(200deg) brightness(95%) contrast(95%);
+  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%) hue-rotate(200deg) brightness(95%) contrast(95%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .side-nav-footer-link:hover .side-nav-icon img {
-  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%)
-    hue-rotate(250deg) brightness(110%) contrast(110%);
+  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%) hue-rotate(250deg) brightness(110%) contrast(110%);
   transform: scale(1.1);
 }
 
-.side-nav-menu-btn,
-.side-nav-list li a,
-.side-nav-footer-link {
-  padding-left: 20px !important;
-}
-
-.side-nav-title {
-  margin-left: 0;
-}
-
-.side-nav-icon img,
-.side-nav-menu-icon img {
-  display: block;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-/* COLAPSADO: OCULTA TEXTO Y AJUSTA ICONOS */
-.side-nav.collapsed .side-nav-title,
-.side-nav.collapsed .side-nav-menu-btn span:not(.side-nav-menu-icon),
-.side-nav.collapsed .side-nav-list li a span:not(.side-nav-icon),
-.side-nav.collapsed .side-nav-footer-link span:not(.side-nav-icon) {
-  display: none !important;
-}
-
-.side-nav.collapsed .side-nav-logo {
-  margin: 24px auto 0 auto;
-  display: block;
-}
-
-.side-nav.collapsed .side-nav-list li a,
-.side-nav.collapsed .side-nav-footer-link,
-.side-nav.collapsed .side-nav-menu-btn {
-  justify-content: center;
-  padding-left: 0 !important;
-  text-align: center;
-  border-radius: 8px;
-  margin: 4px 8px;
-}
-
-.side-nav.collapsed .side-nav-list li a:hover,
-.side-nav.collapsed .side-nav-footer-link:hover,
-.side-nav.collapsed .side-nav-menu-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-}
-
-.side-nav.collapsed .side-nav-icon img,
-.side-nav.collapsed .side-nav-menu-icon img {
-  margin-right: 0;
-}
-
-.side-nav.collapsed .side-nav-text {
-  display: none !important;
-}
-
-/* RESPONSIVE: SIEMPRE COLAPSADA EN MÓVIL */
-@media (max-width: 700px) {
-  .side-nav {
-    width: 90px !important;
-    min-width: 90px !important;
-    max-width: 90px !important;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
-  }
-  .layout .page-content,
-  .layout.nav-collapsed .page-content {
-    margin-left: 90px !important;
-  }
-}
-
-/* Animaciones adicionales para elementos */
+/* --- ANIMACIONES --- */
 @keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-10px);}
+  to { opacity: 1; transform: translateX(0);}
 }
 
 .side-nav-list li a,
@@ -522,19 +532,24 @@
   animation: slideIn 0.3s ease forwards;
 }
 
-/* Efecto de pulso sutil en elementos activos */
 @keyframes pulse {
-  0% {
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
-  }
-  50% {
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-  }
-  100% {
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
-  }
+  0% { box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);}
+  50% { box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);}
+  100% { box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);}
 }
 
 .side-nav-list li.active a {
   animation: pulse 2s ease-in-out infinite;
+}
+
+/* --- BASE --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+* { 
+  box-sizing: border-box; 
 }

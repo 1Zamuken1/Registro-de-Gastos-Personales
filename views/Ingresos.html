@@ -10,78 +10,36 @@
   <body>
     <div class="layout">
       <!-- Barra lateral de navegación -->
-      <nav class="side-nav" id="nav-bar"></nav>
+      <div id="nav-bar"></div>
       <div class="page-content">
-        <!-- =======================
-             COMPONENTE: TARJETAS DE INGRESOS
-        ======================= -->
         <div class="contenedor">
           <h1>Mis Ingresos</h1>
+
+          <div class="filtros-ingresos">
+            <button type="button" class="btn-filtro-ingresos activo" id="btn-todos-ingresos">Ingresos totales</button>
+            <button type="button" class="btn-filtro-ingresos" id="btn-programados-ingresos">Ingresos programados</button>
+            <button type="button" class="btn-filtro-ingresos" id="btn-variables-ingresos">Ingresos variables</button>
+          </div>
+
           <div class="tarjetas-ingresos">
-            <!-- Tarjeta para agregar ingreso -->
+            <!-- Tarjeta para añadir ingreso SIEMPRE PRIMERA -->
             <div class="tarjeta-ingreso tarjeta-agregar" id="tarjeta-agregar-ingreso">
               <div class="agregar-contenido">
                 <span class="agregar-icono">
-                  <img
-                    src="../assets/icons/plus.svg"
-                    alt="Agregar"
-                    width="32"
-                    height="32"
-                  />
+                  <img src="../assets/icons/plus.svg" alt="Agregar" width="32" height="32" />
                 </span>
                 <span class="agregar-texto">Añadir ingreso</span>
               </div>
             </div>
-            <!-- Tarjetas de ingreso existentes -->
-            <div class="tarjeta-ingreso">
-              <div class="cabecera-tarjeta">
-                <div>
-                  <div class="concepto">Salario mensual</div>
-                  <div class="monto">$1,200,000</div>
-                </div>
-                <div class="acciones">
-                  <button class="btn-editar" title="Editar">
-                    <img
-                      src="../assets/icons/update.svg"
-                      alt="Editar"
-                      width="20"
-                      height="20"
-                    />
-                  </button>
-                  <button class="btn-eliminar" title="Eliminar">
-                    <img
-                      src="../assets/icons/delete.svg"
-                      alt="Eliminar"
-                      width="20"
-                      height="20"
-                    />
-                  </button>
-                </div>
-              </div>
-              <div class="detalle-tarjeta">
-                <div><strong>Concepto:</strong> Salario mensual</div>
-                <div><strong>Monto:</strong> $1,200,000</div>
-                <div><strong>Descripción:</strong> Pago mensual</div>
-                <div><strong>Fecha:</strong> 2024-05-30</div>
-                <div><strong>Fijo:</strong> Sí</div>
-              </div>
-            </div>
-            <!-- ...más tarjetas si las hay... -->
+            <!-- Las demás tarjetas se agregan por JS -->
           </div>
         </div>
 
-        <!-- =======================
-             COMPONENTE: MODAL DETALLE DE INGRESO
-        ======================= -->
+        <!-- MODAL DETALLE DE INGRESO -->
         <div id="modal-ingreso" class="modal-ingreso-oculto">
           <div class="modal-contenido">
             <span class="modal-cerrar" id="cerrar-modal">
-              <img
-                src="../assets/icons/close.svg"
-                alt="Cerrar"
-                width="28"
-                height="28"
-              />
+              <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
             </span>
             <h2 id="modal-titulo">Detalle del Ingreso</h2>
             <div class="modal-campos">
@@ -100,46 +58,62 @@
           </div>
         </div>
 
-        <!-- =======================
-             COMPONENTE: MODAL EDITAR/AGREGAR INGRESO
-        ======================= -->
+        <!-- MODAL EDITAR/AGREGAR INGRESO -->
         <div id="modal-editar-ingreso" class="modal-ingreso-oculto">
           <div class="modal-contenido">
             <div class="modal-barra-superior">
               <h2 id="modal-titulo-editar">Editar Ingreso</h2>
               <span class="modal-cerrar" id="cerrar-modal-editar">
-                <img
-                  src="../assets/icons/close.svg"
-                  alt="Cerrar"
-                  width="28"
-                  height="28"
-                />
+                <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
               </span>
             </div>
             <form id="form-editar-ingreso" autocomplete="off">
               <div class="modal-campos">
                 <div>
                   <label><strong>Concepto:</strong></label>
-                  <input type="text" id="editar-concepto" required />
-                </div>
-                <div>
-                  <label><strong>Monto:</strong></label>
-                  <input type="number" id="editar-monto" required />
+                  <select id="editar-concepto" required>
+                    <!-- Las opciones se llenan por JS -->
+                  </select>
                 </div>
                 <div>
                   <label><strong>Descripción:</strong></label>
                   <input type="text" id="editar-descripcion" />
                 </div>
                 <div>
-                  <label><strong>Fecha creación:</strong></label>
-                  <input type="date" id="editar-fecha" required />
-                </div>
-                <div>
-                  <label><strong>Fijo:</strong></label>
-                  <select id="editar-fijo" required>
-                    <option value="Sí">Sí</option>
-                    <option value="No">No</option>
+                  <label><strong>Tipo de ingreso:</strong></label>
+                  <select id="editar-tipo" required>
+                    <option value="variable">Variable</option>
+                    <option value="fijo">Programado</option>
                   </select>
+                </div>
+                <div id="campos-variable">
+                  <div>
+                    <label><strong>Monto:</strong></label>
+                    <input type="number" id="editar-monto-variable" min="1" />
+                  </div>
+                  <div>
+                    <label><strong>Fecha recibido:</strong></label>
+                    <input type="date" id="editar-fecha-variable" />
+                  </div>
+                </div>
+                <div id="campos-fijo" style="display:none;">
+                  <div>
+                    <label><strong>Monto:</strong></label>
+                    <input type="number" id="editar-monto-fijo" min="1" />
+                  </div>
+                  <div>
+                    <label><strong>Frecuencia:</strong></label>
+                    <select id="editar-frecuencia">
+                      <option value="mensual">Mensual</option>
+                      <option value="quincenal">Quincenal</option>
+                      <option value="semanal">Semanal</option>
+                      <option value="anual">Anual</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label><strong>Fecha inicio:</strong></label>
+                    <input type="date" id="editar-fecha-inicio" />
+                  </div>
                 </div>
               </div>
               <button type="submit" class="btn-guardar">Guardar</button>
@@ -147,27 +121,14 @@
           </div>
         </div>
 
-        <!-- =======================
-             COMPONENTE: MODAL ELIMINAR INGRESO
-        ======================= -->
+        <!-- MODAL ELIMINAR INGRESO -->
         <div id="modal-eliminar-ingreso" class="modal-ingreso-oculto">
           <div class="modal-contenido modal-eliminar">
             <span class="modal-cerrar" id="cerrar-modal-eliminar">
-              <img
-                src="../assets/icons/close.svg"
-                alt="Cerrar"
-                width="28"
-                height="28"
-              />
+              <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
             </span>
-            <!-- Ícono de eliminar SVG -->
             <div class="modal-eliminar-icono">
-              <img
-                src="../assets/icons/delete.svg"
-                alt="Eliminar"
-                width="48"
-                height="48"
-              />
+              <img src="../assets/icons/delete.svg" alt="Eliminar" width="48" height="48" />
             </div>
             <h2>¿Eliminar ingreso?</h2>
             <p>
@@ -182,6 +143,19 @@
               <button id="btn-cancelar-eliminar" class="btn-eliminar-cancelar">
                 No, cancelar
               </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal de confirmación para ingreso programado -->
+        <div id="modal-confirmar-programado" class="modal-ingreso-oculto">
+          <div class="modal-contenido">
+            <span class="modal-cerrar" id="cerrar-modal-confirmar-programado" style="cursor:pointer;float:right;font-size:1.5rem;">&times;</span>
+            <h2>Confirmar ingreso programado</h2>
+            <p>¿Estás seguro de que deseas registrar este ingreso como <strong>programado</strong>? Se generarán ingresos automáticamente según la frecuencia y fecha de inicio.</p>
+            <div style="text-align:right; margin-top: 24px;">
+              <button id="btn-cancelar-programado" class="btn-eliminar-cancelar">Cancelar</button>
+              <button id="btn-confirmar-programado" class="btn-guardar" style="margin-left:12px;">Confirmar</button>
             </div>
           </div>
         </div>

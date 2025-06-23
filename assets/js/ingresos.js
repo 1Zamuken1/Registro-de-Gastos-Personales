@@ -1,8 +1,10 @@
 // === INTEGRACIÓN: SISTEMA DE USUARIOS E INGRESOS ===
 
+let filtroActual = "todos"; // <-- Mueve esto aquí, fuera de cualquier función
+
 document.addEventListener("DOMContentLoaded", function () {
   verificarAutenticacion();
-  cargarIngresosUsuario();
+  mostrarIngresosFiltrados();
 
   document.querySelectorAll(".tarjeta-ingreso:not(.tarjeta-agregar)").forEach(asignarEventosTarjeta);
 
@@ -40,6 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("modal-titulo-editar").textContent = "Agregar Ingreso";
     mostrarModalEditar();
   };
+
+  // Llenar el select de conceptos
+  const selectConcepto = document.getElementById("editar-concepto");
+  selectConcepto.innerHTML = CONCEPTOS_INGRESO.map(c => `<option value="${c}">${c}</option>`).join("");
 });
 
 // === AUTENTICACIÓN Y USUARIO ACTUAL ===
@@ -91,7 +97,10 @@ function agregarIngresoUsuario(usuarioId, ingreso) {
     descripcion: ingreso.descripcion || '',
     fecha: ingreso.fecha,
     fijo: ingreso.fijo,
-    fechaCreacion: new Date().toISOString()
+    fechaCreacion: new Date().toISOString(),
+    // Añade estos campos:
+    frecuencia: ingreso.frecuencia || null,
+    fechaInicio: ingreso.fechaInicio || null
   };
 
   ingresos.push(nuevoIngreso);
@@ -111,7 +120,9 @@ function actualizarIngresoUsuario(usuarioId, ingresoId, datosActualizados) {
       descripcion: datosActualizados.descripcion || '',
       fecha: datosActualizados.fecha,
       fijo: datosActualizados.fijo,
-      fechaModificacion: new Date().toISOString()
+      fechaModificacion: new Date().toISOString(),
+      frecuencia: datosActualizados.frecuencia || null,
+      fechaInicio: datosActualizados.fechaInicio || null
     };
     guardarIngresosUsuario(usuarioId, ingresos);
     return ingresos[indice];
@@ -134,22 +145,45 @@ function eliminarIngresoUsuario(ingresoId) {
 function cargarIngresosUsuario() {
   const usuario = obtenerUsuarioActual();
   if (!usuario) return;
-
   const ingresos = obtenerIngresosUsuario(usuario.id);
   const contenedor = document.querySelector(".tarjetas-ingresos");
 
-  const tarjetasExistentes = contenedor.querySelectorAll(".tarjeta-ingreso:not(.tarjeta-agregar)");
-  tarjetasExistentes.forEach(tarjeta => tarjeta.remove());
-
-  ingresos.forEach(ingreso => {
-    crearTarjetaIngreso(ingreso, contenedor);
-  });
+  contenedor.innerHTML = "";
+  ingresos.forEach(ingreso => crearTarjetaIngreso(ingreso, contenedor));
 }
 
 function crearTarjetaIngreso(ingreso, contenedor) {
   const tarjeta = document.createElement("div");
   tarjeta.className = "tarjeta-ingreso";
   tarjeta.dataset.ingresoId = ingreso.id;
+
+  // Si el monto es muy largo, ocupa 2 columnas
+  if (ingreso.monto.toLocaleString().length > 12) {
+    tarjeta.classList.add("monto-grande");
+  }
+
+  let detalleHtml = `
+    <div><strong>Concepto:</strong> ${ingreso.concepto}</div>
+    <div><strong>Monto:</strong> $${ingreso.monto.toLocaleString()}</div>
+    <div><strong>Descripción:</strong> ${ingreso.descripcion || "-"}</div>
+  `;
+
+  if (ingreso.fijo === "Sí") {
+    detalleHtml += `
+      <div><strong>Frecuencia:</strong> ${ingreso.frecuencia || "-"}</div>
+      <div><strong>Día(s) de recurrencia:</strong> ${calcularDiasRecurrencia(ingreso.fechaInicio, ingreso.frecuencia)}</div>
+      <div><strong>Próxima recurrencia:</strong> ${calcularProximaRecurrencia(ingreso.fechaInicio, ingreso.frecuencia)}</div>
+      <div><strong>Fecha inicio:</strong> ${ingreso.fechaInicio || "-"}</div>
+      <div><strong>Fecha creación:</strong> ${ingreso.fechaCreacion ? new Date(ingreso.fechaCreacion).toLocaleDateString() : "-"}</div>
+      <div><strong>Tipo:</strong> Fijo/Programado</div>
+    `;
+  } else {
+    detalleHtml += `
+      <div><strong>Fecha recibido:</strong> ${ingreso.fecha || "-"}</div>
+      <div><strong>Fecha creación:</strong> ${ingreso.fechaCreacion ? new Date(ingreso.fechaCreacion).toLocaleDateString() : "-"}</div>
+      <div><strong>Tipo:</strong> Variable</div>
+    `;
+  }
 
   tarjeta.innerHTML = `
     <div class="cabecera-tarjeta">
@@ -167,16 +201,11 @@ function crearTarjetaIngreso(ingreso, contenedor) {
       </div>
     </div>
     <div class="detalle-tarjeta">
-      <div><strong>Concepto:</strong> ${ingreso.concepto}</div>
-      <div><strong>Monto:</strong> $${ingreso.monto.toLocaleString()}</div>
-      <div><strong>Descripción:</strong> ${ingreso.descripcion || "-"}</div>
-      <div><strong>Fecha:</strong> ${ingreso.fecha}</div>
-      <div><strong>Fijo:</strong> ${ingreso.fijo}</div>
+      ${detalleHtml}
     </div>
   `;
 
-  const tarjetaAgregar = contenedor.querySelector(".tarjeta-agregar");
-  contenedor.insertBefore(tarjeta, tarjetaAgregar);
+  contenedor.appendChild(tarjeta);
 
   asignarEventosTarjeta(tarjeta);
 }
@@ -196,25 +225,73 @@ function ocultarModalDetalle() {
 function asignarEventosTarjeta(tarjeta) {
   tarjeta.querySelector(".cabecera-tarjeta").onclick = function (e) {
     if (e.target.closest(".btn-editar, .btn-eliminar")) return;
-    const detalle = tarjeta.querySelector(".detalle-tarjeta").children;
-    ["concepto", "monto", "descripcion", "fecha", "fijo"].forEach((id, i) =>
-      document.getElementById("modal-" + id).textContent =
-        i < 2
-          ? tarjeta.querySelector("." + id).textContent
-          : detalle[i].textContent.split(":")[1].trim()
-    );
+    const ingresoId = tarjeta.dataset.ingresoId;
+    const usuario = obtenerUsuarioActual();
+    const ingresos = obtenerIngresosUsuario(usuario.id);
+    const ingreso = ingresos.find(i => i.id == ingresoId);
+
+    // Llena el modal con toda la información relevante
+    document.getElementById("modal-concepto").textContent = ingreso.concepto;
+    document.getElementById("modal-monto").textContent = `$${ingreso.monto.toLocaleString()}`;
+    document.getElementById("modal-descripcion").textContent = ingreso.descripcion || "-";
+
+    // Detalles adicionales para ingresos programados
+    let detalleExtra = "";
+    if (ingreso.fijo === "Sí") {
+      detalleExtra += `<div><strong>Frecuencia:</strong> ${ingreso.frecuencia || "-"}</div>`;
+      detalleExtra += `<div><strong>Próxima recurrencia:</strong> ${calcularProximaRecurrencia(ingreso.fechaInicio, ingreso.frecuencia)}</div>`;
+      detalleExtra += `<div><strong>Fecha inicio:</strong> ${ingreso.fechaInicio || "-"}</div>`;
+    } else {
+      detalleExtra += `<div><strong>Fecha recibido:</strong> ${ingreso.fecha || "-"}</div>`;
+    }
+
+    // Puedes agregar más campos si lo deseas
+    document.getElementById("modal-fecha").innerHTML = 
+      (ingreso.fijo === "Sí")
+        ? `${ingreso.fechaCreacion ? new Date(ingreso.fechaCreacion).toLocaleDateString() : "-"}`
+        : `${ingreso.fecha || ingreso.fechaCreacion ? new Date(ingreso.fechaCreacion).toLocaleDateString() : "-"}`;
+
+    document.getElementById("modal-fijo").textContent = ingreso.fijo;
+
+    // Inserta los detalles extra en el modal, si tienes un contenedor específico para ellos
+    // Si no, puedes crear uno:
+    let detallesContenedor = document.getElementById("modal-detalles-extra");
+    if (!detallesContenedor) {
+      detallesContenedor = document.createElement("div");
+      detallesContenedor.id = "modal-detalles-extra";
+      document.getElementById("modal-fijo").parentElement.after(detallesContenedor);
+    }
+    detallesContenedor.innerHTML = detalleExtra;
+
     mostrarModalDetalle();
   };
 
   tarjeta.querySelector(".btn-editar").onclick = function (e) {
     e.stopPropagation();
-    const detalle = tarjeta.querySelector(".detalle-tarjeta").children;
-    ["concepto", "monto", "descripcion", "fecha", "fijo"].forEach((id, i) => {
-      const valor = i < 2
-        ? tarjeta.querySelector("." + id).textContent.replace(/[^0-9a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "")
-        : detalle[i].textContent.split(":")[1].trim();
-      document.getElementById("editar-" + id).value = valor;
-    });
+    const ingresoId = tarjeta.dataset.ingresoId;
+    const usuario = obtenerUsuarioActual();
+    const ingresos = obtenerIngresosUsuario(usuario.id);
+    const ingreso = ingresos.find(i => i.id == ingresoId);
+
+    // Llena los campos comunes
+    document.getElementById("editar-concepto").value = ingreso.concepto || "";
+    document.getElementById("editar-descripcion").value = ingreso.descripcion || "";
+
+    // Tipo de ingreso
+    if (ingreso.fijo === "Sí") {
+      document.getElementById("editar-tipo").value = "fijo";
+      document.getElementById("campos-variable").style.display = "none";
+      document.getElementById("campos-fijo").style.display = "";
+      document.getElementById("editar-monto-fijo").value = ingreso.monto || "";
+      document.getElementById("editar-frecuencia").value = ingreso.frecuencia || "mensual";
+      document.getElementById("editar-fecha-inicio").value = ingreso.fechaInicio || "";
+    } else {
+      document.getElementById("editar-tipo").value = "variable";
+      document.getElementById("campos-variable").style.display = "";
+      document.getElementById("campos-fijo").style.display = "none";
+      document.getElementById("editar-monto-variable").value = ingreso.monto || "";
+      document.getElementById("editar-fecha-variable").value = ingreso.fecha || "";
+    }
 
     document.getElementById("form-editar-ingreso")._tarjeta = tarjeta;
     document.getElementById("modal-titulo-editar").textContent = "Editar Ingreso";
@@ -242,32 +319,88 @@ function ocultarModalEditar() {
   modal.style.display = "";
 }
 
+document.getElementById("editar-tipo").addEventListener("change", function () {
+  if (this.value === "variable") {
+    document.getElementById("campos-variable").style.display = "";
+    document.getElementById("campos-fijo").style.display = "none";
+  } else {
+    document.getElementById("campos-variable").style.display = "none";
+    document.getElementById("campos-fijo").style.display = "";
+  }
+});
+
 function limpiarFormulario() {
-  ["concepto", "monto", "descripcion", "fecha", "fijo"].forEach(id => {
-    const elemento = document.getElementById("editar-" + id);
-    if (id === "fijo") {
-      elemento.value = "Sí";
-    } else {
-      elemento.value = "";
-    }
-  });
+  document.getElementById("editar-tipo").value = "variable";
+  document.getElementById("campos-variable").style.display = "";
+  document.getElementById("campos-fijo").style.display = "none";
+  ["concepto", "descripcion"].forEach(id => document.getElementById("editar-" + id).value = "");
+  document.getElementById("editar-monto-variable").value = "";
+  document.getElementById("editar-fecha-variable").value = "";
+  document.getElementById("editar-monto-fijo").value = "";
+  document.getElementById("editar-frecuencia").value = "mensual";
+  document.getElementById("editar-fecha-inicio").value = "";
 }
 
 document.getElementById("form-editar-ingreso").addEventListener("submit", function (e) {
   e.preventDefault();
+  const tipo = document.getElementById("editar-tipo").value;
+  let datosIngreso = {
+    concepto: document.getElementById("editar-concepto").value,
+    descripcion: document.getElementById("editar-descripcion").value,
+    tipo
+  };
 
+  if (tipo === "variable") {
+    datosIngreso.monto = document.getElementById("editar-monto-variable").value;
+    datosIngreso.fecha = document.getElementById("editar-fecha-variable").value;
+    datosIngreso.fijo = "No";
+    if (!datosIngreso.fecha) {
+      alert("❌ La fecha es obligatoria.");
+      return;
+    }
+    // Procede normalmente
+    guardarIngreso(datosIngreso, e.target._tarjeta);
+  } else {
+    datosIngreso.monto = document.getElementById("editar-monto-fijo").value;
+    datosIngreso.frecuencia = document.getElementById("editar-frecuencia").value;
+    datosIngreso.fechaInicio = document.getElementById("editar-fecha-inicio").value;
+    datosIngreso.fijo = "Sí";
+    if (!datosIngreso.fechaInicio) {
+      alert("❌ La fecha de inicio es obligatoria.");
+      return;
+    }
+    // Mostrar modal de confirmación
+    mostrarModalConfirmarProgramado(datosIngreso, e.target._tarjeta);
+  }
+});
+
+function mostrarModalConfirmarProgramado(datosIngreso, tarjeta) {
+  const modal = document.getElementById("modal-confirmar-programado");
+  modal.classList.remove("modal-ingreso-oculto");
+  modal.style.display = "flex";
+
+  // Cerrar modal
+  document.getElementById("cerrar-modal-confirmar-programado").onclick =
+    document.getElementById("btn-cancelar-programado").onclick = function () {
+      modal.classList.add("modal-ingreso-oculto");
+      modal.style.display = "";
+    };
+
+  // Confirmar
+  document.getElementById("btn-confirmar-programado").onclick = function () {
+    modal.classList.add("modal-ingreso-oculto");
+    modal.style.display = "";
+    guardarIngreso(datosIngreso, tarjeta);
+  };
+}
+
+// Nueva función para guardar (antes estaba en el submit)
+function guardarIngreso(datosIngreso, tarjeta) {
   const usuario = obtenerUsuarioActual();
   if (!usuario) {
     alert("❌ Error de autenticación. Por favor, inicia sesión nuevamente.");
     return;
   }
-
-  const tarjeta = e.target._tarjeta;
-  const datosIngreso = {};
-
-  ["concepto", "monto", "descripcion", "fecha", "fijo"].forEach(id => {
-    datosIngreso[id] = document.getElementById("editar-" + id).value;
-  });
 
   if (!datosIngreso.concepto.trim()) {
     alert("❌ El concepto es obligatorio.");
@@ -276,11 +409,6 @@ document.getElementById("form-editar-ingreso").addEventListener("submit", functi
 
   if (!datosIngreso.monto || parseInt(datosIngreso.monto) <= 0) {
     alert("❌ El monto debe ser un número mayor a cero.");
-    return;
-  }
-
-  if (!datosIngreso.fecha) {
-    alert("❌ La fecha es obligatoria.");
     return;
   }
 
@@ -301,7 +429,7 @@ document.getElementById("form-editar-ingreso").addEventListener("submit", functi
         <div><strong>Concepto:</strong> ${ingresoActualizado.concepto}</div>
         <div><strong>Monto:</strong> $${ingresoActualizado.monto.toLocaleString()}</div>
         <div><strong>Descripción:</strong> ${ingresoActualizado.descripcion || "-"}</div>
-        <div><strong>Fecha:</strong> ${ingresoActualizado.fecha}</div>
+        <div><strong>Fecha:</strong> ${ingresoActualizado.fecha || ingresoActualizado.fechaInicio || "-"}</div>
         <div><strong>Fijo:</strong> ${ingresoActualizado.fijo}</div>
       `;
       alert("✅ Ingreso actualizado correctamente.");
@@ -309,7 +437,7 @@ document.getElementById("form-editar-ingreso").addEventListener("submit", functi
   }
 
   ocultarModalEditar();
-});
+}
 
 function cerrarModalEliminar() {
   document.getElementById("modal-eliminar-ingreso").classList.add("modal-ingreso-oculto");
@@ -335,4 +463,86 @@ function obtenerDatosIngresosParaReporte() {
     fecha,
     fijo
   }));
+}
+
+function mostrarIngresosFiltrados() {
+  const usuario = obtenerUsuarioActual();
+  if (!usuario) return;
+  let ingresos = obtenerIngresosUsuario(usuario.id);
+
+  if (filtroActual === "programados") {
+    ingresos = ingresos.filter(i => i.fijo === "Sí");
+  } else if (filtroActual === "variables") {
+    ingresos = ingresos.filter(i => i.fijo === "No");
+  }
+  ingresos.sort((a, b) => new Date(a.fechaCreacion) - new Date(b.fechaCreacion));
+
+  const contenedor = document.querySelector(".tarjetas-ingresos");
+  // Limpia solo las tarjetas de ingreso, NO la de añadir
+  contenedor.querySelectorAll(".tarjeta-ingreso:not(.tarjeta-agregar)").forEach(t => t.remove());
+  ingresos.forEach(ingreso => crearTarjetaIngreso(ingreso, contenedor));
+}
+
+// Cambia el filtro y actualiza los botones activos
+function cambiarFiltroIngresos(nuevoFiltro) {
+  filtroActual = nuevoFiltro;
+  document.querySelectorAll('.btn-filtro-ingresos').forEach(btn => btn.classList.remove('activo'));
+  if (nuevoFiltro === "todos") {
+    document.getElementById("btn-todos-ingresos").classList.add("activo");
+  } else if (nuevoFiltro === "programados") {
+    document.getElementById("btn-programados-ingresos").classList.add("activo");
+  } else if (nuevoFiltro === "variables") {
+    document.getElementById("btn-variables-ingresos").classList.add("activo");
+  }
+  mostrarIngresosFiltrados();
+}
+
+// Eventos para los botones
+document.getElementById("btn-todos-ingresos").onclick = () => cambiarFiltroIngresos("todos");
+document.getElementById("btn-programados-ingresos").onclick = () => cambiarFiltroIngresos("programados");
+document.getElementById("btn-variables-ingresos").onclick = () => cambiarFiltroIngresos("variables");
+
+// Al agregar, editar o eliminar ingresos, llama a mostrarIngresosFiltrados() en vez de cargarIngresosUsuario()
+
+const CONCEPTOS_INGRESO = [
+  "Salario",
+  "Comisiones",
+  "Arriendo",
+  "Ventas",
+  "Bonos",
+  "Honorarios",
+  "Intereses",
+  "Premios",
+  "Otros"
+];
+
+function calcularDiasRecurrencia(fechaInicio, frecuencia) {
+  // Ejemplo simple: para mensual, muestra el día del mes de la fecha de inicio
+  if (!fechaInicio) return "-";
+  const fecha = new Date(fechaInicio);
+  if (frecuencia === "mensual") return fecha.getDate();
+  if (frecuencia === "semanal") return fecha.toLocaleDateString('es-ES', { weekday: 'long' });
+  // Puedes agregar más lógica según tus reglas
+  return "-";
+}
+
+function calcularProximaRecurrencia(fechaInicio, frecuencia) {
+  if (!fechaInicio) return "-";
+  const hoy = new Date();
+  let proxima = new Date(fechaInicio);
+
+  while (proxima < hoy) {
+    if (frecuencia === "mensual") {
+      proxima.setMonth(proxima.getMonth() + 1);
+    } else if (frecuencia === "quincenal") {
+      proxima.setDate(proxima.getDate() + 15);
+    } else if (frecuencia === "semanal") {
+      proxima.setDate(proxima.getDate() + 7);
+    } else if (frecuencia === "anual") {
+      proxima.setFullYear(proxima.getFullYear() + 1);
+    } else {
+      break;
+    }
+  }
+  return proxima.toLocaleDateString();
 }
