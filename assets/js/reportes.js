@@ -1,47 +1,41 @@
-// === SISTEMA DE REPORTES - INTEGRACIÓN CON INGRESOS ===
-
 document.addEventListener("DOMContentLoaded", function () {
-  // Verificar autenticación
   if (!verificarAutenticacion()) return;
-  
-  // Inicializar reportes
   inicializarReportes();
 });
 
 // === FUNCIONES DE AUTENTICACIÓN ===
 function verificarAutenticacion() {
-  const usuarioActivoId = sessionStorage.getItem("usuarioActivoId");
+  const usuarioActivoId = localStorage.getItem("usuarioActivoId");
   if (!usuarioActivoId) {
     alert(" Debes iniciar sesión para acceder a esta página.");
-    window.location.href = "../index.html";
+    window.location.href = "../../views/Iniciosesion.html";
     return false;
   }
   return true;
 }
 
 function obtenerUsuarioActual() {
-  const usuarioActivoId = sessionStorage.getItem("usuarioActivoId");
+  const usuarioActivoId = localStorage.getItem("usuarioActivoId");
   if (!usuarioActivoId) return null;
-  
-  const usuarios = JSON.parse(sessionStorage.getItem("usuarios")) || [];
+  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
   return usuarios.find(u => u.id === parseInt(usuarioActivoId));
 }
 
 // === FUNCIONES PARA OBTENER DATOS DE INGRESOS ===
 function obtenerIngresosUsuario(usuarioId) {
   const clave = `ingresos_usuario_${usuarioId}`;
-  return JSON.parse(sessionStorage.getItem(clave)) || [];
+  return JSON.parse(localStorage.getItem(clave)) || [];
 }
 
 function obtenerDatosIngresosParaReporte() {
-  const usuarioId = sessionStorage.getItem("usuarioActivoId");
+  const usuarioId = localStorage.getItem("usuarioActivoId");
   if (!usuarioId) {
     console.warn(" No hay usuario activo.");
     return [];
   }
 
   const ingresos = obtenerIngresosUsuario(parseInt(usuarioId));
-  
+
   return ingresos.map(ingreso => ({
     id: ingreso.id,
     concepto: ingreso.concepto,
@@ -62,11 +56,8 @@ function inicializarReportes() {
 // === CREACIÓN DE LA TABLA DE INGRESOS ===
 function crearTablaIngresos() {
   const contenedor = document.getElementById('reporte-ingresos');
-  
-  // Limpiar contenedor
   contenedor.innerHTML = '';
-  
-  // Crear estructura de la tabla
+
   const tablaHTML = `
     <div class="reporte-header">
       <h3>Reporte de Ingresos</h3>
@@ -85,7 +76,7 @@ function crearTablaIngresos() {
         </div>
       </div>
     </div>
-    
+
     <div class="tabla-container">
       <table id="tabla-ingresos" class="display" style="width:100%">
         <thead>
@@ -99,8 +90,7 @@ function crearTablaIngresos() {
             <th>Fecha Creación</th>
           </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
         <tfoot>
           <tr>
             <th>ID</th>
@@ -115,35 +105,31 @@ function crearTablaIngresos() {
       </table>
     </div>
   `;
-  
+
   contenedor.innerHTML = tablaHTML;
 }
 
 // === CARGA DE DATOS EN LA TABLA ===
 function cargarDatosEnTabla() {
   const datos = obtenerDatosIngresosParaReporte();
-  
-  // Actualizar estadísticas
   actualizarEstadisticas(datos);
-  
-  // Preparar datos para DataTables
+
   const datosTabla = datos.map(ingreso => [
     ingreso.id,
     ingreso.concepto,
     `$${ingreso.monto.toLocaleString('es-CO')}`,
     ingreso.descripcion,
     formatearFecha(ingreso.fecha),
-    ingreso.fijo === 'Sí' ? 
-      '<span class="badge badge-fijo">Fijo</span>' : 
-      '<span class="badge badge-variable">Variable</span>',
+    ingreso.fijo === 'Sí'
+      ? '<span class="badge badge-fijo">Fijo</span>'
+      : '<span class="badge badge-variable">Variable</span>',
     formatearFechaCompleta(ingreso.fechaCreacion)
   ]);
-  
-  // Inicializar DataTables
+
   if ($.fn.DataTable.isDataTable('#tabla-ingresos')) {
     $('#tabla-ingresos').DataTable().destroy();
   }
-  
+
   $('#tabla-ingresos').DataTable({
     data: datosTabla,
     language: {
@@ -152,21 +138,13 @@ function cargarDatosEnTabla() {
     responsive: true,
     pageLength: 10,
     lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
-    order: [[0, 'desc']], // Ordenar por ID descendente
+    order: [[0, 'desc']],
     columnDefs: [
-      {
-        targets: [2], // Columna de monto
-        className: 'text-right'
-      },
-      {
-        targets: [5], // Columna de tipo
-        className: 'text-center'
-      }
+      { targets: [2], className: 'text-right' },
+      { targets: [5], className: 'text-center' }
     ],
     footerCallback: function (row, data, start, end, display) {
       const api = this.api();
-      
-      // Calcular total de la página actual
       const totalPagina = api
         .column(2, { page: 'current' })
         .data()
@@ -174,8 +152,7 @@ function cargarDatosEnTabla() {
           const valor = parseFloat(b.replace(/[$,]/g, '')) || 0;
           return a + valor;
         }, 0);
-      
-      // Actualizar footer
+
       $(api.column(2).footer()).html(
         `<strong>Total página: $${totalPagina.toLocaleString('es-CO')}</strong>`
       );
@@ -203,7 +180,7 @@ function cargarDatosEnTabla() {
       {
         text: 'Actualizar',
         className: 'btn-reporte btn-actualizar btn-morado',
-        action: function (e, dt, node, config) {
+        action: function () {
           actualizarReporte();
         }
       }
@@ -216,7 +193,7 @@ function actualizarEstadisticas(datos) {
   const totalMonto = datos.reduce((sum, ingreso) => sum + ingreso.monto, 0);
   const ingresosFijos = datos.filter(ingreso => ingreso.fijo === 'Sí').length;
   const ingresosVariables = datos.filter(ingreso => ingreso.fijo === 'No').length;
-  
+
   document.getElementById('total-ingresos').textContent = `$${totalMonto.toLocaleString('es-CO')}`;
   document.getElementById('ingresos-fijos').textContent = ingresosFijos;
   document.getElementById('ingresos-variables').textContent = ingresosVariables;
@@ -224,32 +201,25 @@ function actualizarEstadisticas(datos) {
 
 function formatearFecha(fecha) {
   if (!fecha) return '-';
-  
   try {
     const date = new Date(fecha);
-    if (isNaN(date.getTime())) {
-      // Si la fecha no es válida, intentar con el formato que viene del input
-      return fecha;
-    }
+    if (isNaN(date.getTime())) return fecha;
     return date.toLocaleDateString('es-CO');
-  } catch (error) {
+  } catch {
     return fecha;
   }
 }
 
 function formatearFechaCompleta(fechaISO) {
   if (!fechaISO) return '-';
-  
   try {
     const date = new Date(fechaISO);
     if (isNaN(date.getTime())) return '-';
-    
-    return date.toLocaleDateString('es-CO') + ' ' + 
-           date.toLocaleTimeString('es-CO', { 
-             hour: '2-digit', 
-             minute: '2-digit' 
-           });
-  } catch (error) {
+    return date.toLocaleDateString('es-CO') + ' ' + date.toLocaleTimeString('es-CO', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  } catch {
     return '-';
   }
 }
@@ -257,13 +227,10 @@ function formatearFechaCompleta(fechaISO) {
 function actualizarReporte() {
   console.log('Actualizando reporte de ingresos...');
   cargarDatosEnTabla();
-  
-  // Mostrar mensaje de éxito
   mostrarNotificacion('Reporte actualizado correctamente', 'success');
 }
 
 function mostrarNotificacion(mensaje, tipo = 'info') {
-  // Crear notificación temporal
   const notificacion = document.createElement('div');
   notificacion.className = `notificacion notificacion-${tipo}`;
   notificacion.textContent = mensaje;
@@ -281,22 +248,18 @@ function mostrarNotificacion(mensaje, tipo = 'info') {
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
   `;
-  
   document.body.appendChild(notificacion);
-  
-  // Remover después de 3 segundos
+
   setTimeout(() => {
-    if (notificacion.parentNode) {
-      notificacion.parentNode.removeChild(notificacion);
-    }
+    notificacion.remove();
   }, 3000);
 }
 
-// === FUNCIONES PÚBLICAS PARA DEBUGGING ===
+// === DEBUG UTILITY ===
 window.reportesDebug = {
   obtenerDatos: obtenerDatosIngresosParaReporte,
-  actualizarReporte: actualizarReporte,
-  mostrarEstadisticas: function() {
+  actualizarReporte,
+  mostrarEstadisticas: function () {
     const datos = obtenerDatosIngresosParaReporte();
     console.log('=== ESTADÍSTICAS DE INGRESOS ===');
     console.log('Total registros:', datos.length);

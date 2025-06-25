@@ -8,15 +8,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
   let inputActual = null;
 
-  // === Obtener ID del usuario activo ===
-  const idUsuarioActivo = parseInt(sessionStorage.getItem("usuarioActivoId"));
+  // === Obtener ID del usuario activo desde localStorage ===
+  const idUsuarioActivo = parseInt(localStorage.getItem("usuarioActivoId"));
   if (!idUsuarioActivo) {
     alert("Debes iniciar sesión primero.");
     window.location.href = "./inicioSesion.html";
     return;
   }
 
-  let usuarios = JSON.parse(sessionStorage.getItem("usuarios")) || [];
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
   let usuario = usuarios.find(u => u.id === idUsuarioActivo);
 
   if (!usuario) {
@@ -34,7 +34,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // === Cerrar sesión ===
   document.getElementById("btnCerrarSesion").addEventListener("click", () => {
-    sessionStorage.clear();
+    localStorage.removeItem("usuarioActivo");
+    localStorage.removeItem("usuarioActivoId");
     window.location.href = "./inicioSesion.html";
   });
 
@@ -107,7 +108,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // Actualizar en el DOM
     inputActual.value = nuevoValor;
 
-    // Actualizar en sessionStorage
+    // Actualizar en localStorage
     const index = usuarios.findIndex(u => u.id === idUsuarioActivo);
     if (index !== -1) {
       if (claseCampo === "nombre") usuarios[index].usuario = nuevoValor;
@@ -115,7 +116,7 @@ window.addEventListener("DOMContentLoaded", () => {
       if (claseCampo === "telefono") usuarios[index].phone = nuevoValor;
       if (claseCampo === "contrasena") usuarios[index].password = nuevoValor;
 
-      sessionStorage.setItem("usuarios", JSON.stringify(usuarios));
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
       console.log("✅ Usuario actualizado correctamente:", usuarios[index]);
     }
 
