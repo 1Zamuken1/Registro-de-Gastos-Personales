@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="../assets/css/ahorros.css" />
   </head>
   <body>
+
     <div class="layout">
       <!-- Barra lateral de navegación -->
+
       <nav class="side-nav" id="nav-bar"></nav>
       <div class="page-content">
-        <!-- COMPONENTE: TARJETAS DE AHORROS -->
+
+        <!-- COMPONENTE: AGREGAR UN NUEVO AHORRO -->
         <div class="contenedor">
           <h1>Mis Ahorros</h1>
           <div class="tarjetas-ahorros">
@@ -24,6 +27,8 @@
                 <span class="agregar-texto">Añadir ahorro</span>
               </div>
             </div>
+            
+            <!-- COMPONENTE: AHORRO EJEMPLO -->
             <div class="tarjeta-ahorro">
               <div class="cabecera-tarjeta">
                 <div>
@@ -35,7 +40,7 @@
                     <img src="../assets/icons/update.svg" alt="Editar" width="20" height="20" />
                   </button>
                   <button class="btn-cuotas" title="Cuotas">
-                    <img src="../assets/icons/plus.svg" alt="Cuotas" width="20" height="20" />
+                    <img src="../assets/icons/cuotas.svg" alt="Cuotas" width="20" height="20" />
                   </button>
                   <button class="btn-eliminar" title="Eliminar">
                     <img src="../assets/icons/delete.svg" alt="Eliminar" width="20" height="20" />
@@ -43,19 +48,21 @@
                 </div>
               </div>
               <div class="detalle-tarjeta">
+                <div><strong>Concepto:</strong> Viaje a San Andrés</div>
                 <div><strong>Meta:</strong> $5,000,000</div>
                 <div><strong>Fecha inicio:</strong> 2024-04-15</div>
                 <div><strong>Fecha fin:</strong> 2025-04-15</div>
                 <div><strong>Frecuencia:</strong> Mensual</div>
-                <div><strong>Número de cuotas:</strong> 12</div>
                 <div><strong>Cuota:</strong> $100,000</div>
+                <div><strong>Número de cuotas:</strong> 12</div>
                 <div><strong>Descripción:</strong> Ahorro para viaje</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Modal detalle ahorro -->
+        <!-- Modal DETALLE AHORRO -->
+
         <div id="modal-ahorro" class="modal-ahorro-oculto">
           <div class="modal-contenido">
             <span class="modal-cerrar" id="cerrar-modal">
@@ -63,18 +70,20 @@
             </span>
             <h2 id="modal-titulo">Detalle del Ahorro</h2>
             <div class="modal-campos">
+              <div><strong>Concepto:</strong> <span id="modal-concepto"></span></div>
               <div><strong>Meta:</strong> <span id="modal-meta"></span></div>
               <div><strong>Fecha inicio:</strong> <span id="modal-inicio"></span></div>
               <div><strong>Fecha fin:</strong> <span id="modal-fin"></span></div>
               <div><strong>Frecuencia:</strong> <span id="modal-frecuencia"></span></div>
-              <div><strong>Número de cuotas:</strong> <span id="modal-numcuota"></span></div>
               <div><strong>Cuota:</strong> <span id="modal-cuota"></span></div>
+              <div><strong>Número de cuotas:</strong> <span id="modal-numcuota"></span></div>
               <div><strong>Descripción:</strong> <span id="modal-descripcion"></span></div>
             </div>
           </div>
         </div>
 
-        <!-- Modal editar ahorro -->
+        <!-- MODAL EDITAR AHORRO-->
+
         <div id="modal-editar-ahorro" class="modal-ahorro-oculto">
           <div class="modal-contenido">
             <div class="modal-barra-superior">
@@ -85,6 +94,10 @@
             </div>
             <form id="form-editar-ahorro" autocomplete="off">
               <div class="modal-campos">
+                <div>
+                  <label><strong>Concepto:</strong></label>
+                  <input type="text" id="editar-concepto" required />
+                </div>
                 <div>
                   <label><strong>Meta:</strong></label>
                   <input type="number" id="editar-meta" required />
@@ -100,18 +113,23 @@
                 <div>
                   <label><strong>Frecuencia:</strong></label>
                   <select id="editar-frecuencia" required>
+                     <option value="Diaria">Diaria</option>
+                      <option value="Semanal">Semanal</option>
+                      <option value="Quincenal">Quincenal</option>
                     <option value="Mensual">Mensual</option>
-                    <option value="Quincenal">Quincenal</option>
+                    <option value="Trimestral">Trimestral</option>
+                    <option value="Semestral">Semestral</option>
+                    <option value="Anual">Anual</option>
                   </select>
-                </div>
-                <div>
-                  <label><strong>Número de cuotas:</strong></label>
-                  <input type="number" id="editar-numcuota" required />
                 </div>
                 <div>
                   <label><strong>Cuota:</strong></label>
                   <input type="number" id="editar-cuota" required />
                 </div>
+                <div>
+                  <label><strong>Número de cuotas:</strong></label>
+                  <input type="number" id="editar-numcuota" required />
+                </div>  <!-- ESTE ITEM DE NUMERO DE CUOTAS SE DEBE CALCULAR DEPENDIENDO LA FECHA INICIO, FIN, CUOTA Y LA FRECUENCIA-->
                 <div>
                   <label><strong>Descripción:</strong></label>
                   <input type="text" id="editar-descripcion" />
@@ -121,6 +139,7 @@
             </form>
           </div>
         </div>
+           <!-- MODAL TABLA CUOTAS DE AHORRO -->
         <div id="modal-cuotas-ahorro" class="modal-ahorro-oculto">
           <div class="modal-contenido modal-cuotas">
             <span class="modal-cerrar" id="cerrar-modal-cuotas">
@@ -134,37 +153,16 @@
                   <th>Monto</th>
                   <th>Fecha</th>
                   <th>Estado</th>
-                  <th>Acción</th>
+                  <th>Editar</th>
                  </tr>
                 </thead>
       <tbody id="cuerpo-cuotas">
-        <!-- filas dinámicas -->
       </tbody>
     </table>
   </div>
 </div>
-<!-- Modal de cuotas -->
-<div id="modal-cuotas-ahorro" class="modal-ahorro modal-ahorro-oculto"> 
-  <div class="modal-contenido-cuotas">
-    <h2>Cuotas del Ahorro</h2>
-    <table class="tabla-cuotas">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Monto</th>
-          <th>Fecha</th>
-          <th>Estado</th>
-          <th>Acción</th>
-        </tr>
-      </thead>
-      <tbody id="cuerpo-cuotas">
-        <!-- Las filas se agregan dinámicamente -->
-      </tbody>
-    </table>
-    <button id="cerrar-modal-cuotas" class="btn-cerrar-modal">Cerrar</button>
-  </div>
-</div>
-        <!-- Modal eliminar ahorro -->
+        <!-- Modal ELIMINAR AHORRO -->
+
         <div id="modal-eliminar-ahorro" class="modal-ahorro-oculto">
           <div class="modal-contenido modal-eliminar">
             <span class="modal-cerrar" id="cerrar-modal-eliminar">
@@ -191,9 +189,9 @@
         </div>
       </div>
     </div>
+    
     <!-- Scripts -->
     <script src="../assets/js/nav-bar.js"></script>
     <script src="../assets/js/ahorros.js"></script>
   </body>
 </html>
-
