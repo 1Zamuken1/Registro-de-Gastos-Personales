@@ -1,0 +1,103 @@
+/*  MODAL GENERAL*/
+/* Overlay del modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Contenedor superior donde está el botón "Agregar nueva categoría" */
+#contenedorCategorias {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  background-color: var(--gasto-text);
+}
+
+/* Botón para agregar nueva categoría */
+#agregarCategoriaBtn {
+  background-color: var(--gasto-contrast);
+  font-size: 18px;
+  font-weight: bold;
+  width: 240px;
+  height: 40px;
+  margin-left: 28px;
+  border-radius: 15px;
+  color: var(--gasto-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover del botón agregar categoría */
+#agregarCategoriaBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenido específico del modal selector de categorías */
+#modal-content-selector {
+  background-color: var(--gasto-text);
+  margin: 100px auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Título dentro del modal */
+.modal-content h2 {
+  font-weight: bold;
+  color: var(--gasto-hover);
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Botón de cerrar */
+.close {
+  font-weight: bold;
+  font-size: 30px;
+  color: var(--gasto-primary);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+}
+
+.close:hover {
+  transform: translateY(-5px);
+}
+
+/* Contenedor del selector de categorías */
+.content-selectorCategorias {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+
+.selectorCategorias {
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  width: 65%;
+  border: 2px solid var(--nequi-orchid);
+}
+
+#selectorCategorias:focus {
+  border-color: var(--nequi-orchid);
+  box-shadow: 0 0 6px var(--nequi-orchid);
+  outline: none;
+}

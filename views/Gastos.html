@@ -1,148 +1,241 @@
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Gestión de Gastos</title>
-    <link rel="stylesheet" href="../assets/css/nav-bar.css" />
-    <link rel="stylesheet" href="../assets/css/gastos.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/gastos.css">
+    <link rel="stylesheet" href="../assets/css/VariablesGlobales.css">
+    <script src="https://cdn.tailwindcss.com/"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> 
+    <title>Egresos</title>
 </head>
 <body>
     <div class="layout">
         <nav class="side-nav" id="nav-bar"></nav>
+        <header>
+            <script src="../assets/js/auth.js"></script>
+        </header>
+        
+        <!-- main  -->
         <main class="page-content">
-            <div class="contenedor">
-                <h1>Gestión de Gastos</h1>
-                <div class="container">
-                    <!-- Lista de categorías -->
-                    <div id="categorias" class="categorias"></div>
+            <!-- botones para cambiar entre pestañas -->
+            <div class="contenedor-vistas">
+                <div class="botones-vista">
+                    <button id="btn-ver" class="activo">Ver Gastos</button>
+                    <button id="btn-programar">Programar Gastos</button>
+                </div>
+                
+                <!-- contenedor de gastos -->
+                <div id="vista-ver" class="vista activa">
+                    <div class="gastos">
+                        <div class="lista-gasto" id="contenedor-concepto"></div>
+                        
+                        <!-- modal para mostrar gastos segun concepto -->
+                        <div id="modalTabla" class="modal">
+                            <div class="modal-content tabla-modal">
+                                
+                                <h3 id="tituloModalTabla">
+                                    <span id="nombreSubcategoria"></span>
+                                    <span class="close-tabla">&times;</span>
+                                </h3>
+                                
+                                <!-- boton para agregar gasto -->
+                                <button id="btnAgregarGasto" class="boton-primario">+ Agregar gasto</button>
+                                
+                                <!-- tabla para mostrar gastos -->
+                                <div class="contenedor-tabla">
+                                    <table id="tablaSubcategoria" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Concepto</th>
+                                                <th>Monto</th>
+                                                <th>Descripción</th>
+                                                <th>Fecha</th>
+                                                <th>Tipo</th>
+                                                <th>Acciones</th> <!-- Esta columna tendrá los botones -->
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyTablaSubcategoria"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal para agregar gasto -->
+                        <div id="modalAgregarGasto" class="modal">
+                            <div class="modal-content">
+                                
+                                <h3>Agregar Nuevo Gasto</h3>
+                                <form id="formAgregarGastoModal" class="form-gasto-subcategoria">
+                                    <input type="text" id="conceptoGastoModal" placeholder="Concepto" required disabled/>
+                                    <input type="number" id="montoGastoModal" placeholder="Monto" step="0.01" required />
+                                    <input type="text" id="descripcionGastoModal" placeholder="Descripción" />
+                                    <button type="submit" class="boton-exitoso">Guardar</button>
+                                    <button type="button" id="cerrarAgregarGasto" class="boton-secundario">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal para editar gasto -->
+                        <div id="modalEditarGasto" class="modal">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <h3>Editar Gasto</h3>
+                                <form id="formEditarGastoModal" class="form-gasto-subcategoria">
+                                    <input type="hidden" id="editarGastoIdModal" />
+                                    <input type="text" id="editarConceptoGastoModal" placeholder="Concepto" required />
+                                    <input type="number" id="editarMontoGastoModal" placeholder="Monto" step="0.01" required />
+                                    <input type="text" id="editarDescripcionGastoModal" placeholder="Descripción" />
+                                    <button type="submit" class="boton-exitoso">Actualizar</button>
+                                    <button type="button" class="boton-secundario">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contenedor-ver-gastos"></div>
+                </div>
+
+                <!-- GASTOS PROGRAMADOS -->
+                <div id="vista-programar" class="vista">
+                    <div class="div-btnAgregarProgramado">
+                        <button id="btnAgregarProgramado" class="boton-primario">+ Agregar Gasto Programado</button>
+                    </div>
                     
-                    <!-- Contenedor para mostrar gastos de una categoría -->
-                    <div id="vista-gastos" class="vista-gastos oculto">
-                        <div id="gastos-header"></div>
-                        <div id="gastos-lista"></div>
-                        <div id="gastos-total"></div>
-                        <div id="gastos-botones"></div>
+                    <div class="gastos-programados">
+                        <div class="lista-gasto-programado">
+                            
+                            
+                            <!-- Lista de gastos programados -->
+                            <div id="listaGastosProgramados">
+                                <table id="tablaGastosProgramados" class="display" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Monto</th>
+                                            <th>Descripción</th>
+                                            <th>Frecuencia</th>
+                                            <th>Subcategoría</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Fin</th>
+                                            <th>Activo</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                            <!-- Modal para agregar gasto programado -->
+                            <div id="modalFormularioProgramado" class="modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <h3>Agregar Gasto Programado</h3>
+                                    <form id="formGastoProgramadoModal" class="form-gasto-programado">
+                                        <div class="campo-formulario">
+                                            <label for="montoProgramadoModal">Monto:</label>
+                                            <input type="number" id="montoProgramadoModal" placeholder="0.00" step="0.01" required />
+                                        </div>
+                                        
+                                        <div class="campo-formulario">
+                                            <label for="descripcionProgramadoModal">Descripción:</label>
+                                            <input type="text" id="descripcionProgramadoModal" placeholder="Descripción del gasto" required />
+                                        </div>
+                                        
+                                        <div class="campo-formulario">
+                                            <label for="frecuenciaProgramadoModal">Frecuencia:</label>
+                                            <select id="frecuenciaProgramadoModal" required>
+                                                <option value="">Seleccionar frecuencia</option>
+                                                <option value="diario">Diario</option>
+                                                <option value="semanal">Semanal</option>
+                                                <option value="mensual">Mensual</option>
+                                                <option value="anual">Anual</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="campo-formulario">
+                                            <label for="subcategoriaProgramadoModal">Subcategoría:</label>
+                                            <select id="subcategoriaProgramadoModal" required>
+                                                <option value="">Seleccionar subcategoría</option>
+                                                <!-- Las opciones se llenarán dinámicamente -->
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="campo-formulario">
+                                            <label for="fechaInicioModal">Fecha de inicio:</label>
+                                            <input type="date" id="fechaInicioModal" required />
+                                        </div>
+                                        
+                                        <div class="campo-formulario">
+                                            <label for="fechaFinModal">Fecha de fin (opcional):</label>
+                                            <input type="date" id="fechaFinModal" />
+                                        </div>
+                                        
+                                        <div class="botones-formulario">
+                                            <button type="submit" class="boton-exitoso-prorgamado">Guardar Gasto Programado</button>
+                                            <button type="button" id="cancelarProgramado" class="boton-secundario">Cancelar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Modal para confirmar gasto programado -->
+                            <div id="modalConfirmarGasto" class="modal">
+                                <div class="modal-content modal-confirmacion">
+                                    <span class="close-confirmar">&times;</span>
+                                    <div class="icono-confirmacion">
+                                        <span class="emoji-dinero">💰</span>
+                                    </div>
+                                    <h3>Confirmar Gasto Programado</h3>
+                                    <p class="mensaje-confirmacion">Se ha detectado un gasto programado que debe ser procesado.</p>
+                                    <p class="pregunta-confirmacion">¿Deseas registrar este gasto?</p>
+                                    
+                                    <div class="form-confirmar-gasto">
+                                        <div class="info-gasto-programado">
+                                            <p><strong>Monto:</strong> <span id="montoConfirmar"></span></p>
+                                            <p><strong>Descripción:</strong> <span id="descripcionConfirmar"></span></p>
+                                            <p><strong>Subcategoría:</strong> <span id="subcategoriaConfirmar"></span></p>
+                                        </div>
+                                        
+                                        <div class="botones-confirmacion">
+                                            <button id="confirmarGastoFinal" class="boton-exitoso">
+                                                <span class="icono-boton">✓</span>
+                                                Confirmar Gasto
+                                            </button>
+                                            <button id="cancelarConfirmacion" class="boton-secundario">
+                                                <span class="icono-boton">✕</span>
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-       
-    <!-- Modal para nuevo gasto -->
-    <div id="modal-nuevo-gasto" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Nuevo Gasto</h3>
-                <span class="close" id="close-nuevo-gasto">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="form-nuevo-gasto">
-                    <div class="form-group">
-                        <label for="nuevo-desc">Descripción:</label>
-                        <input type="text" id="nuevo-desc" placeholder="Descripción" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nuevo-monto">Monto:</label>
-                        <input type="number" id="nuevo-monto" placeholder="Monto" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nuevo-tipo">Tipo:</label>
-                        <select id="nuevo-tipo">
-                            <option value="variable">Variable</option>
-                            <option value="fijo">Fijo</option>
-                        </select>
-                    </div>
-                    <div id="nuevo-fechas-fijo" class="form-group oculto">
-                        <label for="nuevo-fecha-inicio">Fecha inicio:</label>
-                        <input type="date" id="nuevo-fecha-inicio">
-                        <label for="nuevo-fecha-fin">Fecha fin:</label>
-                        <input type="date" id="nuevo-fecha-fin">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="boton" id="btn-guardar-nuevo">Guardar</button>
-                <button type="button" class="boton eliminar" id="btn-cancelar-nuevo">Cancelar</button>
-            </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Modal para editar gasto -->
-    <div id="modal-editar-gasto" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Editar Gasto</h3>
-                <span class="close" id="close-editar-gasto">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="form-editar-gasto">
-                    <div class="form-group">
-                        <label for="editar-desc">Descripción:</label>
-                        <input type="text" id="editar-desc" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editar-monto">Monto:</label>
-                        <input type="number" id="editar-monto" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editar-tipo">Tipo:</label>
-                        <select id="editar-tipo">
-                            <option value="variable">Variable</option>
-                            <option value="fijo">Fijo</option>
-                        </select>
-                    </div>
-                    <div id="editar-fechas-fijo" class="form-group oculto">
-                        <label for="editar-fecha-inicio">Fecha inicio:</label>
-                        <input type="date" id="editar-fecha-inicio">
-                        <label for="editar-fecha-fin">Fecha fin:</label>
-                        <input type="date" id="editar-fecha-fin">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="boton" id="btn-guardar-editar">Guardar</button>
-                <button type="button" class="boton eliminar" id="btn-cancelar-editar">Cancelar</button>
-            </div>
-        </div>
-    </div>
+    <script src="../assets/js/nav-bar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../assets/js/Dashboard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
-    <!-- Modal para categorías disponibles -->
-    <div id="modal-categorias" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Agregar Categoría</h3>
-                <span class="close" id="close-categorias">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div id="lista-categorias-disponibles"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="boton eliminar" id="btn-cancelar-categorias">Cancelar</button>
-            </div>
-        </div>
-    </div>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-    <!-- Modal para cuotas -->
-    <div id="modal-cuotas" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Gestionar Cuotas</h3>
-                <span class="close" id="close-cuotas">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div id="cuotas-actuales"></div>
-                <div class="form-group">
-                    <label for="nueva-cuota-monto">Nuevo monto de cuota:</label>
-                    <input type="number" id="nueva-cuota-monto" placeholder="Monto de la cuota">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="boton" id="btn-agregar-cuota">Agregar Cuota</button>
-                <button type="button" class="boton eliminar" id="btn-cancelar-cuotas">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    </main>
-  </div>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 
-  <script src="../assets/js/nav-bar.js"></script>
-  <script src="../assets/js/gastos.js"></script>
-  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <script src="../assets/js/conceptoEgresos.js"></script>
+    <script src="../assets/js/gastos.js"></script>
+    <script src="../assets/js/gastosProgramados.js"></script>
+</body>
 </html>
