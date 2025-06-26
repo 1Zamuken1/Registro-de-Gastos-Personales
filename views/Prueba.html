@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="./prueba.css" />
+  <link rel="stylesheet" href="./prueba.js">
+  <link rel="stylesheet" href="./pruebaprogramados.js">
+  <link rel="stylesheet" href="../assets/css/nav-bar.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <title>Ingresos</title>
+</head>
+
+<body>
+  <div class="layout">
+    <nav class="side-nav" id="nav-bar"></nav>
+    <header></header>
+
+    <main class="page-content">
+      <div class="contenedor-vistas">
+        <div class="botones-vista">
+          <button id="btn-ver" class="activo">Ver Ingresos</button>
+          <button id="btn-programar">Programar Ingresos</button>
+        </div>
+
+        <!-- Vista Ver Ingresos -->
+        <div id="vista-ver" class="vista activa">
+          <div class="ingresos">
+            <div class="lista-ingreso" id="contenedor-concepto"></div>
+
+            <!-- Modal tabla ingresos -->
+            <div id="modalTabla" class="modal">
+              <div class="modal-content tabla-modal">
+                <h3 id="tituloModalTabla">
+                  <span id="nombreSubcategoria"></span>
+                  <span class="close-tabla">&times;</span>
+                </h3>
+
+                <button id="btnAgregarIngreso" class="boton-primario">+ Agregar ingreso</button>
+
+                <div class="contenedor-tabla">
+                  <table id="tablaSubcategoria" class="display" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Concepto</th>
+                        <th>Monto</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="bodyTablaSubcategoria"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal agregar ingreso -->
+            <div id="modalAgregarIngreso" class="modal">
+              <div class="modal-content">
+                <h3>Agregar Nuevo Ingreso</h3>
+                <form id="formAgregarIngresoModal" class="form-ingreso-subcategoria">
+                  <input type="text" id="conceptoIngresoModal" placeholder="Concepto" required disabled />
+                  <input type="number" id="montoIngresoModal" placeholder="Monto" step="0.01" required />
+                  <input type="text" id="descripcionIngresoModal" placeholder="Descripción" />
+                  <button type="submit" class="boton-exitoso">Guardar</button>
+                  <button type="button" id="cerrarAgregarIngreso" class="boton-secundario">Cancelar</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Modal editar ingreso -->
+            <div id="modalEditarIngreso" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Editar Ingreso</h3>
+                <form id="formEditarIngresoModal" class="form-ingreso-subcategoria">
+                  <input type="hidden" id="editarIngresoIdModal" />
+                  <input type="text" id="editarConceptoIngresoModal" placeholder="Concepto" required />
+                  <input type="number" id="editarMontoIngresoModal" placeholder="Monto" step="0.01" required />
+                  <input type="text" id="editarDescripcionIngresoModal" placeholder="Descripción" />
+                  <button type="submit" class="boton-exitoso">Actualizar</button>
+                  <button type="button" class="boton-secundario">Cancelar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div id="contenedor-ver-ingresos"></div>
+        </div>
+
+        <!-- Vista Programar Ingresos -->
+        <div id="vista-programar" class="vista">
+          <div class="div-btnAgregarProgramado">
+            <button id="btnAgregarProgramado" class="boton-primario">+ Agregar Ingreso Programado</button>
+          </div>
+
+          <div class="ingresos-programados">
+            <div class="lista-ingreso-programado">
+              <div id="listaIngresosProgramados">
+                <table id="tablaIngresosProgramados" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Monto</th>
+                      <th>Descripción</th>
+                      <th>Frecuencia</th>
+                      <th>Subcategoría</th>
+                      <th>Fecha Inicio</th>
+                      <th>Fecha Fin</th>
+                      <th>Activo</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <!-- Modal agregar ingreso programado -->
+              <div id="modalFormularioProgramado" class="modal">
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <h3>Agregar Ingreso Programado</h3>
+                  <form id="formIngresoProgramadoModal" class="form-ingreso-programado">
+                    <div class="campo-formulario">
+                      <label for="montoProgramadoModal">Monto:</label>
+                      <input type="number" id="montoProgramadoModal" placeholder="0.00" step="0.01" required />
+                    </div>
+                    <div class="campo-formulario">
+                      <label for="descripcionProgramadoModal">Descripción:</label>
+                      <input type="text" id="descripcionProgramadoModal" placeholder="Descripción del ingreso" required />
+                    </div>
+                    <div class="campo-formulario">
+                      <label for="frecuenciaProgramadoModal">Frecuencia:</label>
+                      <select id="frecuenciaProgramadoModal" required>
+                        <option value="">Seleccionar frecuencia</option>
+                        <option value="diario">Diario</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="mensual">Mensual</option>
+                        <option value="anual">Anual</option>
+                      </select>
+                    </div>
+                    <div class="campo-formulario">
+                      <label for="subcategoriaProgramadoModal">Subcategoría:</label>
+                      <select id="subcategoriaProgramadoModal" required>
+                        <option value="">Seleccionar subcategoría</option>
+                      </select>
+                    </div>
+                    <div class="campo-formulario">
+                      <label for="fechaInicioModal">Fecha de inicio:</label>
+                      <input type="date" id="fechaInicioModal" required />
+                    </div>
+                    <div class="campo-formulario">
+                      <label for="fechaFinModal">Fecha de fin (opcional):</label>
+                      <input type="date" id="fechaFinModal" />
+                    </div>
+                    <div class="botones-formulario">
+                      <button type="submit" class="boton-exitoso-prorgamado">Guardar Ingreso Programado</button>
+                      <button type="button" id="cancelarProgramado" class="boton-secundario">Cancelar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Modal confirmar ingreso programado -->
+              <div id="modalConfirmarIngreso" class="modal">
+                <div class="modal-content modal-confirmacion">
+                  <span class="close-confirmar">&times;</span>
+                  <div class="icono-confirmacion">
+                    <span class="emoji-dinero">💰</span>
+                  </div>
+                  <h3>Confirmar Ingreso Programado</h3>
+                  <p class="mensaje-confirmacion">Se ha detectado un ingreso programado que debe ser procesado.</p>
+                  <p class="pregunta-confirmacion">¿Deseas registrar este ingreso?</p>
+
+                  <div class="form-confirmar-ingreso">
+                    <div class="info-ingreso-programado">
+                      <p><strong>Monto:</strong> <span id="montoConfirmar"></span></p>
+                      <p><strong>Descripción:</strong> <span id="descripcionConfirmar"></span></p>
+                      <p><strong>Subcategoría:</strong> <span id="subcategoriaConfirmar"></span></p>
+                    </div>
+
+                    <div class="botones-confirmacion">
+                      <button id="confirmarIngresoFinal" class="boton-exitoso">
+                        <span class="icono-boton">✓</span>
+                        Confirmar Ingreso
+                      </button>
+                      <button id="cancelarConfirmacion" class="boton-secundario">
+                        <span class="icono-boton">✕</span>
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts externos -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+  <!-- Scripts propios -->
+  <script src="../assets/js/auth.js" defer></script>
+  <script src="../assets/js/nav-bar.js" defer></script>
+  <script src="../assets/js/Dashboard.js" defer></script>
+  <script src="../assets/js/conceptoIngresos.js" defer></script>
+  <script src="../assets/js/ingresos.js" defer></script>
+  <script src="../assets/js/ingresosProgramados.js" defer></script>
+  <script src="./prueba.js" defer></script>
+
+</body>
+</html>
