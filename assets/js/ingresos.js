@@ -49,14 +49,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // Evento para agregar ingreso
   document.getElementById("tarjeta-agregar-ingreso").onclick = function () {
     limpiarFormularioVariable();
+    limpiarFormularioProgramado();
     // Mostrar el modal adecuado según el filtro
     if (filtroActual === "variables") {
+      limpiarFormularioVariable();
       document
         .getElementById("modal-formulario-variable")
         .classList.remove("modal-ingreso-oculto");
       document.getElementById("modal-formulario-variable").style.display =
         "flex";
     } else if (filtroActual === "programados") {
+      limpiarFormularioProgramado();
       document
         .getElementById("modal-formulario-programado")
         .classList.remove("modal-ingreso-oculto");
@@ -66,6 +69,33 @@ document.addEventListener("DOMContentLoaded", function () {
     // Oculta el modal de edición si está abierto
     ocultarModalEditar();
   };
+
+  // Botones directos para añadir ingreso programado/variable
+  var btnAgregarProgramado = document.getElementById("btn-agregar-programado");
+  if (btnAgregarProgramado) {
+    btnAgregarProgramado.onclick = function () {
+      limpiarFormularioProgramado();
+      document.getElementById("modal-formulario-programado").classList.remove("modal-ingreso-oculto");
+      document.getElementById("modal-formulario-programado").style.display = "flex";
+    };
+  }
+  var btnAgregarVariable = document.getElementById("btn-agregar-variable");
+  if (btnAgregarVariable) {
+    btnAgregarVariable.onclick = function () {
+      limpiarFormularioVariable();
+      document.getElementById("modal-formulario-variable").classList.remove("modal-ingreso-oculto");
+      document.getElementById("modal-formulario-variable").style.display = "flex";
+    };
+  }
+
+// Limpia el formulario programado
+function limpiarFormularioProgramado() {
+  document.getElementById("concepto-programado").value = "";
+  document.getElementById("descripcion-programado").value = "";
+  document.getElementById("monto-programado").value = "";
+  document.getElementById("frecuencia-programado").value = "mensual";
+  document.getElementById("fecha-inicio-programado").value = "";
+}
 
   // Evento para cambio de tipo de ingreso
   document
@@ -143,9 +173,81 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Evento para abrir modal de conceptos en formulario programado
-  document.getElementById("concepto-programado").onclick = function () {
-    mostrarModalConceptosProgramado();
-  };
+  const inputConceptoProgramado = document.getElementById("concepto-programado");
+  if (inputConceptoProgramado) {
+    inputConceptoProgramado.readOnly = true;
+    inputConceptoProgramado.onclick = mostrarModalConceptosProgramado;
+  }
+
+// === MODAL CONCEPTOS INGRESO PROGRAMADO ===
+function mostrarModalConceptosProgramado() {
+  const modal = document.getElementById("modal-conceptos");
+  const lista = document.getElementById("lista-conceptos");
+  lista.innerHTML = "";
+  // Filtrar conceptos ya usados
+  const usuario = obtenerUsuarioActual();
+  let usados = [];
+  if (usuario) {
+    usados = obtenerIngresosUsuario(usuario.id).map(i => i.concepto);
+  }
+  CONCEPTOS_INGRESO.filter(c => !usados.includes(c.nombre)).forEach((concepto) => {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "tarjeta-concepto";
+    tarjeta.style =
+      "background:#f8f9fa;border-radius:12px;padding:18px;cursor:pointer;box-shadow:0 2px 8px #e1d5ee;transition:.2s;";
+    tarjeta.innerHTML = `
+      <div style=\"font-weight:700;color:#2d9cdb;font-size:1.1rem;margin-bottom:8px;\">${concepto.nombre}</div>
+      <div style=\"color:#555;font-size:0.98rem;\">${concepto.descripcion}</div>
+    `;
+    tarjeta.onclick = function () {
+      document.getElementById("concepto-programado").value = concepto.nombre;
+      modal.classList.add("modal-ingreso-oculto");
+      modal.style.display = "";
+    };
+    tarjeta.onmouseover = () =>
+      (tarjeta.style.boxShadow = "0 4px 16px #b2d7ff");
+    tarjeta.onmouseout = () => (tarjeta.style.boxShadow = "0 2px 8px #e1d5ee");
+    lista.appendChild(tarjeta);
+  });
+  modal.classList.remove("modal-ingreso-oculto");
+  modal.style.display = "flex";
+}
+
+// MODAL CONCEPTOS INGRESO VARIABLE SOLO CONCEPTOS DISPONIBLES
+function mostrarModalConceptosVariable() {
+  const modal = document.getElementById("modal-conceptos");
+  const lista = document.getElementById("lista-conceptos");
+  lista.innerHTML = "";
+  // Filtrar conceptos ya usados
+  const usuario = obtenerUsuarioActual();
+  let usados = [];
+  if (usuario) {
+    const clave = `ingresos_variables_usuario_${usuario.id}`;
+    const ingresos = JSON.parse(localStorage.getItem(clave)) || [];
+    usados = ingresos.map(i => i.concepto);
+  }
+  CONCEPTOS_INGRESO_VARIABLE.filter(c => !usados.includes(c.nombre)).forEach((concepto) => {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "tarjeta-concepto";
+    tarjeta.style =
+      "background:#f8f9fa;border-radius:12px;padding:18px;cursor:pointer;box-shadow:0 2px 8px #e1d5ee;transition:.2s;";
+    tarjeta.innerHTML = `
+      <div style=\"font-weight:700;color:#00b894;font-size:1.1rem;margin-bottom:8px;\">${concepto.nombre}</div>
+      <div style=\"color:#555;font-size:0.98rem;\">${concepto.descripcion}</div>
+    `;
+    tarjeta.onclick = function () {
+      document.getElementById("concepto-variable").value = concepto.nombre;
+      modal.classList.add("modal-ingreso-oculto");
+      modal.style.display = "";
+    };
+    tarjeta.onmouseover = () =>
+      (tarjeta.style.boxShadow = "0 4px 16px #b2f7ef");
+    tarjeta.onmouseout = () => (tarjeta.style.boxShadow = "0 2px 8px #e1d5ee");
+    lista.appendChild(tarjeta);
+  });
+  modal.classList.remove("modal-ingreso-oculto");
+  modal.style.display = "flex";
+}
 
   document.getElementById("cancelar-programado").onclick = function () {
     document
@@ -161,6 +263,13 @@ document.addEventListener("DOMContentLoaded", function () {
         .classList.add("modal-ingreso-oculto");
       document.getElementById("modal-formulario-programado").style.display = "";
     };
+
+  // Cerrar modal de ingreso variable (X)
+  document.getElementById("cerrar-modal-formulario-variable").onclick = function () {
+    document.getElementById("modal-formulario-variable").classList.add("modal-ingreso-oculto");
+    document.getElementById("modal-formulario-variable").style.display = "";
+  };
+
   document.getElementById("cancelar-variable").onclick = function () {
     document
       .getElementById("modal-formulario-variable")
@@ -308,9 +417,13 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Guardar en ingresos_variables_usuario_{id}
+      // No permitir duplicados por concepto (variables)
       const clave = `ingresos_variables_usuario_${usuario.id}`;
       const ingresos = JSON.parse(localStorage.getItem(clave)) || [];
+      if (ingresos.some(i => i.concepto === concepto)) {
+        alert("❌ Ya existe un ingreso variable con ese concepto. Solo puede haber uno por concepto.");
+        return;
+      }
       const nuevoId =
         ingresos.length > 0
           ? Math.max(...ingresos.map((i) => i.id || 0)) + 1
@@ -366,6 +479,50 @@ function obtenerUsuarioActual() {
 function obtenerIngresosUsuario(usuarioId) {
   const clave = `ingresos_usuario_${usuarioId}`;
   return JSON.parse(localStorage.getItem(clave)) || [];
+}
+
+// === GESTIÓN DE INGRESOS INTERNOS (PERIÓDICOS) ===
+function getIngresosInternos(usuarioId, ingresoId) {
+  const clave = `ingresos_internos_usuario_${usuarioId}_programado_${ingresoId}`;
+  return JSON.parse(localStorage.getItem(clave)) || [];
+}
+function setIngresosInternos(usuarioId, ingresoId, lista) {
+  const clave = `ingresos_internos_usuario_${usuarioId}_programado_${ingresoId}`;
+  localStorage.setItem(clave, JSON.stringify(lista));
+}
+// Genera automáticamente ingresos internos según frecuencia
+function generarIngresosInternosSiCorresponde(ingreso, usuarioId) {
+  if (!ingreso.fijo || ingreso.fijo !== "Sí") return;
+  const lista = getIngresosInternos(usuarioId, ingreso.id);
+  let ultimaFecha = ingreso.fechaInicio;
+  if (lista.length > 0) {
+    ultimaFecha = lista[lista.length - 1].fecha;
+  }
+  let proxima = new Date(ultimaFecha);
+  const hoy = new Date();
+  // Avanza hasta la próxima fecha que no esté registrada
+  while (proxima <= hoy) {
+    // Si ya existe un registro para esta fecha, avanza
+    if (lista.some(i => i.fecha === proxima.toISOString().slice(0,10))) {
+      avanzarFrecuencia(proxima, ingreso.frecuencia);
+      continue;
+    }
+    // Agrega el ingreso interno
+    lista.push({
+      fecha: proxima.toISOString().slice(0,10),
+      monto: ingreso.monto,
+      descripcion: ingreso.descripcion || "",
+      estado: "Recibido"
+    });
+    avanzarFrecuencia(proxima, ingreso.frecuencia);
+  }
+  setIngresosInternos(usuarioId, ingreso.id, lista);
+}
+function avanzarFrecuencia(dateObj, frecuencia) {
+  if (frecuencia === "mensual") dateObj.setMonth(dateObj.getMonth() + 1);
+  else if (frecuencia === "quincenal") dateObj.setDate(dateObj.getDate() + 15);
+  else if (frecuencia === "semanal") dateObj.setDate(dateObj.getDate() + 7);
+  else if (frecuencia === "anual") dateObj.setFullYear(dateObj.getFullYear() + 1);
 }
 
 function guardarIngresosUsuario(usuarioId, ingresos) {
@@ -525,15 +682,16 @@ function asignarEventosTarjeta(tarjeta) {
     const ingresoId = tarjeta.dataset.ingresoId;
     const usuario = obtenerUsuarioActual();
     const ingresos = obtenerIngresosUsuario(usuario.id);
-    const ingreso = ingresos.find((i) => i.id == ingresoId);
-
+    const ingreso = ingresos.find((i) => i && i.id == ingresoId);
+    if (!ingreso || typeof ingreso !== 'object') {
+      alert('Error: El ingreso seleccionado no existe o está dañado.');
+      return;
+    }
     // Llena el modal con información básica
     document.getElementById("modal-concepto").textContent = ingreso.concepto;
     document.getElementById(
       "modal-monto"
-    ).textContent = `$${ingreso.monto.toLocaleString()}`;
-    document.getElementById("modal-descripcion").textContent =
-      ingreso.descripcion || "-";
+    ).textContent = `${ingreso.monto.toLocaleString()}`;
     document.getElementById("modal-fecha").textContent = ingreso.fechaCreacion
       ? new Date(ingreso.fechaCreacion).toLocaleDateString()
       : "-";
@@ -545,14 +703,162 @@ function asignarEventosTarjeta(tarjeta) {
         "";
       document.getElementById("modal-proxima-recurrencia").textContent =
         calcularProximaRecurrencia(ingreso.fechaInicio, ingreso.frecuencia);
+      // Poblar la datatable de ingresos internos
+      poblarTablaIngresosInternos(ingreso);
     } else {
       document.getElementById("modal-proxima-recurrencia-row").style.display =
         "none";
       document.getElementById("modal-proxima-recurrencia").textContent = "";
+      // Limpiar la tabla si no es programado
+      if ($.fn.DataTable.isDataTable('#tabla-ingresos-internos')) {
+        $('#tabla-ingresos-internos').DataTable().clear().draw();
+      } else {
+        document.querySelector('#tabla-ingresos-internos tbody').innerHTML = '';
+      }
     }
 
     mostrarModalDetalle();
   };
+
+// --- MODAL AGREGAR REGISTRO INTERNO ---
+let ingresoProgramadoActual = null;
+
+// Abrir modal al hacer clic en el botón
+const btnAbrirModalInterno = document.getElementById('btn-abrir-modal-interno');
+if (btnAbrirModalInterno) {
+  btnAbrirModalInterno.onclick = function() {
+    document.getElementById('modal-interno').classList.remove('modal-ingreso-oculto');
+    document.getElementById('modal-interno').style.display = 'flex';
+    limpiarFormularioInterno();
+  };
+}
+// Cerrar modal
+const btnCerrarModalInterno = document.getElementById('cerrar-modal-interno');
+if (btnCerrarModalInterno) {
+  btnCerrarModalInterno.onclick = function() {
+    document.getElementById('modal-interno').classList.add('modal-ingreso-oculto');
+    document.getElementById('modal-interno').style.display = '';
+    limpiarFormularioInterno();
+  };
+}
+// Guardar registro interno
+const formAgregarInterno = document.getElementById('form-agregar-interno');
+if (formAgregarInterno) {
+  formAgregarInterno.onsubmit = function(e) {
+    e.preventDefault();
+    // Obtener datos
+    const monto = Number(document.getElementById('interno-monto').value);
+    const frecuencia = document.getElementById('interno-frecuencia').value;
+    const inicio = document.getElementById('interno-inicio').value;
+    const fin = document.getElementById('interno-fin').value;
+    if (!ingresoProgramadoActual) {
+      alert('Error: No hay ingreso programado seleccionado.');
+      return;
+    }
+    const usuario = obtenerUsuarioActual();
+    if (!usuario) return;
+    // Guardar en localStorage
+    const lista = getIngresosInternos(usuario.id, ingresoProgramadoActual.id);
+    lista.push({
+      monto,
+      frecuencia,
+      inicio,
+      fin: fin || '',
+      estado: 'Activo'
+    });
+    setIngresosInternos(usuario.id, ingresoProgramadoActual.id, lista);
+    poblarTablaIngresosInternos(ingresoProgramadoActual);
+    document.getElementById('modal-interno').classList.add('modal-ingreso-oculto');
+    document.getElementById('modal-interno').style.display = '';
+    limpiarFormularioInterno();
+  };
+}
+function limpiarFormularioInterno() {
+  document.getElementById('interno-monto').value = '';
+  document.getElementById('interno-frecuencia').value = 'mensual';
+  document.getElementById('interno-inicio').value = '';
+  document.getElementById('interno-fin').value = '';
+  document.getElementById('interno-fin').disabled = true;
+  document.getElementById('interno-fin').style.background = '#eee';
+}
+
+// Poblar la datatable de ingresos internos
+function poblarTablaIngresosInternos(ingreso) {
+  ingresoProgramadoActual = ingreso;
+  const usuario = obtenerUsuarioActual();
+  if (!usuario) return;
+  generarIngresosInternosSiCorresponde(ingreso, usuario.id);
+  const lista = getIngresosInternos(usuario.id, ingreso.id);
+  // Limpiar tabla
+  if ($.fn.DataTable.isDataTable('#tabla-ingresos-internos')) {
+    $('#tabla-ingresos-internos').DataTable().clear().destroy();
+  }
+  const tbody = document.querySelector('#tabla-ingresos-internos tbody');
+  tbody.innerHTML = '';
+  lista.forEach((item, idx) => {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${idx+1}</td>
+      <td>${Number(item.monto).toLocaleString()}</td>
+      <td>${item.frecuencia || ingreso.frecuencia || ''}</td>
+      <td>${ingreso.concepto || ''}</td>
+      <td>${item.inicio || ingreso.fechaInicio || ''}</td>
+      <td>${item.fin || ''}</td>
+      <td><span class="badge-activo">${item.estado || 'Activo'}</span></td>
+      <td style="display:flex;gap:8px;justify-content:center;">
+        <button class="btn-editar-interno acciones" data-interno-idx="${idx}" title="Editar"><img src="../assets/icons/update.svg" width="18"/></button>
+        <button class="btn-eliminar-interno btn-eliminar-cancelar" data-interno-idx="${idx}" title="Eliminar"><img src="../assets/icons/delete.svg" width="18"/></button>
+      </td>
+    `;
+    tbody.appendChild(fila);
+  });
+
+  // Acciones de editar y eliminar
+  tbody.querySelectorAll('.btn-editar-interno').forEach(btn => {
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const idx = parseInt(this.getAttribute('data-interno-idx'));
+      // Aquí va la lógica para editar el registro interno (puedes abrir un modal de edición)
+      alert('Editar ingreso interno #' + (idx+1));
+    };
+  });
+  tbody.querySelectorAll('.btn-eliminar-interno').forEach(btn => {
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const idx = parseInt(this.getAttribute('data-interno-idx'));
+      if(confirm('¿Eliminar este registro de ingreso interno?')) {
+        const usuario = obtenerUsuarioActual();
+        const lista = getIngresosInternos(usuario.id, ingreso.id);
+        lista.splice(idx, 1);
+        setIngresosInternos(usuario.id, ingreso.id, lista);
+        poblarTablaIngresosInternos(ingreso);
+      }
+    };
+  });
+  // Inicializar DataTable
+  $('#tabla-ingresos-internos').DataTable({
+    destroy: true,
+    pageLength: 5,
+    lengthChange: true,
+    searching: true,
+    info: true,
+    ordering: true,
+    language: {
+      emptyTable: 'No hay registros de ingresos internos.',
+      search: 'Buscar:',
+      lengthMenu: 'Mostrar _MENU_ registros',
+      info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
+      infoEmpty: 'Mostrando 0 a 0 de 0 registros',
+      paginate: {
+        first: 'Primero',
+        last: 'Último',
+        next: 'Siguiente',
+        previous: 'Anterior'
+      }
+    },
+    dom: 'lfrtip'
+  });
+}
 
   tarjeta.querySelector(".btn-editar").onclick = function (e) {
     e.stopPropagation();
@@ -682,7 +988,13 @@ function guardarIngreso(datosIngreso, tarjeta) {
     return;
   }
 
+  // No permitir duplicados por concepto (programados)
   if (!tarjeta) {
+    const ingresosExistentes = obtenerIngresosUsuario(usuario.id);
+    if (ingresosExistentes.some(i => i.concepto === datosIngreso.concepto)) {
+      alert("❌ Ya existe un ingreso programado con ese concepto. Solo puede haber uno por concepto.");
+      return;
+    }
     const nuevoIngreso = agregarIngresoUsuario(usuario.id, datosIngreso);
     crearTarjetaIngreso(
       nuevoIngreso,
@@ -702,12 +1014,12 @@ function guardarIngreso(datosIngreso, tarjeta) {
         ingresoActualizado.concepto;
       tarjeta.querySelector(
         ".monto"
-      ).textContent = `$${ingresoActualizado.monto.toLocaleString()}`;
+      ).textContent = `${ingresoActualizado.monto.toLocaleString()}`;
 
       const detalle = tarjeta.querySelector(".detalle-tarjeta");
       detalle.innerHTML = `
         <div><strong>Concepto:</strong> ${ingresoActualizado.concepto}</div>
-        <div><strong>Monto:</strong> $${ingresoActualizado.monto.toLocaleString()}</div>
+        <div><strong>Monto:</strong> ${ingresoActualizado.monto.toLocaleString()}</div>
         <div><strong>Descripción:</strong> ${
           ingresoActualizado.descripcion || "-"
         }</div>
@@ -767,6 +1079,23 @@ function mostrarIngresosFiltrados() {
     .querySelectorAll(".tarjeta-ingreso:not(.tarjeta-agregar)")
     .forEach((t) => t.remove());
   ingresos.forEach((ingreso) => crearTarjetaIngreso(ingreso, contenedor));
+}
+
+function mostrarTarjetasPorConcepto() {
+  const usuario = obtenerUsuarioActual();
+  if (!usuario) return;
+
+  const contenedor = document.querySelector(".tarjetas-ingresos");
+  contenedor.innerHTML = ""; // Limpia todo
+
+  // Botón para agregar ingreso a un nuevo concepto
+  contenedor.appendChild(crearTarjetaAgregarConcepto());
+
+  const agrupados = obtenerIngresosAgrupadosPorConcepto(usuario.id);
+
+  Object.entries(agrupados).forEach(([concepto, ingresos]) => {
+    contenedor.appendChild(crearTarjetaConcepto(concepto, ingresos));
+  });
 }
 
 function actualizarTituloIngresos() {
@@ -842,28 +1171,29 @@ function mostrarModalConceptos() {
 }
 
 // Nueva función para seleccionar concepto en formulario programado
-function mostrarModalConceptosProgramado() {
+function mostrarModalSeleccionarConcepto() {
+  const usuario = obtenerUsuarioActual();
+  const agrupados = obtenerIngresosAgrupadosPorConcepto(usuario.id);
+  const usados = Object.keys(agrupados);
+
+  const disponibles = CONCEPTOS_INGRESO.filter(c => !usados.includes(c.nombre));
+
   const modal = document.getElementById("modal-conceptos");
   const lista = document.getElementById("lista-conceptos");
   lista.innerHTML = "";
 
-  CONCEPTOS_INGRESO.forEach((concepto) => {
+  disponibles.forEach(concepto => {
     const tarjeta = document.createElement("div");
     tarjeta.className = "tarjeta-concepto";
-    tarjeta.style =
-      "background:#f8f9fa;border-radius:12px;padding:18px;cursor:pointer;box-shadow:0 2px 8px #e1d5ee;transition:.2s;";
     tarjeta.innerHTML = `
-      <div style="font-weight:700;color:#9B59B6;font-size:1.1rem;margin-bottom:8px;">${concepto.nombre}</div>
+      <div style="font-weight:700;color:#2de38a;font-size:1.1rem;margin-bottom:8px;">${concepto.nombre}</div>
       <div style="color:#555;font-size:0.98rem;">${concepto.descripcion}</div>
     `;
     tarjeta.onclick = function () {
-      document.getElementById("concepto-programado").value = concepto.nombre;
+      abrirFormularioIngresoParaConcepto(concepto.nombre);
       modal.classList.add("modal-ingreso-oculto");
       modal.style.display = "";
     };
-    tarjeta.onmouseover = () =>
-      (tarjeta.style.boxShadow = "0 4px 16px #d1b3e6");
-    tarjeta.onmouseout = () => (tarjeta.style.boxShadow = "0 2px 8px #e1d5ee");
     lista.appendChild(tarjeta);
   });
 
@@ -1192,6 +1522,20 @@ function actualizarGraficoIngresos() {
 }
 // Ejemplo: después de mostrarIngresosFiltrados();
 
+// Agrupa todos los ingresos (programados y variables) por concepto
+function obtenerIngresosAgrupadosPorConcepto(usuarioId) {
+  const programados = obtenerIngresosUsuario(usuarioId);
+  const variables = JSON.parse(localStorage.getItem(`ingresos_variables_usuario_${usuarioId}`)) || [];
+  const todos = [...programados, ...variables];
+
+  const agrupados = {};
+  todos.forEach(ing => {
+    if (!agrupados[ing.concepto]) agrupados[ing.concepto] = [];
+    agrupados[ing.concepto].push(ing);
+  });
+  return agrupados;
+}
+
 const CONCEPTOS_INGRESO = [
   {
     nombre: "Salario",
@@ -1276,3 +1620,109 @@ const CONCEPTOS_INGRESO = [
     descripcion: "Ganancias por vender productos comprados previamente.",
   },
 ];
+
+function abrirFormularioIngresoParaConcepto(concepto) {
+  // Abre el modal de agregar ingreso y fija el campo concepto
+  document.getElementById("modal-formulario-variable").classList.remove("modal-ingreso-oculto");
+  document.getElementById("modal-formulario-variable").style.display = "flex";
+  document.getElementById("concepto-variable").value = concepto;
+  document.getElementById("concepto-variable").readOnly = true;
+}
+
+function crearTarjetaConcepto(concepto, ingresos) {
+  const tarjeta = document.createElement("div");
+  tarjeta.className = "tarjeta-ingreso";
+  tarjeta.innerHTML = `
+    <div class="cabecera-tarjeta">
+      <div>
+        <div class="concepto">${concepto}</div>
+        <div class="monto-total">Total: $${ingresos.reduce((sum, i) => sum + Number(i.monto), 0).toLocaleString()}</div>
+      </div>
+      <div class="acciones">
+        <button class="btn-agregar" title="Agregar ingreso">
+          <img src="../assets/icons/plus.svg" alt="Agregar" width="20" height="20" />
+        </button>
+      </div>
+    </div>
+    <div class="detalle-tarjeta">
+      <ul class="lista-ingresos">
+        ${ingresos.map(ing => `
+          <li>
+            <strong>Monto:</strong> $${Number(ing.monto).toLocaleString()}<br>
+            <strong>Fecha:</strong> ${ing.fecha || ing.fechaInicio || "-"}<br>
+            <strong>Tipo:</strong> ${ing.fijo === "Sí" ? "Fijo" : "Variable"}
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+  `;
+
+  // Botón para agregar más ingresos a este concepto
+  tarjeta.querySelector(".btn-agregar").onclick = function (e) {
+    e.stopPropagation();
+    abrirFormularioIngresoParaConcepto(concepto);
+  };
+
+  return tarjeta;
+}
+
+// === CONCEPTOS DE INGRESOS VARIABLES ===
+const CONCEPTOS_INGRESO_VARIABLE = [
+  { nombre: "Trabajos freelance", descripcion: "Pagos por tareas o servicios puntuales sin contrato fijo." },
+  { nombre: "Clases particulares", descripcion: "Ingresos por tutorías o asesorías académicas." },
+  { nombre: "Venta de comida casera", descripcion: "Ganancias por vender productos alimenticios hechos en casa." },
+  { nombre: "Ventas por catálogo", descripcion: "Ingresos por vender productos de terceros." },
+  { nombre: "Artesanías o manualidades", descripcion: "Ganancias por crear y vender productos hechos a mano." },
+  { nombre: "Premios académicos", descripcion: "Dinero recibido por reconocimientos o concursos estudiantiles." },
+  { nombre: "Reembolsos o devoluciones", descripcion: "Dinero devuelto por gastos previos o actividades." },
+  { nombre: "Ventas de libros o útiles", descripcion: "Ingresos por vender materiales usados." },
+  { nombre: "Alquiler de habitación o espacio", descripcion: "Ganancias por prestar un espacio propio." },
+  { nombre: "Servicios técnicos ocasionales", descripcion: "Ingresos por soporte en tecnología, reparación, etc." },
+  { nombre: "Ventas en ferias universitarias", descripcion: "Ingresos obtenidos en eventos o mercadillos estudiantiles." },
+  { nombre: "Fotografía o diseño por encargo", descripcion: "Ganancias por proyectos visuales freelance." },
+  { nombre: "Apoyo en eventos o logísticas", descripcion: "Pago por participación en organización de actividades." },
+  { nombre: "Cuidado de mascotas", descripcion: "Ingresos por pasear o cuidar animales de otros." },
+  { nombre: "Traducciones", descripcion: "Pagos por traducir textos o documentos." },
+  { nombre: "Apoyo a profesores", descripcion: "Ingresos por ayudar en correcciones o montajes de clase." },
+  { nombre: "Alquiler de equipos personales", descripcion: "Ganancia por prestar cosas como proyectores, portátiles, etc." },
+  { nombre: "Reventa de productos digitales", descripcion: "Ingresos por vender licencias, software, juegos, etc." },
+  { nombre: "Servicios de mensajería o domicilios", descripcion: "Pagos por hacer encargos o entregas." },
+  { nombre: "Actividades artísticas o musicales", descripcion: "Ingresos por cantar, actuar, bailar, etc." }
+];
+
+// === MODAL CONCEPTOS INGRESO VARIABLE ===
+function mostrarModalConceptosVariable() {
+  const modal = document.getElementById("modal-conceptos");
+  const lista = document.getElementById("lista-conceptos");
+  lista.innerHTML = "";
+  CONCEPTOS_INGRESO_VARIABLE.forEach((concepto) => {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "tarjeta-concepto";
+    tarjeta.style =
+      "background:#f8f9fa;border-radius:12px;padding:18px;cursor:pointer;box-shadow:0 2px 8px #e1d5ee;transition:.2s;";
+    tarjeta.innerHTML = `
+      <div style="font-weight:700;color:#00b894;font-size:1.1rem;margin-bottom:8px;">${concepto.nombre}</div>
+      <div style="color:#555;font-size:0.98rem;">${concepto.descripcion}</div>
+    `;
+    tarjeta.onclick = function () {
+      document.getElementById("concepto-variable").value = concepto.nombre;
+      modal.classList.add("modal-ingreso-oculto");
+      modal.style.display = "";
+    };
+    tarjeta.onmouseover = () =>
+      (tarjeta.style.boxShadow = "0 4px 16px #b2f7ef");
+    tarjeta.onmouseout = () => (tarjeta.style.boxShadow = "0 2px 8px #e1d5ee");
+    lista.appendChild(tarjeta);
+  });
+  modal.classList.remove("modal-ingreso-oculto");
+  modal.style.display = "flex";
+}
+
+// Evento para abrir modal de conceptos en formulario variable
+const inputConceptoVariable = document.getElementById("concepto-variable");
+if (inputConceptoVariable) {
+  inputConceptoVariable.readOnly = true;
+  inputConceptoVariable.onclick = mostrarModalConceptosVariable;
+}
+
+// Ingresos variables

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../assets/css/nav-bar.css" />
     <link rel="stylesheet" href="../assets/css/ingresos.css" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
   </head>
   <body>
     <div class="layout">
@@ -55,7 +57,7 @@
               </div>
               <br>
               <div class="tarjetas-ingresos">
-                <!-- Tarjeta para añadir ingreso SIEMPRE PRIMERA -->
+                                <!-- Tarjeta para añadir ingreso SIEMPRE PRIMERA -->
                 <div
                   class="tarjeta-ingreso tarjeta-agregar"
                   id="tarjeta-agregar-ingreso"
@@ -81,7 +83,7 @@
 
         <!-- MODAL DETALLE DE INGRESO -->
         <div id="modal-ingreso" class="modal-ingreso-oculto">
-          <div class="modal-contenido">
+          <div class="modal-contenido modal-contenido-ampliado">
             <span class="modal-cerrar" id="cerrar-modal">
               <img
                 src="../assets/icons/close.svg"
@@ -97,15 +99,65 @@
               </div>
               <div><strong>Monto:</strong> <span id="modal-monto"></span></div>
               <div>
-                <strong>Descripción:</strong>
-                <span id="modal-descripcion"></span>
-              </div>
-              <div>
                 <strong>Fecha creación:</strong> <span id="modal-fecha"></span>
               </div>
               <div><strong>Fijo:</strong> <span id="modal-fijo"></span></div>
               <div id="modal-proxima-recurrencia-row" style="display:none;">
                 <strong>Próxima recurrencia:</strong> <span id="modal-proxima-recurrencia"></span>
+              </div>
+            </div>
+            <button id="btn-abrir-modal-interno" class="btn-guardar" style="margin-bottom: 18px;">Agregar registro de ingreso</button>
+            <div style="margin-top: 24px;">
+              <table id="tabla-ingresos-internos" class="display" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Monto</th>
+                    <th>Frecuencia</th>
+                    <th>Subcategoría</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Se llenará por JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- MODAL PARA AGREGAR REGISTRO DE INGRESO INTERNO -->
+            <div id="modal-interno" class="modal-ingreso-oculto">
+              <div class="modal-contenido modal-contenido-interno">
+                <span class="modal-cerrar" id="cerrar-modal-interno">
+                  <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
+                </span>
+                <h2>Agregar registro de ingreso</h2>
+                <form id="form-agregar-interno" style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-top: 24px;">
+                  <div>
+                    <label for="interno-monto"><strong>Monto</strong></label>
+                    <input type="number" id="interno-monto" min="1" required style="width:120px;" />
+                  </div>
+                  <div>
+                    <label for="interno-frecuencia"><strong>Frecuencia</strong></label>
+                    <select id="interno-frecuencia" required style="width:120px;">
+                      <option value="mensual">Mensual</option>
+                      <option value="quincenal">Quincenal</option>
+                      <option value="semanal">Semanal</option>
+                      <option value="anual">Anual</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="interno-inicio"><strong>Inicio</strong></label>
+                    <input type="date" id="interno-inicio" required style="width:150px;" />
+                  </div>
+                  <div>
+                    <label for="interno-fin"><strong>Fin</strong></label>
+                    <input type="date" id="interno-fin" disabled style="width:150px; background:#eee;" />
+                  </div>
+                  <button type="submit" class="btn-guardar" style="margin:0;">Guardar</button>
+                </form>
               </div>
             </div>
           </div>
@@ -343,6 +395,9 @@
     <!-- Scripts -->
     <script src="../assets/js/nav-bar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- jQuery y DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/ingresos.js"></script>
   </body>
 </html>

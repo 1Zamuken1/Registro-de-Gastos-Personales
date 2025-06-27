@@ -349,3 +349,17 @@ if (typeof module !== "undefined") {
 } else {
   window.usuariosIniciales = usuariosIniciales;
 }
+
+// Inicialización robusta de ingresos en localStorage para todos los usuarios excepto admin
+(function initIngresosUsuarios() {
+  if (!Array.isArray(window.usuariosIniciales)) return;
+  window.usuariosIniciales.forEach(u => {
+    if (u.rol && u.rol.toLowerCase().includes('admin')) return;
+    if (!Array.isArray(u.ingresos)) return;
+    const programados = u.ingresos.filter(i => i.fijo === "Sí");
+    const variables = u.ingresos.filter(i => i.fijo === "No");
+    localStorage.setItem(`ingresos_usuario_${u.id}`, JSON.stringify(programados));
+    localStorage.setItem(`ingresos_variables_usuario_${u.id}`, JSON.stringify(variables));
+    u.ingresos = [];
+  });
+})();
