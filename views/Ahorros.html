@@ -104,6 +104,7 @@
                 <div>
                   <label><strong>Fecha inicio:</strong></label>
                   <input type="date" id="editar-inicio" required />
+                  <button type="button" id="btn-fecha-actual" class="btn-eliminar-cancelar" style="padding: 4px 8px; margin: 0;">Hoy</button>
                 </div>
                 <div>
                   <label><strong>Fecha fin:</strong></label>
@@ -128,7 +129,7 @@
                 <div>
                   <label><strong>Número de cuotas:</strong></label>
                   <input type="number" id="editar-numcuota" required />
-                </div>  <!-- ESTE ITEM DE NUMERO DE CUOTAS SE DEBE CALCULAR DEPENDIENDO LA FECHA INICIO, FIN, CUOTA Y LA FRECUENCIA-->
+                </div> 
                 <div>
                   <label><strong>Descripción:</strong></label>
                   <input type="text" id="editar-descripcion" />
@@ -138,6 +139,7 @@
             </form>
           </div>
         </div>
+    
            <!-- MODAL TABLA CUOTAS DE AHORRO -->
         <div id="modal-cuotas-ahorro" class="modal-ahorro-oculto">
           <div class="modal-contenido modal-cuotas">

@@ -115,7 +115,7 @@
 //   }
 // }
 
-// // --- Validar Login ---
+// --- Validar Login ---
 // const loginForm = document.getElementById('loginForm');
 // if (loginForm) {
 //   loginForm.addEventListener('submit', function (e) {
@@ -332,6 +332,8 @@ if (loginForm) {
         const usuario = resultado.usuario;
         localStorage.setItem("usuarioActivo", usuario.usuario);
         localStorage.setItem("usuarioActivoId", usuario.id);
+
+        localStorage.setItem("usuario_autenticado", JSON.stringify(usuario));
 
         if (usuario.rol === "estudiante" || usuario.rol === "profesor") {
           window.location.href = "dashboard.html";
