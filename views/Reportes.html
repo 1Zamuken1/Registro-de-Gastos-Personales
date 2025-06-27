@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="../assets/css/nav-bar.css" />
     <link rel="stylesheet" href="../assets/css/reportes.css" />
 
-    <!-- DataTables -->
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.dataTables.min.css" />
     
     <!-- jQuery y DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -21,41 +21,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
   </head>
   <body>
     <div class="layout">
       <div id="nav-bar"></div>
       <main class="page-content">
         <div class="graficos">
-          <div class="grafico-ahorros">
-            <div>
-              <h3> Gráfico de Ahorros</h3>
-              <div><img width="800vh" src="../assets/images/construccion.jpg" alt="seccion en construcción"></div>
-            </div>
-          </div>
-
-          <!--  Contenedor principal para el reporte de ingresos -->
+          <!-- Reporte de Ingresos -->
           <div class="grafico-ingresos">
-            <div id="reporte-ingresos">
-              <!-- Aquí se cargará dinámicamente la tabla de ingresos -->
-              <div class="loading-overlay">
-                <div>Cargando datos de ingresos...</div>
-              </div>
-            </div>
+            <div id="reporte-ingresos"></div>
           </div>
 
+          <!-- Reporte de Egresos -->
           <div class="grafico-egresos">
-            <div>
-              <h3>Gráfico de Egresos</h3>
-              <div><img width="800vh" src="../assets/images/construccion.jpg" alt="seccion en construcción"></div>
-            </div>
+            <div id="reporte-egresos"></div>
           </div>
         </div>
       </main>
     </div>
 
     <script src="../assets/js/nav-bar.js"></script>
-    <script src="../assets/js/nav-bar.js"></script>
-<script src="../assets/js/reportes.js"></script>
+    <script src="../assets/js/reportes.js"></script>
   </body>
 </html>

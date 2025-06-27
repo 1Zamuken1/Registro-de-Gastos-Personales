@@ -12,74 +12,70 @@
   <body>
     <div class="layout">
       <!-- Barra lateral de navegación -->
-      <div id="nav-bar"></div>
+      <nav id="nav-bar"></nav>
       <div class="page-content">
         <div class="contenedor">
-          <h1>Mis Ingresos</h1>
-          <div id="filtros-grafico" style="text-align:center; margin-bottom: 24px;">
-            <select id="select-rango-grafico" style="padding:8px 16px; border-radius:8px; border:1px solid #e9ecef;">
-              <option value="dia">Día</option>
-              <option value="mes" selected>Mes</option>
-              <option value="trimestre">Trimestre</option>
-              <option value="semestre">Semestre</option>
-              <option value="anio">Año</option>
-            </select>
-          </div>
-
-          <div class="grafico-titulos">
-  <div class="grafico-titulo" id="grafico-titulo"></div>
-  <div class="grafico-subtitulo" id="grafico-subtitulo"></div>
-</div>
-          <div id="graficos-ingresos" style="max-width:1500px; width:100%; margin:0 auto;">
-  <div id="grafico-totales" style="display:block;">
-    <div id="chart-ingresos" style="max-width:900px; margin:0 auto 32px auto;"></div>
-  </div>
-  <div id="grafico-programados" style="display:none;">
-    <div id="chart-programados" style="max-width:1400px; margin:0 auto 32px auto;"></div>
-  </div>
-  <div id="grafico-variables" style="display:none;">
-    <div id="chart-variables" style="max-width:1400px; margin:0 auto 32px auto;"></div>
-  </div>
-</div>
-
-          <!-- Filtros debajo del gráfico -->
-          <div class="filtros-ingresos-barra" style="display: flex; justify-content: center; align-items: center; margin-bottom: 32px; max-width: 900px; margin: 0 auto;">
-            <div class="filtros-indicativo" style="font-size: 1.15rem; color: #4E8EC6; font-weight: 600; margin-right: 18px;">
-              Ver:
-            </div>
-            <div class="filtros-ingresos" style="gap: 12px; margin-bottom: 0;">
-              <button type="button" class="btn-filtro-ingresos activo" id="btn-todos-ingresos">
-                Ingresos totales
-              </button>
-              <button type="button" class="btn-filtro-ingresos" id="btn-programados-ingresos">
-                Ingresos programados
-              </button>
-              <button type="button" class="btn-filtro-ingresos" id="btn-variables-ingresos">
-                Ingresos variables
-              </button>
-            </div>
-          </div>
-          <br>
-          <div class="tarjetas-ingresos">
-            <!-- Tarjeta para añadir ingreso SIEMPRE PRIMERA -->
-            <div
-              class="tarjeta-ingreso tarjeta-agregar"
-              id="tarjeta-agregar-ingreso"
-              style="display: none;"
-            >
-              <div class="agregar-contenido">
-                <span class="agregar-icono">
-                  <img
-                    src="../assets/icons/plus.svg"
-                    alt="Agregar"
-                    width="32"
-                    height="32"
-                  />
-                </span>
-                <span class="agregar-texto">Añadir ingreso</span>
+          <div class="ingresos-layout">
+            <div class="ingresos-grafico">
+              <h1>Mis Ingresos</h1>
+              <!--<div id="filtros-grafico" style="text-align:center; margin-bottom: 24px;">
+                <select id="select-rango-grafico" style="padding:8px 16px; border-radius:8px; border:1px solid #e9ecef;">
+                  <option value="dia">Día</option>
+                  <option value="mes" selected>Mes</option>
+                  <option value="trimestre">Trimestre</option>
+                  <option value="semestre">Semestre</option>
+                  <option value="anio">Año</option>
+                </select>
+              </div>
+              <div class="grafico-titulos">
+                <div class="grafico-titulo" id="grafico-titulo"></div>
+                <div class="grafico-subtitulo" id="grafico-subtitulo"></div>
+              </div>
+              <div id="graficos-ingresos" style="max-width:600px; margin:0 auto;">
+                <div id="chart-ingresos" style="max-width:600px; margin:0 auto 24px auto;"></div>
               </div>
             </div>
-            <!-- Las demás tarjetas se agregan por JS -->
+            <div class="ingresos-tarjetas"> -->
+              <!-- Filtros debajo del gráfico -->
+              <div class="filtros-ingresos-barra" style="display: flex; justify-content: center; align-items: center; margin-bottom: 32px; max-width: 900px; margin: 0 auto;">
+                <div class="filtros-indicativo" style="font-size: 1.15rem; color: #4E8EC6; font-weight: 600; margin-right: 18px;">
+                  Ver:
+                </div>
+                <div class="filtros-ingresos" style="gap: 12px; margin-bottom: 0;">
+                  <button type="button" class="btn-filtro-ingresos activo" id="btn-todos-ingresos">
+                    Ingresos totales
+                  </button>
+                  <button type="button" class="btn-filtro-ingresos" id="btn-programados-ingresos">
+                    Ingresos programados
+                  </button>
+                  <button type="button" class="btn-filtro-ingresos" id="btn-variables-ingresos">
+                    Ingresos variables
+                  </button>
+                </div>
+              </div>
+              <br>
+              <div class="tarjetas-ingresos">
+                <!-- Tarjeta para añadir ingreso SIEMPRE PRIMERA -->
+                <div
+                  class="tarjeta-ingreso tarjeta-agregar"
+                  id="tarjeta-agregar-ingreso"
+                  style="display: none;"
+                >
+                  <div class="agregar-contenido">
+                    <span class="agregar-icono">
+                      <img
+                        src="../assets/icons/plus.svg"
+                        alt="Agregar"
+                        width="32"
+                        height="32"
+                      />
+                    </span>
+                    <span class="agregar-texto">Añadir ingreso</span>
+                  </div>
+                </div>
+                <!-- Las demás tarjetas se agregan por JS -->
+              </div>
+            </div>
           </div>
         </div>
 

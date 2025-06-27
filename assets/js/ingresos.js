@@ -652,11 +652,17 @@ function mostrarModalConfirmarProgramado(datosIngreso, tarjeta) {
     };
 
   // Confirmar
-  document.getElementById("btn-confirmar-programado").onclick = function () {
-    modal.classList.add("modal-ingreso-oculto");
-    modal.style.display = "";
-    guardarIngreso(datosIngreso, tarjeta);
-  };
+document.getElementById("btn-confirmar-programado").onclick = function () {
+  modal.classList.add("modal-ingreso-oculto");
+  modal.style.display = "";
+  // Cierra también el formulario de creación
+  const modalFormulario = document.getElementById("modal-formulario-programado");
+  if (modalFormulario) {
+    modalFormulario.classList.add("modal-ingreso-oculto");
+    modalFormulario.style.display = "";
+  }
+  guardarIngreso(datosIngreso, tarjeta);
+};
 }
 
 function guardarIngreso(datosIngreso, tarjeta) {
@@ -917,7 +923,7 @@ function obtenerDatosIngresosParaReporte() {
 
 function obtenerDatosGraficoIngresos(rango = "mes") {
   const usuario = obtenerUsuarioActual();
-  if (!usuario) return { categorias: [], programados: [], variables: [] };
+  if (!usuario) return { totalGeneral: 0, totalProgramados: 0, totalVariables: 0, programados: [], variables: [] };
 
   // Obtener ingresos programados y variables
   const programados = obtenerIngresosUsuario(usuario.id).filter(
@@ -929,277 +935,167 @@ function obtenerDatosGraficoIngresos(rango = "mes") {
     ) || [];
 
   const hoy = new Date();
-  let categorias = [];
-  let datosProgramados = [];
-  let datosVariables = [];
 
-  if (rango === "dia") {
-    // Últimos 7 días
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(hoy);
-      d.setDate(hoy.getDate() - i);
-      const label = d.toLocaleDateString();
-      categorias.push(label);
-
-      // Suma de montos para ese día
-      datosProgramados.push(
-        programados
-          .filter(
-            (ing) =>
-              new Date(ing.fechaInicio || ing.fecha).toLocaleDateString() ===
-              label
-          )
-          .reduce((sum, ing) => sum + Number(ing.monto), 0)
-      );
-
-      datosVariables.push(
-        variables
-          .filter((ing) => new Date(ing.fecha).toLocaleDateString() === label)
-          .reduce((sum, ing) => sum + Number(ing.monto), 0)
-      );
+  // Función para verificar si una fecha está en el rango seleccionado
+  function estaEnRango(fecha) {
+    const fechaObj = new Date(fecha);
+    if (rango === "dia") {
+      const hace7Dias = new Date(hoy);
+      hace7Dias.setDate(hoy.getDate() - 7);
+      return fechaObj >= hace7Dias && fechaObj <= hoy;
+    } else if (rango === "mes") {
+      return fechaObj.getFullYear() === hoy.getFullYear() && 
+             fechaObj.getMonth() === hoy.getMonth();
+    } else if (rango === "trimestre") {
+      const hace3Meses = new Date(hoy);
+      hace3Meses.setMonth(hoy.getMonth() - 3);
+      return fechaObj >= hace3Meses && fechaObj <= hoy;
+    } else if (rango === "semestre") {
+      const hace6Meses = new Date(hoy);
+      hace6Meses.setMonth(hoy.getMonth() - 6);
+      return fechaObj >= hace6Meses && fechaObj <= hoy;
+    } else if (rango === "anio") {
+      return fechaObj.getFullYear() === hoy.getFullYear();
     }
-  } else if (rango === "mes") {
-    // Días del mes actual
-    const diasEnMes = new Date(
-      hoy.getFullYear(),
-      hoy.getMonth() + 1,
-      0
-    ).getDate();
-    for (let i = 1; i <= diasEnMes; i++) {
-      const d = new Date(hoy.getFullYear(), hoy.getMonth(), i);
-      const label = i.toString();
-      categorias.push(label);
-
-      datosProgramados.push(
-        programados
-          .filter((ing) => {
-            const fecha = new Date(ing.fechaInicio || ing.fecha);
-            return (
-              fecha.getFullYear() === hoy.getFullYear() &&
-              fecha.getMonth() === hoy.getMonth() &&
-              fecha.getDate() === i
-            );
-          })
-          .reduce((sum, ing) => sum + Number(ing.monto), 0)
-      );
-
-      datosVariables.push(
-        variables
-          .filter((ing) => {
-            const fecha = new Date(ing.fecha);
-            return (
-              fecha.getFullYear() === hoy.getFullYear() &&
-              fecha.getMonth() === hoy.getMonth() &&
-              fecha.getDate() === i
-            );
-          })
-          .reduce((sum, ing) => sum + Number(ing.monto), 0)
-      );
-    }
-  } else if (
-    rango === "trimestre" ||
-    rango === "semestre" ||
-    rango === "anio"
-  ) {
-    // Por mes
-    let meses = 12;
-    if (rango === "trimestre") meses = 3;
-    if (rango === "semestre") meses = 6;
-    const mesActual = hoy.getMonth();
-    const anioActual = hoy.getFullYear();
-
-    for (let i = meses - 1; i >= 0; i--) {
-      let mes = mesActual - i;
-      let anio = anioActual;
-      if (mes < 0) {
-        mes += 12;
-        anio--;
-      }
-      const label = new Date(anio, mes, 1).toLocaleString("default", {
-        month: "short",
-        year: "2-digit",
-      });
-      categorias.push(label);
-
-      datosProgramados.push(
-        programados
-          .filter((ing) => {
-            const fecha = new Date(ing.fechaInicio || ing.fecha);
-            return fecha.getFullYear() === anio && fecha.getMonth() === mes;
-          })
-          .reduce((sum, ing) => sum + Number(ing.monto), 0)
-      );
-
-      datosVariables.push(
-        variables
-          .filter((ing) => {
-            const fecha = new Date(ing.fecha);
-            return fecha.getFullYear() === anio && fecha.getMonth() === mes;
-          })
-          .reduce((sum, ing) => sum + Number(ing.monto), 0)
-      );
-    }
+    return false;
   }
 
+  // Filtra y mapea solo los montos
+  const programadosFiltrados = programados
+    .filter(ing => estaEnRango(ing.fechaInicio || ing.fecha))
+    .map(ing => Number(ing.monto));
+  const variablesFiltrados = variables
+    .filter(ing => estaEnRango(ing.fecha))
+    .map(ing => Number(ing.monto));
+
+  const totalProgramados = programadosFiltrados.reduce((sum, m) => sum + m, 0);
+  const totalVariables = variablesFiltrados.reduce((sum, m) => sum + m, 0);
+  const totalGeneral = totalProgramados + totalVariables;
+
   return {
-    categorias,
-    programados: datosProgramados,
-    variables: datosVariables,
+    totalGeneral,
+    totalProgramados,
+    totalVariables,
+    programados: programadosFiltrados,
+    variables: variablesFiltrados
   };
 }
 
-let chartIngresos = null;
-let chartProgramados = null;
-let chartVariables = null;
-
 function renderizarGraficoIngresos() {
-  // Verifica que el elemento exista antes de continuar
   const chartDiv = document.querySelector("#chart-ingresos");
   if (!chartDiv) return;
 
   const rango = document.getElementById("select-rango-grafico").value;
   const datos = obtenerDatosGraficoIngresos(rango);
 
-  // Asegura que los datos sean arrays
-  const programados = Array.isArray(datos.programados) ? datos.programados : [];
-  const variables = Array.isArray(datos.variables) ? datos.variables : [];
+  const totalProgramados = datos.totalProgramados || 0;
+  const totalVariables = datos.totalVariables || 0;
 
-  // Títulos y subtítulos dinámicos
-  let titulo = "Ingresos recibidos por ";
-  let subtitulo = "";
-  if (rango === "dia") {
-    titulo += "los últimos 7 días";
-    subtitulo = "Cada punto representa un día";
-  } else if (rango === "mes") {
-    titulo += "el mes actual";
-    subtitulo = "Cada punto representa un día del mes";
-  } else if (rango === "trimestre") {
-    titulo += "el último trimestre";
-    subtitulo = "Cada punto representa un mes";
-  } else if (rango === "semestre") {
-    titulo += "el último semestre";
-    subtitulo = "Cada punto representa un mes";
-  } else if (rango === "anio") {
-    titulo += "el año actual";
-    subtitulo = "Cada punto representa un mes";
+  if (window.chartIngresos) {
+    window.chartIngresos.destroy();
+    window.chartIngresos = null;
   }
 
-  // Asigna el título y subtítulo solo en HTML
-  document.getElementById("grafico-titulo").textContent = titulo;
-  document.getElementById("grafico-subtitulo").textContent = subtitulo;
-
   const options = {
-    series: [
-      {
-        name: "Ingresos programados",
-        data: programados,
-      },
-      {
-        name: "Ingresos variables",
-        data: variables,
-      },
-    ],
+    series: [totalProgramados, totalVariables],
     chart: {
       height: 370,
-      type: "line",
-      zoom: { enabled: false },
-      toolbar: {
-        show: true,
-        tools: {
-          download: true,
-          selection: true,
-          zoom: true,
-          zoomin: true,
-          zoomout: true,
-          pan: true,
-          reset: true,
+      type: 'radialBar',
+    },
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: '55%', // Más pequeño = barra más gruesa
         },
-        autoSelected: "zoom",
-      },
-      background: "transparent",
-      offsetY: 0,
+        track: {
+          margin: 10, // Más margen = barra más gruesa
+          background: '#23304a',
+        },
+        dataLabels: {
+          name: {
+            fontSize: '20px',
+            color: '#2de38a',
+          },
+          value: {
+            fontSize: '18px',
+            color: '#43ffb0',
+            formatter: function(val) {
+              return "$" + Number(val).toLocaleString();
+            }
+          },
+          total: {
+            show: true,
+            label: 'Total',
+            color: '#2de38a',
+            fontSize: '20px',
+            formatter: function () {
+              return "$" + (totalProgramados + totalVariables).toLocaleString();
+            }
+          }
+        }
+      }
     },
-    dataLabels: { enabled: false },
-    stroke: { curve: "smooth", width: 3 },
-    markers: {
-      size: 7,
-      colors: ["#43ffb0", "#00eaff"], // Verde claro y cian brillante
-      strokeColors: "#101624", // Contraste con fondo
-      strokeWidth: 3,
-      hover: { size: 11 },
-    },
-    grid: {
-      row: {
-        colors: ["rgba(67,255,176,0.10)", "transparent"], // Verde claro muy suave
-        opacity: 0.5,
-      },
-      borderColor: "#43ffb0",
-    },
-    xaxis: {
-      categories: Array.isArray(datos.categorias) ? datos.categorias : [],
-      tickAmount:
-        Array.isArray(datos.categorias) && datos.categorias.length > 1
-          ? datos.categorias.length - 1
-          : 1,
-      title: {
-        text:
-          rango === "dia"
-            ? "Día"
-            : rango.charAt(0).toUpperCase() + rango.slice(1),
-        style: { color: "#43ffb0", fontWeight: 700 },
-      },
-      labels: {
-        style: { fontSize: "1rem", colors: "#baffd9" },
-      },
-      axisBorder: { color: "#43ffb0" },
-      axisTicks: { color: "#43ffb0" },
-    },
-    yaxis: {
-      title: {
-        text: "Monto de ingresos",
-        style: { color: "#43ffb0", fontWeight: 700 },
-      },
-      min: 0,
-      forceNiceScale: true,
-      labels: {
-        style: { fontSize: "1rem", colors: "#baffd9" },
-        formatter: (val) => "$" + val.toLocaleString(),
-      },
-      axisBorder: { color: "#43ffb0" },
-      axisTicks: { color: "#43ffb0" },
-    },
-    legend: {
-      show: true,
-      position: "bottom",
-      horizontalAlign: "center",
-      fontSize: "1.1rem",
-      fontWeight: 700,
-      markers: {
-        width: 18,
-        height: 18,
-        radius: 6,
-      },
-      itemMargin: {
-        horizontal: 16,
-        vertical: 8,
-      },
-      labels: {
-        colors: ["#43ffb0", "#00eaff"],
-        useSeriesColors: false,
-      },
-    },
-    colors: ["#43ffb0", "#00eaff"], // Verde claro y cian brillante
-    tooltip: {
-      theme: "dark",
-      style: { fontSize: "1.1rem", color: "#43ffb0" },
-      x: { show: true },
-      y: {
-        formatter: (val) => "$" + val.toLocaleString(),
-      },
-    },
+    labels: ['Programados', 'Variables'],
+    colors: ['#2de38a', '#00eaff'],
   };
 
-  // Limpia el gráfico anterior si existe
+  window.chartIngresos = new ApexCharts(chartDiv, options);
+  window.chartIngresos.render();
+}
+
+function renderizarGraficoSoloProgramados() {
+  const chartDiv = document.querySelector("#chart-ingresos");
+  if (!chartDiv) return;
+
+  const rango = document.getElementById("select-rango-grafico").value;
+  const datos = obtenerDatosGraficoIngresos(rango);
+
+  const options = {
+    series: [100], // Solo programados al 100%
+    chart: {
+      height: 370,
+      type: 'radialBar',
+      background: "transparent",
+    },
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: '50%',
+        },
+        dataLabels: {
+          name: {
+            show: true,
+            fontSize: '18px',
+            color: '#43ffb0',
+            offsetY: -10,
+          },
+          value: {
+            show: true,
+            fontSize: '16px',
+            color: '#baffd9',
+            offsetY: 16,
+            formatter: function() {
+              return '$' + datos.totalProgramados.toLocaleString();
+            }
+          },
+          total: {
+            show: true,
+            showAlways: true,
+            label: 'Programados',
+            fontSize: '20px',
+            fontWeight: 700,
+            color: '#43ffb0',
+            formatter: function () {
+              return '$' + datos.totalProgramados.toLocaleString();
+            }
+          }
+        }
+      }
+    },
+    colors: ['#43ffb0'],
+    labels: ['Ingresos Programados'],
+  };
+
   if (chartIngresos) {
     chartIngresos.destroy();
     chartIngresos = null;
@@ -1208,107 +1104,92 @@ function renderizarGraficoIngresos() {
   chartIngresos = new ApexCharts(chartDiv, options);
   chartIngresos.render();
 }
-function renderizarGraficoSoloProgramados() {
-  const usuario = obtenerUsuarioActual();
-  if (!usuario) return;
-  const programados = obtenerIngresosUsuario(usuario.id).filter(
-    (i) => i.fijo === "Sí"
-  );
-  // Ejemplo: mostrar ingresos programados por mes del año actual
-  const hoy = new Date();
-  let categorias = [];
-  let datos = [];
-  for (let i = 0; i < 12; i++) {
-    const label = new Date(hoy.getFullYear(), i, 1).toLocaleString("default", {
-      month: "short",
-    });
-    categorias.push(label);
-    datos.push(
-      programados.filter((ing) => {
-        const fecha = new Date(ing.fechaInicio || ing.fecha);
-        return (
-          fecha.getFullYear() === hoy.getFullYear() && fecha.getMonth() === i
-        );
-      }).length
-    );
-  }
-  const options = {
-    series: [{ name: "Programados", data: datos }],
-    chart: { height: 350, type: "line", zoom: { enabled: false } },
-    dataLabels: { enabled: false },
-    stroke: { curve: "smooth" },
-    title: { text: "Ingresos programados por mes", align: "left" },
-    xaxis: { categories },
-    colors: ["#9B59B6"],
-  };
-  if (chartProgramados) {
-    chartProgramados.updateOptions(options);
-  } else {
-    chartProgramados = new ApexCharts(
-      document.querySelector("#chart-programados"),
-      options
-    );
-    chartProgramados.render();
-  }
-}
 
 function renderizarGraficoSoloVariables() {
-  const usuario = obtenerUsuarioActual();
-  if (!usuario) return;
-  const variables =
-    JSON.parse(
-      localStorage.getItem(`ingresos_variables_usuario_${usuario.id}`)
-    ) || [];
-  // Ejemplo: mostrar ingresos variables por mes del año actual
-  const hoy = new Date();
-  let categorias = [];
-  let datos = [];
-  for (let i = 0; i < 12; i++) {
-    const label = new Date(hoy.getFullYear(), i, 1).toLocaleString("default", {
-      month: "short",
-    });
-    categorias.push(label);
-    datos.push(
-      variables.filter((ing) => {
-        const fecha = new Date(ing.fecha);
-        return (
-          fecha.getFullYear() === hoy.getFullYear() && fecha.getMonth() === i
-        );
-      }).length
-    );
-  }
+  const chartDiv = document.querySelector("#chart-ingresos");
+  if (!chartDiv) return;
+
+  const rango = document.getElementById("select-rango-grafico").value;
+  const datos = obtenerDatosGraficoIngresos(rango);
+
   const options = {
-    series: [{ name: "Variables", data: datos }],
-    chart: { height: 350, type: "line", zoom: { enabled: false } },
-    dataLabels: { enabled: false },
-    stroke: { curve: "smooth" },
-    title: { text: "Ingresos variables por mes", align: "left" },
-    xaxis: { categories },
-    colors: ["#4E8EC6"],
+    series: [100], // Solo variables al 100%
+    chart: {
+      height: 370,
+      type: 'radialBar',
+      background: "transparent",
+    },
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: '50%',
+        },
+        dataLabels: {
+          name: {
+            show: true,
+            fontSize: '18px',
+            color: '#00eaff',
+            offsetY: -10,
+          },
+          value: {
+            show: true,
+            fontSize: '16px',
+            color: '#baffd9',
+            offsetY: 16,
+            formatter: function() {
+              return '$' + datos.totalVariables.toLocaleString();
+            }
+          },
+          total: {
+            show: true,
+            showAlways: true,
+            label: 'Variables',
+            fontSize: '20px',
+            fontWeight: 700,
+            color: '#00eaff',
+            formatter: function () {
+              return '$' + datos.totalVariables.toLocaleString();
+            }
+          }
+        }
+      }
+    },
+    colors: ['#00eaff'],
+    labels: ['Ingresos Variables'],
   };
-  if (chartVariables) {
-    chartVariables.updateOptions(options);
-  } else {
-    chartVariables = new ApexCharts(
-      document.querySelector("#chart-variables"),
-      options
-    );
-    chartVariables.render();
+
+  if (chartIngresos) {
+    chartIngresos.destroy();
+    chartIngresos = null;
+  }
+
+  chartIngresos = new ApexCharts(chartDiv, options);
+  chartIngresos.render();
+}
+
+// Función para mostrar gráfico según filtro
+function mostrarGraficoPorFiltro() {
+  if (filtroActual === "todos") {
+    renderizarGraficoIngresos();
+  } else if (filtroActual === "programados") {
+    renderizarGraficoSoloProgramados();
+  } else if (filtroActual === "variables") {
+    renderizarGraficoSoloVariables();
   }
 }
 
+// Inicialización del gráfico
 if (document.getElementById("chart-ingresos")) {
   renderizarGraficoIngresos();
-  document.getElementById("select-rango-grafico").onchange =
-    renderizarGraficoIngresos;
+  document.getElementById("select-rango-grafico").onchange = function() {
+    mostrarGraficoPorFiltro();
+  };
 }
 
 // Actualizar gráfico cuando se agregan/eliminan ingresos
 function actualizarGraficoIngresos() {
-  renderizarGraficoPorFiltro();
+  mostrarGraficoPorFiltro();
 }
-
-// Llama a actualizarGraficoIngresos() después de guardar/eliminar ingresos
 // Ejemplo: después de mostrarIngresosFiltrados();
 
 const CONCEPTOS_INGRESO = [

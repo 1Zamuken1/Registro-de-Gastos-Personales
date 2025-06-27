@@ -18,11 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const nav = realNav;
       const layout = document.querySelector('.layout');
       const toggleBtn = nav.querySelector('#side-nav-toggle');
+      const pageContent = document.querySelector('.page-content');
 
       function toggleNav() {
         nav.classList.toggle('collapsed');
-        layout.classList.toggle('nav-collapsed');
-        // Guarda el estado
+        if (layout) layout.classList.toggle('nav-collapsed');
+        // NO modifiques pageContent aquí
         localStorage.setItem('sidebarCollapsed', nav.classList.contains('collapsed'));
       }
 
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
       if (isCollapsed) {
         nav.classList.add('collapsed');
-        layout.classList.add('nav-collapsed');
+        if (layout) layout.classList.add('nav-collapsed');
       }
 
       // Botón de colapso
@@ -42,13 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
       function handleResize() {
         if (window.innerWidth <= 700) {
           nav.classList.add('collapsed');
-          layout.classList.add('nav-collapsed');
+          if (layout) layout.classList.add('nav-collapsed');
         } else {
-          // Restaurar estado guardado solo en pantallas grandes
           const savedState = localStorage.getItem('sidebarCollapsed') === 'true';
           if (!savedState) {
             nav.classList.remove('collapsed');
-            layout.classList.remove('nav-collapsed');
+            if (layout) layout.classList.remove('nav-collapsed');
           }
         }
       }

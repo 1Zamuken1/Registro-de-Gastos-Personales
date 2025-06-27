@@ -47,10 +47,39 @@ function obtenerDatosIngresosParaReporte() {
   }));
 }
 
+// === FUNCIONES PARA OBTENER DATOS DE EGRESOS ===
+function obtenerEgresosUsuario(usuarioId) {
+  const clave = `misGastos`;
+  const todos = JSON.parse(localStorage.getItem(clave)) || [];
+  // Si tus egresos tienen usuarioId, filtra aquí:
+  // return todos.filter(g => g.usuarioId === usuarioId);
+  return todos;
+}
+
+function obtenerDatosEgresosParaReporte() {
+  const usuarioId = localStorage.getItem("usuarioActivoId");
+  if (!usuarioId) {
+    console.warn("No hay usuario activo.");
+    return [];
+  }
+  const egresos = obtenerEgresosUsuario(parseInt(usuarioId));
+  return egresos.map(egreso => ({
+    id: egreso.id,
+    concepto: egreso.concepto,
+    monto: egreso.monto,
+    descripcion: egreso.descripcion || '-',
+    fecha: egreso.fecha,
+    tipo: egreso.tipo || '-',
+    subcategoria: egreso.subcategoria || '-'
+  }));
+}
+
 // === INICIALIZACIÓN DE REPORTES ===
 function inicializarReportes() {
   crearTablaIngresos();
+  crearTablaEgresos();
   cargarDatosEnTabla();
+  cargarDatosEnTablaEgresos();
 }
 
 // === CREACIÓN DE LA TABLA DE INGRESOS ===
@@ -78,38 +107,88 @@ function crearTablaIngresos() {
     </div>
 
     <div class="tabla-container">
-      <table id="tabla-ingresos" class="display" style="width:100%">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Concepto</th>
-            <th>Monto</th>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Tipo</th>
-            <th>Fecha Creación</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-          <tr>
-            <th>ID</th>
-            <th>Concepto</th>
-            <th>Monto</th>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Tipo</th>
-            <th>Fecha Creación</th>
-          </tr>
-        </tfoot>
-      </table>
+      <div class="tabla-scroll">
+        <table id="tabla-ingresos" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+              <th>Descripción</th>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Fecha Creación</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr>
+              <th>ID</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+              <th>Descripción</th>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Fecha Creación</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   `;
 
   contenedor.innerHTML = tablaHTML;
 }
 
-// === CARGA DE DATOS EN LA TABLA ===
+// === CREACIÓN DE LA TABLA DE EGRESOS ===
+function crearTablaEgresos() {
+  const contenedor = document.getElementById('reporte-egresos');
+  contenedor.innerHTML = '';
+
+  const tablaHTML = `
+    <div class="reporte-header">
+      <h3>Reporte de Egresos</h3>
+      <div class="reporte-stats" id="stats-egresos">
+        <div class="stat-item">
+          <span class="stat-label">Total Egresos:</span>
+          <span class="stat-value" id="total-egresos">$0</span>
+        </div>
+      </div>
+    </div>
+    <div class="tabla-container">
+      <div class="tabla-scroll">
+        <table id="tabla-egresos" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+              <th>Descripción</th>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Subcategoría</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr>
+              <th>ID</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+              <th>Descripción</th>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Subcategoría</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  `;
+  contenedor.innerHTML = tablaHTML;
+}
+
+// === CARGA DE DATOS EN LA TABLA DE INGRESOS ===
 function cargarDatosEnTabla() {
   const datos = obtenerDatosIngresosParaReporte();
   actualizarEstadisticas(datos);
@@ -117,7 +196,7 @@ function cargarDatosEnTabla() {
   const datosTabla = datos.map(ingreso => [
     ingreso.id,
     ingreso.concepto,
-    `$${ingreso.monto.toLocaleString('es-CO')}`,
+    `$${Number(ingreso.monto).toLocaleString('es-CO')}`,
     ingreso.descripcion,
     formatearFecha(ingreso.fecha),
     ingreso.fijo === 'Sí'
@@ -143,6 +222,9 @@ function cargarDatosEnTabla() {
       { targets: [2], className: 'text-right' },
       { targets: [5], className: 'text-center' }
     ],
+    fixedHeader: true,
+    scrollY: '300px',
+    scrollX: true,
     footerCallback: function (row, data, start, end, display) {
       const api = this.api();
       const totalPagina = api
@@ -188,15 +270,99 @@ function cargarDatosEnTabla() {
   });
 }
 
+// === CARGA DE DATOS EN LA TABLA DE EGRESOS ===
+function cargarDatosEnTablaEgresos() {
+  const datos = obtenerDatosEgresosParaReporte();
+  actualizarEstadisticasEgresos(datos);
+
+  const datosTabla = datos.map(egreso => [
+    egreso.id,
+    egreso.concepto,
+    `$${Number(egreso.monto).toLocaleString('es-CO')}`,
+    egreso.descripcion,
+    formatearFecha(egreso.fecha),
+    egreso.tipo,
+    egreso.subcategoria
+  ]);
+
+  if ($.fn.DataTable.isDataTable('#tabla-egresos')) {
+    $('#tabla-egresos').DataTable().destroy();
+  }
+
+  $('#tabla-egresos').DataTable({
+    data: datosTabla,
+    language: {
+      url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+    },
+    responsive: true,
+    pageLength: 10,
+    lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+    order: [[0, 'desc']],
+    columnDefs: [
+      { targets: [2], className: 'text-right' }
+    ],
+    fixedHeader: true,
+    scrollY: '300px',
+    scrollX: true,
+    footerCallback: function (row, data, start, end, display) {
+      const api = this.api();
+      const totalPagina = api
+        .column(2, { page: 'current' })
+        .data()
+        .reduce((a, b) => {
+          const valor = parseFloat(b.replace(/[$,]/g, '')) || 0;
+          return a + valor;
+        }, 0);
+
+      $(api.column(2).footer()).html(
+        `<strong>Total página: $${totalPagina.toLocaleString('es-CO')}</strong>`
+      );
+    },
+    dom: 'Bfrtip',
+    buttons: [
+      {
+        extend: 'copy',
+        text: ' Copiar',
+        className: 'btn-reporte btn-azul'
+      },
+      {
+        extend: 'excel',
+        text: 'Excel',
+        className: 'btn-reporte btn-verde',
+        title: 'Reporte_Egresos_' + new Date().toISOString().split('T')[0]
+      },
+      {
+        extend: 'pdf',
+        text: 'PDF',
+        className: 'btn-reporte btn-rojo',
+        title: 'Reporte de Egresos',
+        orientation: 'landscape'
+      },
+      {
+        text: 'Actualizar',
+        className: 'btn-reporte btn-actualizar btn-morado',
+        action: function () {
+          cargarDatosEnTablaEgresos();
+        }
+      }
+    ]
+  });
+}
+
 // === FUNCIONES DE UTILIDAD ===
 function actualizarEstadisticas(datos) {
-  const totalMonto = datos.reduce((sum, ingreso) => sum + ingreso.monto, 0);
+  const totalMonto = datos.reduce((sum, ingreso) => sum + Number(ingreso.monto), 0);
   const ingresosFijos = datos.filter(ingreso => ingreso.fijo === 'Sí').length;
   const ingresosVariables = datos.filter(ingreso => ingreso.fijo === 'No').length;
 
   document.getElementById('total-ingresos').textContent = `$${totalMonto.toLocaleString('es-CO')}`;
   document.getElementById('ingresos-fijos').textContent = ingresosFijos;
   document.getElementById('ingresos-variables').textContent = ingresosVariables;
+}
+
+function actualizarEstadisticasEgresos(datos) {
+  const totalMonto = datos.reduce((sum, egreso) => sum + Number(egreso.monto), 0);
+  document.getElementById('total-egresos').textContent = `$${totalMonto.toLocaleString('es-CO')}`;
 }
 
 function formatearFecha(fecha) {
@@ -225,7 +391,6 @@ function formatearFechaCompleta(fechaISO) {
 }
 
 function actualizarReporte() {
-  console.log('Actualizando reporte de ingresos...');
   cargarDatosEnTabla();
   mostrarNotificacion('Reporte actualizado correctamente', 'success');
 }

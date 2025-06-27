@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // // --- Cambio entre formularios (Login/Register) ---
 // const registerbtn = document.querySelector('.register-btn');
 // const loginbtn = document.querySelector('.login-btn');
@@ -229,6 +230,8 @@
 
 // --- Cambio entre formularios (Login/Register) ---
 // --- Cambio entre formularios (Login/Register) ---
+=======
+>>>>>>> e21b0f4208ec05a3b38d5fc76f313b03e6803481
 const registerbtn = document.querySelector('.register-btn');
 const loginbtn = document.querySelector('.login-btn');
 const container = document.querySelector('.container');

@@ -1,3 +1,4 @@
+
 /* === RESET Y FUENTE === */
 * {
   margin: 0;
@@ -8,13 +9,12 @@
 body {
   height: 100vh;
   font-family: Arial, sans-serif;
-  background-color: #b3b7cf; /* Fondo general lavanda grisácea claro */
+  background-color: #b3b7cf;
   color: #000;
 }
 
 /* === LAYOUT === */
 .layout {
-
   height: 100vh;
 }
 
@@ -27,17 +27,29 @@ body {
 
 /* === CONTENEDOR DE GRÁFICOS === */
 .graficos {
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   overflow-y: auto;
   padding: 20px;
-  display: grid;
-  grid-template-columns: 0.5fr 3fr 0.5fr;
-  grid-template-rows: 90vh 90vh 90vh;
-  grid-template-areas:
-    ". ahorros ."
-    ". ingresos ."
-    ". egresos .";
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.grafico-ingresos,
+.grafico-egresos {
+  background-color: #fff;
+  color: #222;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+  padding: 20px 18px 18px 18px;
+  margin-bottom: 0;
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
 }
 
 /* === ANIMACIÓN FADE IN === */
@@ -65,19 +77,16 @@ body {
 .grafico-ahorros {
   background-color: #8E4EC6;
   color: #fff;
-  grid-area: ahorros;
 }
 
 .grafico-ingresos {
   background-color: #ffffff;
   color: #000;
-  grid-area: ingresos;
 }
 
 .grafico-egresos {
-  background-color: #8E4EC6;
-  color: #fff;
-  grid-area: egresos;
+  background-color: #ffffff;
+  color: #000;
 }
 
 /* === SCROLLBAR PERSONALIZADA === */
@@ -96,17 +105,34 @@ body {
   background: #8E4EC6;
 }
 
-/* === TABLA DE INGRESOS === */
+/* === TABLA DE INGRESOS Y EGRESOS === */
 .tabla-container {
+  min-width: 300px;
+  max-width: 100%;
+  overflow-x: auto;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 0;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   animation: fadeIn 0.8s ease-in-out;
 }
 
+.tabla-scroll {
+  overflow: unset;
+  padding-bottom: 10px;
+}
+
 /* === ENCABEZADO === */
-.reporte-header h3 {
+.reporte-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+  padding-bottom: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.reporte-header h3 {  
   color: #9B59B6;
   margin-bottom: 15px;
   font-size: 24px;
@@ -128,31 +154,38 @@ body {
 }
 
 /* === DATATABLES === */
-#tabla-ingresos {
+#tabla-ingresos,
+#tabla-egresos {
   width: 100%;
   border-collapse: collapse;
 }
 
-#tabla-ingresos thead {
+#tabla-ingresos thead,
+#tabla-egresos thead {
   background-color: #9B59B6;
   color: #fff;
 }
 
-#tabla-ingresos tbody tr:nth-child(even) {
+#tabla-ingresos tbody tr:nth-child(even),
+#tabla-egresos tbody tr:nth-child(even) {
   background-color: #f3f3f3;
 }
-#tabla-ingresos tbody tr:hover {
+#tabla-ingresos tbody tr:hover,
+#tabla-egresos tbody tr:hover {
   background-color: #e1dff1;
   transition: background-color 0.3s;
 }
 
 #tabla-ingresos th,
-#tabla-ingresos td {
+#tabla-ingresos td,
+#tabla-egresos th,
+#tabla-egresos td {
   padding: 12px 10px;
   text-align: left;
 }
 
-#tabla-ingresos tfoot {
+#tabla-ingresos tfoot,
+#tabla-egresos tfoot {
   background-color: #ddd;
   font-weight: bold;
 }
@@ -187,7 +220,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Colores de botones */
 .btn-azul {
   background-color: #3498db;
 }
