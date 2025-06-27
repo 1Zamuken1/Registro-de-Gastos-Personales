@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> a998b13a2a4e87a2cadb7aa6bf1ba60757db3c36
 // // --- Cambio entre formularios (Login/Register) ---
 // const registerbtn = document.querySelector('.register-btn');
 // const loginbtn = document.querySelector('.login-btn');
@@ -229,6 +233,11 @@
 
 // --- Cambio entre formularios (Login/Register) ---
 // --- Cambio entre formularios (Login/Register) ---
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> e21b0f4208ec05a3b38d5fc76f313b03e6803481
+>>>>>>> a998b13a2a4e87a2cadb7aa6bf1ba60757db3c36
 const registerbtn = document.querySelector('.register-btn');
 const loginbtn = document.querySelector('.login-btn');
 const container = document.querySelector('.container');

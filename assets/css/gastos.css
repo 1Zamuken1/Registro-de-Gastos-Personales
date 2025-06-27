@@ -16,8 +16,8 @@
 /* ================================
    CONFIGURACIÓN BÁSICA
    ================================ */
-body {
-    background-color: rgba(0, 0, 0, 0.411);
+body  {
+    background-color: rgba(196, 34, 34, 0.411); 
     padding: 0;
     margin: 0;
     height: 100vh;
@@ -33,6 +33,7 @@ body {
     align-items: center;
     margin: auto;
     height: 100vh;
+    width: 150vh;
 }
 
 .contenedor-vistas {
@@ -83,7 +84,7 @@ body {
    ================================ */
 #categoriasSeleccionadas {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     padding: 20px;
     max-height: 750px;
     overflow-y: auto;
@@ -100,7 +101,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 400px;
+    max-width: 250px;
     height: 110px;
     padding: 20px;
     border-radius: 12px;
@@ -151,14 +152,14 @@ body {
 
 .modal-content {
     background-color: var(--nequi-guanabana);
-    margin: 100px auto;
+    margin: auto;
     padding: 20px;
     border-radius: 10px;
-    width: 60%;
     max-width: 600px;
     position: relative;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
+
 
 .tabla-modal {
     background-color: var(--nequi-guanabana);
@@ -283,7 +284,7 @@ body {
     background-color: var(--gasto-gris);
     color: var(--gasto-text);
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 6px;
     font-size: 14px;
     font-weight: bold;
@@ -293,6 +294,21 @@ body {
 
 .boton-secundario:hover {
     background-color: #909090;
+}
+
+.boton-peligro{
+    background-color: var(--gasto-primary);
+    color: var(--gasto-text);
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.boton-peligro:hover{
+    background-color: var(--gasto-hover);
 }
 
 /* ================================
@@ -420,15 +436,19 @@ tr:hover {
     cursor: pointer;
     transition: all 0.2s ease;
     min-width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 .boton-editar {
-    background-color: #007bff;
+    background-color: var(--gasto-gris);
     color: white;
 }
 
 .boton-editar:hover {
-    background-color: #0056b3;
+    background-color: var(--gasto-muted);
 }
 
 .boton-eliminar {
@@ -441,21 +461,21 @@ tr:hover {
 }
 
 .boton-pausar {
-    background-color: #ff6b35;
+    background-color: var(--gasto-primary);
     color: white;
 }
 
 .boton-pausar:hover {
-    background-color: #e55a2e;
+    background-color: var(--gasto-hover);
 }
 
 .boton-activar {
-    background-color: #28a745;
+    background-color: #218838;
     color: white;
 }
 
 .boton-activar:hover {
-    background-color: #218838;
+    background-color: #155724;
 }
 
 /* ================================
@@ -500,18 +520,29 @@ tr:hover {
    MODAL DE CONFIRMACIÓN
    ================================ */
 .modal-confirmacion {
+    margin: 100px auto;
     text-align: center;
     max-width: 500px;
 }
 
-.icono-confirmacion {
-    font-size: 48px;
-    margin-bottom: 20px;
-}
+ .icono-confirmacion {
+            margin: 20px 0 40px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.emoji-dinero {
-    font-size: 60px;
-}
+    .emoji-dinero {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+    
 
 .modal-confirmacion h3 {
     color: var(--gasto-primary);

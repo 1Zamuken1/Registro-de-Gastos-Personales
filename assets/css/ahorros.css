@@ -1,5 +1,5 @@
 body {
-  background: #0A1128;
+  background:  #b3b7cf;
   color: #FFFFFF;
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
@@ -10,13 +10,6 @@ body {
   display: flex;
   min-height: 100vh;
 }
-
-.side-nav {
-  flex: 0 0 250px;
-  background: #171F33;
-  color: #FFFFFF;
-}
-
 .side-nav.collapsed {
   flex: 0 0 90px !important;
 }
@@ -24,7 +17,7 @@ body {
 .page-content {
   flex: 1 1 0%;
   min-width: 0;
-  background: #0A1128;
+  background:  #171f33;
   display: flex;
   flex-direction: column;
 }
@@ -33,9 +26,9 @@ body {
   max-width: 1400px;
   margin: 40px auto;
   padding: 36px;
-  background: #FFFFFF;
+  background: white;
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 h1 {
   color: #FFD700;
@@ -48,28 +41,29 @@ h1 {
 /* --- TARJETAS DE AHORROS --- */
 .tarjetas-ahorros {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
-
 .tarjeta-ahorro, .tarjeta-agregar-ahorro {
-  background: #FFFFFF;
+  background: rgba(255, 228, 196, 0.226);
   border-radius: 12px;
   min-height: 120px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.15s, border-color 0.2s;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
   min-width: 0;
-  border: 2px solid #E0E0E0;
+  border: 2px solid rgba(0, 0, 0, 0.08);
   padding: 20px 16px;
 }
 
 .tarjeta-ahorro:hover, .tarjeta-agregar-ahorro:hover {
-  border-color: #FFD700;
+  border-bottom: 3px solid #FFD700;
   transform: translateY(-4px) scale(1.02);
+  box-shadow: none;
+  cursor: pointer;
 }
 
 .cabecera-tarjeta {
@@ -81,14 +75,14 @@ h1 {
 }
 
 .concepto {
-  color: #171F33;
+  color: #123388;
   font-size: 1.1rem;
   font-weight: bold;
   margin-bottom: 8px;
 }
 
 .monto {
-  color: #FFD700;
+  color: black;
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -148,62 +142,6 @@ h1 {
   background: #F9F9F9;
   border: none;
   animation: fadeIn 0.3s;
-}
-
-/* --- RESPONSIVA --- */
-@media (max-width: 1100px) {
-  .contenedor { padding: 16px; }
-  .tarjetas-ahorros {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-  }
-  .modal-contenido { min-width: 360px; }
-}
-
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2.2rem;
-    margin-bottom: 24px;
-  }
-  .tarjeta-ahorro, .tarjeta-agregar-ahorro {
-    padding: 16px 12px;
-  }
-  .modal-contenido {
-    min-width: 100%;
-    padding: 24px;
-  }
-  .modal-eliminar {
-    min-width: 90%;
-  }
-}
-@media (max-width: 700px) {
-  .contenedor { padding: 8px; }
-}
-@media (max-width: 480px) {
-  .contenedor {
-    margin: 20px 10px;
-    padding: 12px;
-  }
-  .modal-contenido, .modal-eliminar {
-    min-width: 95%;
-    padding: 16px;
-  }
-  .modal-campos input, .modal-campos select {
-    font-size: 0.9rem;
-  }
-  .btn-guardar, .btn-eliminar-confirmar, .btn-eliminar-cancelar {
-    padding: 10px 20px;
-    font-size: 1rem;
-    min-width: auto;
-  }
-  .modal-eliminar-botones {
-    flex-direction: column;
-    gap: 12px;
-  }
-  .tabla-cuotas th, .tabla-cuotas td {
-    font-size: 0.9rem;
-    padding: 6px;
-  }
 }
 
 /* --- TARJETA AGREGAR AHORRO --- */
@@ -351,8 +289,7 @@ h1 {
   padding: 12px 36px;
   min-width: 180px;
 }
-
-.btn-guardar:hover, .btn-eliminar-confirmar:hover {
+#btn-fecha-actual, .btn-guardar:hover, .btn-eliminar-confirmar:hover {
   background: #F0C808;
   color: #171F33;
 }
@@ -442,3 +379,72 @@ h1 {
   background: #FFFFFF;
   color: #333;
 }
+<<<<<<< HEAD
+
+
+
+
+
+
+
+
+
+
+/* --- RESPONSIVA --- */
+@media (max-width: 1100px) {
+  .contenedor { padding: 16px; }
+  .tarjetas-ahorros {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .modal-contenido { min-width: 360px; }
+}
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 24px;
+  }
+  .tarjeta-ahorro, .tarjeta-agregar-ahorro {
+    padding: 16px 12px;
+  }
+  .modal-contenido {
+    min-width: 100%;
+    padding: 24px;
+  }
+  .modal-eliminar {
+    min-width: 90%;
+  }
+}
+@media (max-width: 700px) {
+  .contenedor { padding: 8px; }
+}
+@media (max-width: 480px) {
+  .contenedor {
+    margin: 20px 10px;
+    padding: 12px;
+  }
+  .modal-contenido, .modal-eliminar {
+    min-width: 95%;
+    padding: 16px;
+  }
+  .modal-campos input, .modal-campos select {
+    font-size: 0.9rem;
+  }
+  .btn-guardar, .btn-eliminar-confirmar, .btn-eliminar-cancelar {
+    padding: 10px 20px;
+    font-size: 1rem;
+    min-width: auto;
+  }
+  .modal-eliminar-botones {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .tabla-cuotas th, .tabla-cuotas td {
+    font-size: 0.9rem;
+    padding: 6px;
+  }
+}
+
+
+=======
+>>>>>>> e21b0f4208ec05a3b38d5fc76f313b03e6803481
