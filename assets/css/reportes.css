@@ -37,7 +37,8 @@ body {
 }
 
 .grafico-ingresos,
-.grafico-egresos {
+.grafico-egresos,
+.grafico-ahorros {
   background-color: #fff;
   color: #222;
   border-radius: 14px;
@@ -75,8 +76,8 @@ body {
 
 /* === ESTILOS DE GRÁFICOS === */
 .grafico-ahorros {
-  background-color: #8E4EC6;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000;
 }
 
 .grafico-ingresos {
@@ -105,7 +106,7 @@ body {
   background: #8E4EC6;
 }
 
-/* === TABLA DE INGRESOS Y EGRESOS === */
+/* === TABLA DE INGRESOS, EGRESOS y AHORROS === */
 .tabla-container {
   min-width: 300px;
   max-width: 100%;
@@ -155,23 +156,27 @@ body {
 
 /* === DATATABLES === */
 #tabla-ingresos,
-#tabla-egresos {
+#tabla-egresos,
+#tabla-ahorros{
   width: 100%;
   border-collapse: collapse;
 }
 
 #tabla-ingresos thead,
-#tabla-egresos thead {
+#tabla-egresos thead,
+#tabla-ahorros thead {
   background-color: #9B59B6;
   color: #fff;
 }
 
 #tabla-ingresos tbody tr:nth-child(even),
-#tabla-egresos tbody tr:nth-child(even) {
+#tabla-egresos tbody tr:nth-child(even),
+#tabla-ahorros tbody tr:nth-child(even) {
   background-color: #f3f3f3;
 }
 #tabla-ingresos tbody tr:hover,
-#tabla-egresos tbody tr:hover {
+#tabla-egresos tbody tr:hover,
+#tabla-ahorros tbody tr:hover {
   background-color: #e1dff1;
   transition: background-color 0.3s;
 }
@@ -179,13 +184,16 @@ body {
 #tabla-ingresos th,
 #tabla-ingresos td,
 #tabla-egresos th,
-#tabla-egresos td {
+#tabla-egresos td,
+#tabla-ahorros th,
+#tabla-ahorros td {
   padding: 12px 10px;
   text-align: left;
 }
 
 #tabla-ingresos tfoot,
-#tabla-egresos tfoot {
+#tabla-egresos tfoot,
+#tabla-ahorros tfoot {
   background-color: #ddd;
   font-weight: bold;
 }

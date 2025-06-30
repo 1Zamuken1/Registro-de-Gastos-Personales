@@ -416,15 +416,11 @@ window.reportesDebug = {
   }
 };
 
-
-
-
-
+//REPORTE DE AHORROS
 function obtenerAhorrosUsuario(usuarioId) {
   const clave = `ahorros_usuario_${usuarioId}`;
   return JSON.parse(localStorage.getItem(clave)) || [];
 }
-
 function obtenerDatosAhorrosParaReporte() {
   const usuarioId = localStorage.getItem("usuarioActivoId");
   if (!usuarioId) {
@@ -442,13 +438,9 @@ function obtenerDatosAhorrosParaReporte() {
     fin: ahorro.fin || '-'
   }));
 }
-
-
-
 function crearTablaAhorros() {
   const contenedor = document.getElementById('reporte-ahorros');
   contenedor.innerHTML = '';
-
   const tablaHTML = `
     <div class="reporte-header">
       <h3>Reporte de Ahorros</h3>
@@ -483,7 +475,6 @@ function crearTablaAhorros() {
       </div>
     </div>
   `;
-
   contenedor.innerHTML = tablaHTML;
 }
 function cargarDatosEnTablaAhorros() {
