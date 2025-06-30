@@ -1,9 +1,7 @@
-/* TEMA CLARO VERDE ESMERALDA */
 
 /* Fondo de toda la página */
 body {
-  background: #f4f6f5; /* gris cálido claro */
-  color: #1a2b1a;
+  background: #f4f6f5;   color: #1a2b1a;
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -27,8 +25,7 @@ body {
 
 /* Caja principal */
 .contenedor {
-  background: #f0f3f1; /* gris cálido más oscuro */
-  border-radius: 16px;
+  background: #f0f3f1;   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(26, 122, 77, 0.07);
   padding: 32px;
   max-width: 1800px;
@@ -76,7 +73,6 @@ h1 {
   overflow: hidden;
 }
 
-/* Línea verde que aparece arriba al pasar el mouse */
 .tarjeta-ingreso::before {
   content: '';
   position: absolute;
@@ -93,14 +89,12 @@ h1 {
   transform: scaleX(1);
 }
 
-/* Efecto al pasar el mouse sobre las tarjetas */
 .tarjeta-ingreso:hover {
   border-color: #2de38a;
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 12px 32px rgba(45, 227, 138, 0.13);
 }
 
-/* Parte superior de cada tarjeta */
 .cabecera-tarjeta {
   display: flex;
   justify-content: space-between;
@@ -111,7 +105,6 @@ h1 {
   min-width: 0;
 }
 
-/* Nombre del concepto */
 .concepto {
   color: #2de38a;
   font-size: 1.2rem;
@@ -122,7 +115,6 @@ h1 {
   overflow-wrap: break-word;
 }
 
-/* Cantidad de dinero */
 .monto {
   color: #1a7a4d; /* verde oscuro accesible */
   font-size: 1.8rem;
@@ -134,13 +126,11 @@ h1 {
   display: block;
 }
 
-/* Si el monto es demasiado largo, la tarjeta ocupa 2 columnas */
 .tarjeta-ingreso.monto-grande {
   grid-column: span 2;
   min-width: 0;
 }
 
-/* Botones de editar y eliminar */
 .acciones {
   display: flex;
   gap: 8px;
@@ -169,7 +159,6 @@ h1 {
   box-shadow: 0 4px 12px rgba(45, 227, 138, 0.13);
 }
 
-/* Detalles que se muestran cuando se hace clic */
 .detalle-tarjeta {
   display: none;
   padding: 20px;
@@ -181,7 +170,6 @@ h1 {
   color: #3a4a3a;
 }
 
-/* Cuando una tarjeta está expandida */
 .tarjeta-ingreso.expandida {
   grid-column: 1 / -1;
   display: grid;
@@ -215,7 +203,6 @@ h1 {
   margin-right: 12px;
 }
 
-/* Tarjeta especial para agregar nuevo */
 .tarjeta-agregar {
   background: #e6f0ea;
   border: 2px dashed #1a7a4d;
@@ -248,7 +235,6 @@ h1 {
   z-index: 1;
 }
 
-/* Símbolo + grande */
 .agregar-icono {
   font-size: 3rem;
   color: #1a7a4d;
@@ -260,14 +246,12 @@ h1 {
   transform: rotate(90deg) scale(1.1);
 }
 
-/* Texto "Agregar Nuevo" */
 .agregar-texto {
   color: #43b07b;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-/* Ventanas emergentes (modales) */
 #modal-ingreso {
   position: fixed;
   top: 0;
@@ -286,7 +270,6 @@ h1 {
   pointer-events: auto;
 }
 
-/* MODAL DETALLE DE INGRESO: ESTILO MEJORADO */
 #modal-ingreso .modal-contenido-ampliado {
   max-width: 1600px;
   width: 98vw;
@@ -370,7 +353,6 @@ h1 {
   border-color: #e74c3c !important;
 }
 
-/* --- Mejoras DataTable Detalle Ingresos --- */
 #modal-ingreso .dataTables_wrapper .dataTables_length,
 #modal-ingreso .dataTables_wrapper .dataTables_filter {
   margin-bottom: 18px !important;
@@ -426,7 +408,6 @@ h1 {
   border: none;
 }
 
-/* FIN MODAL DETALLE DE INGRESO */
 
 .modal-contenido.modal-contenido-ampliado {
   max-width: 1600px;
@@ -466,19 +447,35 @@ h1 {
   z-index: 1001;
 }
 
-/* Modal de confirmación para ingreso programado: siempre encima */
 #modal-confirmar-programado {
+  display: none; /* Oculto por defecto */
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(36, 36, 36, 0.35);
   backdrop-filter: blur(6px);
-  z-index: 3002 !important;
-  display: flex;
+  z-index: 3002;
   align-items: center;
   justify-content: center;
 }
 
-/* Agrega esta regla para centrar el modal del formulario programado */
+#modal-confirmar-programado.modal-visible {
+  display: flex; /* Visible cuando tiene esta clase */
+}
+
+#modal-confirmar-programado .modal-content-centered {
+  max-width: 600px;
+  width: 90vw;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(26, 122, 77, 0.1);
+  padding: 32px;
+  overflow-y: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #modal-formulario-programado {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -488,6 +485,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
 }
 
 #modal-formulario-programado .modal-contenido {
@@ -495,7 +493,6 @@ h1 {
   overflow: auto;
 }
 
-/* Cuando está oculto */
 #modal-formulario-programado.modal-ingreso-oculto {
   display: none !important;
 }
@@ -511,12 +508,10 @@ h1 {
   justify-content: center;
 }
 
-/* Cuando está oculto */
 #modal-formulario-variable.modal-ingreso-oculto {
   display: none !important;
 }
 
-/* Contenido de las ventanas */
 .modal-contenido, .modal-eliminar {
   background: #f0f3f1;
   border: 2px solid #1a7a4d;
@@ -537,7 +532,6 @@ h1 {
   width: 90vw;
 }
 
-/* Botón X para cerrar */
 .modal-cerrar {
   position: absolute;
   top: 16px;
@@ -556,7 +550,6 @@ h1 {
   transform: rotate(90deg);
 }
 
-/* Títulos de las ventanas */
 #modal-titulo, #modal-editar-ingreso h2, .modal-eliminar h2 {
   color: #2de38a;
   text-align: center;
@@ -566,7 +559,6 @@ h1 {
   margin-top: 0;
 }
 
-/* Campos del formulario */
 .modal-campos {
   display: grid;
   gap: 16px;
@@ -598,7 +590,6 @@ h1 {
   transform: translateY(-2px);
 }
 
-/* Botones principales */
 .btn-guardar, .btn-eliminar-confirmar {
   background: linear-gradient(135deg, #1a7a4d, #2de38a);
   color: #fff;
@@ -615,7 +606,6 @@ h1 {
   overflow: hidden;
 }
 
-/* Efecto brillante en botones */
 .btn-guardar::before, .btn-eliminar-confirmar::before {
   content: '';
   position: absolute;
@@ -636,7 +626,6 @@ h1 {
   box-shadow: 0 8px 24px rgba(45, 227, 138, 0.18);
 }
 
-/* Botón cancelar */
 .btn-eliminar-cancelar {
   background: #e6f0ea;
   color: #1a7a4d;
@@ -663,12 +652,10 @@ h1 {
   margin-top: 32px;
 }
 
-/* Para ocultar elementos */
 .modal-ingreso-oculto {
   display: none !important;
 }
 
-/* Responsive: 2 columnas en pantallas medianas */
 @media (max-width: 1200px) {
   .contenedor {
     max-width: 98vw;
@@ -678,7 +665,6 @@ h1 {
   }
 }
 
-/* Responsive: 1 columna en pantallas pequeñas */
 @media (max-width: 768px) {
   .layout {
     grid-template-columns: 140px 1fr;
@@ -723,7 +709,6 @@ h1 {
   }
 }
 
-/* Para pantallas extra pequeñas */
 @media (max-width: 480px) {
   .layout {
     grid-template-columns: 120px 1fr;
@@ -747,7 +732,6 @@ h1 {
   border: 2px solid #e0e0db;
 }
 
-/* Barra de desplazamiento personalizada */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -785,19 +769,16 @@ h1 {
   transition: all 0.2s;
 }
 
-/* Activo: Ingresos totales (verde esmeralda) */
 #btn-todos-ingresos.btn-filtro-ingresos.activo {
   background: #16603a;
   color: #fff;
   border-color: #2de38a;
 }
-/* Activo: Ingresos programados (verde azulado) */
 #btn-programados-ingresos.btn-filtro-ingresos.activo {
   background: #388e7c;
   color: #fff;
   border-color: #388e7c;
 }
-/* Activo: Ingresos variables (verde oliva) */
 #btn-variables-ingresos.btn-filtro-ingresos.activo {
   background: #2d6a4f;
   color: #fff;
@@ -812,7 +793,6 @@ h1 {
   transform: translateY(-2px) scale(1.03);
 }
 
-/* Tarjetas de conceptos en el modal */
 .tarjeta-concepto {
   background: #f8f7f4;
   border-radius: 12px;
@@ -912,7 +892,6 @@ h1 {
   transform: translateY(-2px) scale(1.03);
 }
 
-/* Gráfico y leyenda */
 #chart, #chart-programados, #chart-variables {
   background: transparent;
 }
@@ -1015,7 +994,6 @@ h1 {
   word-break: break-word;
 }
 
-/* Por defecto: íconos en verde esmeralda */
 .tarjeta-ingreso .acciones img {
   filter: none;
   transition: filter 0.2s;
@@ -1082,6 +1060,17 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
+}
+
+#modal-formulario-programado .modal-contenido {
+  max-width: 600px;
+  width: 90vw;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(26, 122, 77, 0.1);
+  padding: 32px;
+  overflow-y: auto;
 }
 #modal-formulario-variable {
   position: fixed;
@@ -1367,7 +1356,6 @@ h1 {
   background: #e6f0ea;
 }
 
-/* Botón editar (azul) */
 .btn-editar-interno.btn-eliminar-cancelar:hover,
 .btn-editar-interno.btn-eliminar-cancelar:focus {
   background: #e3eafd !important;
@@ -1377,7 +1365,6 @@ h1 {
   filter: invert(41%) sepia(98%) saturate(747%) hue-rotate(176deg) brightness(0.95) contrast(1.1);
 }
 
-/* Botón eliminar (rojo fuerte) */
 .btn-eliminar-interno.btn-eliminar-cancelar:hover,
 .btn-eliminar-interno.btn-eliminar-cancelar:focus {
   background: #ffe0e0 !important;
