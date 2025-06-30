@@ -78,8 +78,10 @@ function obtenerDatosEgresosParaReporte() {
 function inicializarReportes() {
   crearTablaIngresos();
   crearTablaEgresos();
+  crearTablaAhorros();
   cargarDatosEnTabla();
   cargarDatosEnTablaEgresos();
+  cargarDatosEnTablaAhorros();
 }
 
 // === CREACIÓN DE LA TABLA DE INGRESOS ===
@@ -434,3 +436,136 @@ window.reportesDebug = {
     console.log('================================');
   }
 };
+
+
+
+
+
+function obtenerAhorrosUsuario(usuarioId) {
+  const clave = `ahorros_usuario_${usuarioId}`;
+  return JSON.parse(localStorage.getItem(clave)) || [];
+}
+
+function obtenerDatosAhorrosParaReporte() {
+  const usuarioId = localStorage.getItem("usuarioActivoId");
+  if (!usuarioId) {
+    console.warn("No hay usuario activo.");
+    return [];
+  }
+  const ahorros = obtenerAhorrosUsuario(parseInt(usuarioId));
+  return ahorros.map((ahorro, index) => ({
+    id: index + 1,
+    concepto: ahorro.concepto || '-',
+    meta: ahorro.meta || 0,
+    totalAcumulado: (ahorro.cuota || 0) * (ahorro.numcuota || 0),
+    frecuencia: ahorro.frecuencia || '-',
+    inicio: ahorro.inicio || '-',
+    fin: ahorro.fin || '-'
+  }));
+}
+
+
+
+function crearTablaAhorros() {
+  const contenedor = document.getElementById('reporte-ahorros');
+  contenedor.innerHTML = '';
+
+  const tablaHTML = `
+    <div class="reporte-header">
+      <h3>Reporte de Ahorros</h3>
+    </div>
+    <div class="tabla-container">
+      <div class="tabla-scroll">
+        <table id="tabla-ahorros" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Concepto</th>
+              <th>Meta</th>
+              <th>Total Acumulado</th>
+              <th>Frecuencia</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr>
+              <th>ID</th>
+              <th>Concepto</th>
+              <th>Meta</th>
+              <th>Total Acumulado</th>
+              <th>Frecuencia</th>
+              <th>Inicio</th>
+              <th>Fin</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  `;
+
+  contenedor.innerHTML = tablaHTML;
+}
+function cargarDatosEnTablaAhorros() {
+  const datos = obtenerDatosAhorrosParaReporte();
+
+  const datosTabla = datos.map(a => [
+    a.id,
+    a.concepto,
+    `$${Number(a.meta).toLocaleString('es-CO')}`,
+    `$${Number(a.totalAcumulado).toLocaleString('es-CO')}`,
+    a.frecuencia,
+    formatearFecha(a.inicio),
+    formatearFecha(a.fin)
+  ]);
+
+  if ($.fn.DataTable.isDataTable('#tabla-ahorros')) {
+    $('#tabla-ahorros').DataTable().destroy();
+  }
+
+  $('#tabla-ahorros').DataTable({
+    data: datosTabla,
+    language: {
+      url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+    },
+    responsive: true,
+    pageLength: 10,
+    lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+    order: [[0, 'desc']],
+    columnDefs: [
+      { targets: [2, 3], className: 'text-right' }
+    ],
+    fixedHeader: true,
+    scrollY: '300px',
+    scrollX: true,
+    dom: 'Bfrtip',
+    buttons: [
+      {
+        extend: 'copy',
+        text: ' Copiar',
+        className: 'btn-reporte btn-azul'
+      },
+      {
+        extend: 'excel',
+        text: 'Excel',
+        className: 'btn-reporte btn-verde',
+        title: 'Reporte_Ahorros_' + new Date().toISOString().split('T')[0]
+      },
+      {
+        extend: 'pdf',
+        text: 'PDF',
+        className: 'btn-reporte btn-rojo',
+        title: 'Reporte de Ahorros',
+        orientation: 'landscape'
+      },
+      {
+        text: 'Actualizar',
+        className: 'btn-reporte btn-actualizar btn-morado',
+        action: function () {
+          cargarDatosEnTablaAhorros();
+        }
+      }
+    ]
+  });
+}
