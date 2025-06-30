@@ -123,17 +123,6 @@ function crearTablaIngresos() {
             </tr>
           </thead>
           <tbody></tbody>
-          <tfoot>
-            <tr>
-              <th>ID</th>
-              <th>Concepto</th>
-              <th>Monto</th>
-              <th>Descripción</th>
-              <th>Fecha</th>
-              <th>Tipo</th>
-              <th>Fecha Creación</th>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>
@@ -171,18 +160,8 @@ function crearTablaEgresos() {
               <th>Subcategoría</th>
             </tr>
           </thead>
-          <tbody></tbody>
-          <tfoot>
-            <tr>
-              <th>ID</th>
-              <th>Concepto</th>
-              <th>Monto</th>
-              <th>Descripción</th>
-              <th>Fecha</th>
-              <th>Tipo</th>
-              <th>Subcategoría</th>
-            </tr>
-          </tfoot>
+          <tbody>
+          </tbody>
         </table>
       </div>
     </div>
