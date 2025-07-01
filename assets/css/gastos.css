@@ -1,17 +1,4 @@
-/* ================================
-   VARIABLES CSS
-   ================================ */
-:root {
-    --nequi-guanabana: #f8f6f0;
-    --nequi-beige: #f5f3ed;
-    --gasto-primary: #d72638;
-    --gasto-hover: #b91e2f;
-    --gasto-text: #ffffff;
-    --gasto-gris: #6c757d;
-    --gasto-muted: #6c757d;
-    --gasto-guanabana: #f8f6f0;
-    --gasto-beige: #f5f3ed;
-}
+
 
 /* ================================
    CONFIGURACIÓN BÁSICA
@@ -163,7 +150,7 @@ body  {
 
 .tabla-modal {
     background-color: var(--nequi-guanabana);
-    margin: 50px auto;
+    margin: 50px auto auto 35vh;
     padding: 20px;
     border-radius: 10px;
     width: 85%;
@@ -727,38 +714,753 @@ h3 {
     background: var(--gasto-primary);
 }
 
-/* ================================
-   RESPONSIVE DESIGN
-   ================================ */
+/* TABLETS GRANDES (1024px - 1200px) */
 @media (max-width: 1200px) {
+    .page-content {
+        padding: 15px;
+    }
+    
     #categoriasSeleccionadas {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 15px;
     }
     
     .categoria-cuadro {
-        width: 300px;
+        min-width: 160px;
+        height: 100px;
+        font-size: 16px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 15px;
+    }
+    
+    .tabla-modal {
+        width: 90%;
+        height: 80vh;
+    }
+    
+    th, td {
+        padding: 10px 6px;
+        font-size: 12px;
     }
 }
 
-@media (max-width: 768px) {
+/* TABLETS ESTÁNDAR (768px - 1024px) */
+@media (max-width: 1024px) {
+    body {
+        padding: 10px;
+    }
+    
+    .page-content {
+        width: 100%;
+        padding: 10px;
+    }
+    
     .contenedor-vistas {
+        width: 100%;
+    }
+    
+    .vista.activa {
+        min-height: 75vh;
+        max-height: 85vh;
+    }
+    
+    #categoriasSeleccionadas {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 15px;
+        max-height: 600px;
+    }
+    
+    .categoria-cuadro {
+        min-width: 140px;
+        height: 90px;
+        padding: 10px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 14px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 11px;
+    }
+    
+    .botones-vista button {
+        padding: 8px 15px;
+        font-size: 13px;
+        min-width: 100px;
+    }
+    
+    .modal-content {
         width: 95%;
+        margin: 30px auto;
+        padding: 15px;
+    }
+    
+    .tabla-modal {
+        width: 98%;
+        height: 75vh;
+        margin: 15px auto;
+        padding: 10px;
+    }
+    
+    #nombreSubcategoria {
+        font-size: 16px;
+    }
+    
+    .contenedor-tabla {
+        max-height: 350px;
+    }
+    
+    table {
+        min-width: 500px;
+    }
+    
+    th, td {
+        padding: 8px 4px;
+        font-size: 11px;
+        max-width: 120px;
+    }
+    
+    .boton-accion {
+        padding: 4px 6px;
+        font-size: 10px;
+        min-width: 40px;
+    }
+    
+    .acciones-gasto {
+        gap: 2px;
+    }
+}
+
+/* MÓVILES GRANDES (480px - 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+    
+    .page-content {
+        padding: 5px;
+        min-height: 100vh;
+    }
+    
+    .vista.activa {
+        border-radius: 8px;
+        min-height: 70vh;
+        max-height: 80vh;
     }
     
     #categoriasSeleccionadas {
         grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 10px;
+        max-height: 500px;
     }
     
     .categoria-cuadro {
-        width: 280px;
+        max-width: 100%;
+        min-width: 200px;
+        height: 80px;
+        padding: 8px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 13px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 10px;
+    }
+    
+    .botones-vista {
+        flex-direction: column;
+        gap: 3px;
+    }
+    
+    .botones-vista button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 6px;
+        margin-bottom: 2px;
+    }
+    
+    .vista.activa {
+        border-radius: 6px;
+    }
+    
+    .modal {
+        padding: 5px;
     }
     
     .modal-content {
-        width: 90%;
-        margin: 50px auto;
+        width: 98%;
+        margin: 20px auto;
+        padding: 12px;
+        max-height: 85vh;
     }
     
     .tabla-modal {
-        width: 95%;
+        width: 100%;
+        height: 70vh;
+        margin: 10px auto;
+        padding: 8px;
+    }
+    
+    #tituloModalTabla {
+        padding: 8px 15px;
+    }
+    
+    #nombreSubcategoria {
+        font-size: 14px;
+    }
+    
+    .close, .close-tabla, .close-confirmar {
+        font-size: 20px;
+        top: 8px;
+        right: 12px;
+    }
+    
+    .contenedor-tabla {
+        max-height: 300px;
+    }
+    
+    table {
+        min-width: 450px;
+    }
+    
+    th {
+        padding: 6px 3px;
+        font-size: 10px;
+    }
+    
+    td {
+        padding: 6px 3px;
+        font-size: 10px;
+        max-width: 100px;
+    }
+    
+    .boton-accion {
+        padding: 3px 4px;
+        font-size: 9px;
+        min-width: 35px;
+    }
+    
+    .acciones-gasto {
+        gap: 1px;
+        flex-direction: column;
+    }
+    
+    .div-btnAgregarProgramado {
+        padding: 10px;
+        justify-content: center;
+    }
+    
+    .div-btnAgregarProgramado .boton-primario {
+        margin-left: 0;
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    .boton-primario {
+        font-size: 14px;
+        padding: 10px 16px;
+        min-width: 100px;
+    }
+    
+    .campo-formulario label {
+        font-size: 13px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .botones-formulario,
+    .botones-confirmacion {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .botones-formulario button,
+    .botones-confirmacion button {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    h3 {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    
+    .modal-confirmacion h3 {
+        font-size: 18px;
+    }
+    
+    .emoji-dinero {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .dataTables_wrapper {
+        padding: 8px;
+        overflow-x: auto;
+    }
+    
+    .dataTables_length,
+    .dataTables_filter {
+        margin-bottom: 10px;
+    }
+    
+    .dataTables_filter input {
+        max-width: 150px !important;
+        font-size: 12px !important;
+    }
+    
+    .dataTables_length select {
+        font-size: 12px !important;
+    }
+    
+    .dataTables_info {
+        font-size: 11px;
+        margin-top: 8px;
+    }
+    
+    .dataTables_paginate .paginate_button {
+        padding: 4px 6px !important;
+        font-size: 11px !important;
+        margin: 0 !important;
+    }
+}
+
+/* MÓVILES PEQUEÑOS (320px - 480px) */
+@media (max-width: 480px) {
+    .page-content {
+        padding: 2px;
+    }
+    
+    .vista.activa {
+        min-height: 65vh;
+        max-height: 75vh;
+        border-radius: 4px;
+    }
+    
+    #categoriasSeleccionadas {
+        padding: 8px;
+        gap: 6px;
+        max-height: 400px;
+    }
+    
+    .categoria-cuadro {
+        min-width: 180px;
+        height: 70px;
+        padding: 6px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 12px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 9px;
+    }
+    
+    .botones-vista button {
+        font-size: 12px;
+        padding: 8px;
+    }
+    
+    .modal-content {
+        width: 100%;
+        margin: 10px auto;
+        padding: 10px;
+        border-radius: 6px;
+    }
+    
+    .tabla-modal {
+        width: 100%;
+        height: 65vh;
+        margin: 5px auto;
+        padding: 6px;
+        border-radius: 6px;
+    }
+    
+    #nombreSubcategoria {
+        font-size: 12px;
+    }
+    
+    .close, .close-tabla, .close-confirmar {
+        font-size: 18px;
+        top: 6px;
+        right: 10px;
+    }
+    
+    .contenedor-tabla {
+        max-height: 250px;
+    }
+    
+    table {
+        min-width: 400px;
+    }
+    
+    th {
+        padding: 4px 2px;
+        font-size: 9px;
+    }
+    
+    td {
+        padding: 4px 2px;
+        font-size: 9px;
+        max-width: 80px;
+    }
+    
+    .boton-accion {
+        padding: 2px 3px;
+        font-size: 8px;
+        min-width: 30px;
+    }
+    
+    .acciones-gasto {
+        flex-direction: column;
+        gap: 1px;
+    }
+    
+    .badge-activo,
+    .badge-inactivo {
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+    
+    .div-btnAgregarProgramado {
+        padding: 8px;
+    }
+    
+    .div-btnAgregarProgramado .boton-primario {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .boton-primario {
+        font-size: 12px;
+        padding: 8px 12px;
+        min-width: 80px;
+    }
+    
+    .boton-exitoso,
+    .boton-exitoso-prorgamado,
+    .boton-secundario,
+    .boton-peligro {
+        font-size: 12px;
+        padding: 6px 10px;
+        min-width: 60px;
+    }
+    
+    .campo-formulario label {
+        font-size: 12px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    
+    h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    .modal-confirmacion h3 {
+        font-size: 16px;
+    }
+    
+    .mensaje-confirmacion,
+    .pregunta-confirmacion {
+        font-size: 13px;
+    }
+    
+    .info-gasto-programado {
+        padding: 10px;
+    }
+    
+    .info-gasto-programado p {
+        font-size: 11px;
+    }
+    
+    .emoji-dinero {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .icono-confirmacion {
+        margin: 15px 0 20px 0;
+    }
+    
+    .gastos-programados h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .dataTables_wrapper {
+        padding: 5px;
+    }
+    
+    .dataTables_filter label {
+        font-size: 11px;
+    }
+    
+    .dataTables_filter input {
+        max-width: 120px !important;
+        font-size: 11px !important;
+        padding: 4px 6px !important;
+    }
+    
+    .dataTables_length {
+        font-size: 11px;
+    }
+    
+    .dataTables_length select {
+        font-size: 11px !important;
+        padding: 2px 4px !important;
+    }
+    
+    .dataTables_info {
+        font-size: 10px;
+    }
+    
+    .dataTables_paginate .paginate_button {
+        padding: 3px 4px !important;
+        font-size: 10px !important;
+    }
+}
+
+/* MÓVILES MUY PEQUEÑOS (menos de 320px) */
+@media (max-width: 320px) {
+    .page-content {
+        padding: 1px;
+    }
+    
+    .vista.activa {
+        min-height: 60vh;
+        max-height: 70vh;
+    }
+    
+    #categoriasSeleccionadas {
+        padding: 5px;
+        gap: 4px;
+        max-height: 350px;
+    }
+    
+    .categoria-cuadro {
+        min-width: 160px;
+        height: 60px;
+        padding: 4px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 11px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 8px;
+    }
+    
+    .botones-vista button {
+        font-size: 11px;
+        padding: 6px;
+    }
+    
+    .modal-content {
+        padding: 8px;
+        border-radius: 4px;
+    }
+    
+    .tabla-modal {
+        height: 60vh;
+        padding: 4px;
+        border-radius: 4px;
+    }
+    
+    #nombreSubcategoria {
+        font-size: 11px;
+    }
+    
+    .contenedor-tabla {
+        max-height: 200px;
+    }
+    
+    table {
+        min-width: 350px;
+    }
+    
+    th, td {
+        padding: 3px 1px;
+        font-size: 8px;
+        max-width: 60px;
+    }
+    
+    .boton-accion {
+        padding: 1px 2px;
+        font-size: 7px;
+        min-width: 25px;
+    }
+    
+    .badge-activo,
+    .badge-inactivo {
+        font-size: 7px;
+        padding: 1px 3px;
+    }
+    
+    .boton-primario {
+        font-size: 11px;
+        padding: 6px 10px;
+        min-width: 70px;
+    }
+    
+    .boton-exitoso,
+    .boton-exitoso-prorgamado,
+    .boton-secundario,
+    .boton-peligro {
+        font-size: 11px;
+        padding: 4px 8px;
+        min-width: 50px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+    
+    h3 {
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+    
+    .modal-confirmacion h3 {
+        font-size: 14px;
+    }
+    
+    .mensaje-confirmacion,
+    .pregunta-confirmacion {
+        font-size: 12px;
+    }
+    
+    .info-gasto-programado p {
+        font-size: 10px;
+    }
+    
+    .emoji-dinero {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .dataTables_filter input {
+        max-width: 100px !important;
+        font-size: 10px !important;
+    }
+    
+    .dataTables_length,
+    .dataTables_filter label {
+        font-size: 10px;
+    }
+    
+    .dataTables_length select {
+        font-size: 10px !important;
+    }
+    
+    .dataTables_info {
+        font-size: 9px;
+    }
+    
+    .dataTables_paginate .paginate_button {
+        padding: 2px 3px !important;
+        font-size: 9px !important;
+    }
+}
+
+/* ================================
+   ORIENTACIÓN LANDSCAPE EN MÓVILES
+   ================================ */
+@media (max-width: 768px) and (orientation: landscape) {
+    .vista.activa {
+        max-height: 70vh;
+    }
+    
+    #categoriasSeleccionadas {
+        grid-template-columns: repeat(2, 1fr);
+        max-height: 300px;
+    }
+    
+    .categoria-cuadro {
+        height: 60px;
+    }
+    
+    .tabla-modal {
+        height: 60vh;
+    }
+    
+    .contenedor-tabla {
+        max-height: 200px;
+    }
+    
+    .modal-content {
+        max-height: 70vh;
+    }
+}
+
+/* ================================
+   MEJORAS ADICIONALES PARA TOUCH
+   ================================ */
+@media (hover: none) and (pointer: coarse) {
+    /* Dispositivos táctiles */
+    .categoria-cuadro {
+        transform: none;
+        transition: background-color 0.3s ease;
+    }
+    
+    .categoria-cuadro:hover {
+        transform: none;
+    }
+    
+    .categoria-cuadro:active {
+        background-color: #f0f0f0;
+        transform: scale(0.98);
+    }
+    
+    .boton-primario:hover {
+        transform: none;
+    }
+    
+    .boton-primario:active {
+        transform: scale(0.98);
+    }
+    
+    /* Hacer botones más grandes para táctil */
+    .boton-accion {
+        min-height: 32px;
+        min-width: 60px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+        min-height: 44px;
+    }
+    
+    .botones-vista button {
+        min-height: 44px;
     }
 }

@@ -1,11 +1,67 @@
 :root {
-  --gasto-guanabana: #F5F2E9;
-  --gasto-beige: #dddad8;
-  --gasto-gris: #a7a6a6;
-  --gasto-primary: #D72638;
-  --gasto-hover: #BA1E2F;
-  --gasto-border: #C62828;
-  --gasto-text: #ffffff;
-  --gasto-muted: #8D99AE;
-  --gasto-grisOscuro: #9b9898;
+
+  /* gastos */
+    --nequi-guanabana: #f8f6f0;
+    --nequi-beige: #f5f3ed;
+    --gasto-primary: #d72638;
+    --gasto-hover: #b91e2f;
+    --gasto-text: #ffffff;
+    --gasto-gris: #6c757d;
+    --gasto-muted: #6c757d;
+    --gasto-guanabana: #f8f6f0;
+    --gasto-beige: #f5f3ed;
+
+  /* prueba 2 */
+
+  /* Colores principales */
+  --color-black: #000;
+  --color-dark-gray: #333;
+  --color-medium-gray: #666;
+  --color-light-gray: #999;
+  --color-lighter-gray: #ccc;
+  --color-very-light-gray: #ddd;
+  --color-background-gray: #f0f0f0;
+  --color-section-gray: #f8f8f8;
+  --color-white: #fff;
+  
+  /* Gradientes de grises para el hero */
+  --hero-gray-1: rgba(192, 192, 192, 1); /* #c0c0c0 */
+  --hero-gray-2: rgba(153, 153, 153, 1); /* #999999 */
+  --hero-gray-3: rgba(102, 102, 102, 1); /* #666666 */
+  --hero-gray-4: rgba(68, 68, 68, 1);    /* #444444 */
+  --hero-gray-5: rgba(0, 0, 0, 1);       /* #000000 */
+  
+  /* Colores del dashboard (segundo archivo) */
+  --dashboard-bg-start: #f5f5f5;
+  --dashboard-bg-end: #e8e8e8;
+  --border-color: #ddd;
+  --text-primary: #333;
+  --text-secondary: #666;
+  --card-bg: white;
+  
+  /* Colores de iconos del dashboard */
+  --icon-users-start: #4CAF50;
+  --icon-users-end: #45a049;
+  --icon-products-start: #2196F3;
+  --icon-products-end: #1976D2;
+  --icon-sales-start: #FF9800;
+  --icon-sales-end: #F57C00;
+  --icon-active-start: #9C27B0;
+  --icon-active-end: #7B1FA2;
+}
+/* ========== PALETA DE COLORES ========== */
+/* ========== BACKGROUND DEL HERO ========== */
+.hero-background {
+  background: linear-gradient(135deg,
+    var(--hero-gray-1) 0%,
+    var(--hero-gray-1) 20%,
+    var(--hero-gray-2) 20%,
+    var(--hero-gray-2) 35%,
+    var(--hero-gray-3) 35%,
+    var(--hero-gray-3) 55%,
+    var(--hero-gray-4) 55%,
+    var(--hero-gray-4) 75%,
+    var(--hero-gray-5) 75%,
+    var(--hero-gray-5) 100%
+  );
 }

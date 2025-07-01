@@ -229,6 +229,10 @@
 
 // --- Cambio entre formularios (Login/Register) ---
 // --- Cambio entre formularios (Login/Register) ---
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 const registerbtn = document.querySelector('.register-btn');
 const loginbtn = document.querySelector('.login-btn');
 const container = document.querySelector('.container');
