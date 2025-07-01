@@ -23,6 +23,7 @@ json{
   }
 }
 4. Instalar dependencias
+npm install express node-fetch dotenv
 npm install
 5. Crear archivo .env
 OPENAI_API_KEY=tu_clave_de_openrouter_aqui
