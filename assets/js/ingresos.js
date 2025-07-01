@@ -1,9 +1,8 @@
-
 let filtroActual = "programados";
 
 document.addEventListener("DOMContentLoaded", function () {
   verificarAutenticacion();
-  cambiarFiltroIngresos("programados");
+  cambiarFiltroIngresos("variables");
   
   // Revisión de ingresos programados pendientes de confirmación
   revisarIngresosProgramadosPendientes();
@@ -1354,7 +1353,7 @@ function mostrarIngresosFiltrados() {
   if (!usuario) return;
 
   let ingresos = [];
-  if (filtroActual === "programados") {
+  if (filtroActual === "variables") {
     ingresos = obtenerIngresosUsuario(usuario.id).filter(
       (i) => i.fijo === "Sí"
     );
@@ -1419,16 +1418,15 @@ function cambiarFiltroIngresos(nuevoFiltro) {
   document
     .querySelectorAll(".btn-filtro-ingresos")
     .forEach((btn) => btn.classList.remove("activo"));
+  
   if (filtroActual === "programados") {
     document.getElementById("btn-programados-ingresos").classList.add("activo");
-    document.getElementById("tarjeta-agregar-ingreso").style.display = "";
   } else if (filtroActual === "variables") {
     document.getElementById("btn-variables-ingresos").classList.add("activo");
-    document.getElementById("tarjeta-agregar-ingreso").style.display = "";
   }
-  actualizarTituloIngresos(); // <-- Llama aquí
+  
+  actualizarTituloIngresos();
   mostrarIngresosFiltrados();
-  mostrarGraficoPorFiltro(); // <-- Llama a mostrar/ocultar gráfico
 }
 
 function mostrarGraficoPorFiltro() {

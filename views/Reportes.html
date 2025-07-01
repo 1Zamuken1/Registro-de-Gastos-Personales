@@ -1,54 +1,85 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reportes</title>
-    <link rel="stylesheet" href="../assets/css/nav-bar.css" />
-    <link rel="stylesheet" href="../assets/css/reportes.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reportes Financieros</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/nav-bar.css" />
+  <link rel="stylesheet" href="../assets/css/reportes.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.dataTables.min.css" />
+  
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <div id="nav-bar"></div>
 
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.4.0/css/fixedHeader.dataTables.min.css" />
-    
-    <!-- jQuery y DataTables JS -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedheader/3.4.0/js/dataTables.fixedHeader.min.js"></script>
-  </head>
-  <body>
-    <div class="layout">
-      <div id="nav-bar"></div>
+    <main class="page-content">
+      <div class="dashboard-container">
+        <div class="header">
+          <h1 class="page-title">
+            <i class="fas fa-chart-bar"></i>
+            Reportes Financieros
+          </h1>
+          <!-- Sección de usuario eliminada -->
+        </div>
 
-      <main class="page-content">
-        <div class="graficos">
-
-          <!-- Reporte de Ingresos -->
-          <div class="grafico-ingresos">
-            <div id="reporte-ingresos"></div>
+        <!-- Estadísticas resumen -->
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <div class="stat-icon income">
+              <i class="fas fa-arrow-up"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Total Ingresos</div>
+              <div class="stat-value" id="total-income">$0</div>
+            </div>
           </div>
 
-          <!-- Reporte de Egresos -->
-          <div class="grafico-egresos">
-            <div id="reporte-egresos"></div>
+          <div class="stat-card">
+            <div class="stat-icon expense">
+              <i class="fas fa-arrow-down"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Total Egresos</div>
+              <div class="stat-value" id="total-expense">$0</div>
+            </div>
           </div>
 
-            <!-- Reporte de ahorros -->
-     <div class="grafico-ahorros">
-      <div id="reporte-ahorros"></div>
-    </div>
+          <div class="stat-card">
+            <div class="stat-icon savings">
+              <i class="fas fa-piggy-bank"></i>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Total Ahorros</div>
+              <div class="stat-value" id="total-savings">$0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reportes -->
+        <div class="reports-container">
+          <!-- Contenedores para reportes - inicialmente vacíos -->
+          <div id="contenedor-reporte-ingresos"></div>
+          <div id="contenedor-reporte-egresos"></div>
+          <div id="contenedor-reporte-ahorros"></div>
+        </div>
+      </div>
+    </main>
   </div>
-</main>
-</div>
 
-    <script src="../assets/js/nav-bar.js"></script>
-    <script src="../assets/js/reportes.js"></script>
-  </body>
+  <script src="../assets/js/nav-bar.js"></script>
+  <script src="../assets/js/reportes.js"></script>
+</body>
 </html>
