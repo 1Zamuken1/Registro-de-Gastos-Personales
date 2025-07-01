@@ -4,7 +4,7 @@ body {
   background-color: #f5f5f5;
   color: #333;
 }
-.navbar {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,7 +12,7 @@ body {
   box-shadow: 0 2px 5px  rgba(0, 0, 0, 0.1);
 }
 
-.navbar a {
+.header a {
   color:white;
   text-decoration: none;
   margin: 0.5rem;
@@ -20,15 +20,15 @@ body {
   transition: color 0.3s;
 }
 
-.navbar a:hover {
+.header a:hover {
   color: #9B59B6; 
 }
 
-.nav-left, .nav-right {
+.header-left, .header-right {
   display: flex;
 }
 
-.header {
+.inicio {
   background-color: #9B59B6;
   color: white;
   padding: 2.5rem 1rem;
@@ -70,7 +70,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   padding: 2rem;
-  background-color: #1a1a1a;
+  background-color: black;
   color: white;
 }
 
@@ -115,6 +115,13 @@ body {
   font-weight: 500;
   color: #8E4EC6;
   margin: 0;
+}
+
+/* RESPONSIVA */
+@media (max-width: 768px) {
+  .funcion, .funciones-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 

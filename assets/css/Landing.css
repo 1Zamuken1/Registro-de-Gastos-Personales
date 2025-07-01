@@ -14,12 +14,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1a1a1a;
+  background-color: white;
   box-shadow: 0 2px 5px  rgba(0, 0, 0, 0.1);
 }
 
 .header a {
+<<<<<<< HEAD
   color:white;
+=======
+  color:black;
+>>>>>>> b8bfa290c2b3b815355685a5b25baf4f2a93d52f
   text-decoration: none;
   margin: 0.5rem;
   font-weight: bold;
@@ -34,12 +38,21 @@ body {
   display: flex;
 }
 
+<<<<<<< HEAD
 #giro {
   height: 100vh;
   text-align: center;
   padding: 3rem 2rem;
   background: linear-gradient(to right, #9B59B6,#8E4EC6);
   color: orange;
+=======
+.hero {
+  height: 100vh;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: black;
+  color: white;
+>>>>>>> b8bfa290c2b3b815355685a5b25baf4f2a93d52f
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -47,7 +60,11 @@ body {
   align-items: center;
 }
 
+<<<<<<< HEAD
 .giro a {
+=======
+.hero a {
+>>>>>>> b8bfa290c2b3b815355685a5b25baf4f2a93d52f
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
   background-color: white;
@@ -138,7 +155,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   padding: 2rem;
-  background-color: #1a1a1a;
+  background-color: black;
   color: white;
 }
 
@@ -191,13 +208,10 @@ body {
   font-size: 1.1rem;
 }
 
-@media (max-width: 768px) {
-  .intro {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
 
-  .intro img {
-    max-width: 300px;
+/*RESPONSIVA */
+@media (max-width: 768px) {
+  .grid-beneficios {
+    grid-template-columns: 1fr;
   }
 }

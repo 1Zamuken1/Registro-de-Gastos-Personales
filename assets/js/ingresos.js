@@ -1,13 +1,10 @@
-// === INTEGRACIÓN: SISTEMA DE USUARIOS E INGRESOS ===
 
-let filtroActual = "todos";
+let filtroActual = "programados";
 
 document.addEventListener("DOMContentLoaded", function () {
   verificarAutenticacion();
-  mostrarIngresosFiltrados();
-  mostrarGraficoPorFiltro();
-  //renderizarGraficoPorFiltro();
-
+  cambiarFiltroIngresos("programados");
+  
   // Revisión de ingresos programados pendientes de confirmación
   revisarIngresosProgramadosPendientes();
 
@@ -155,8 +152,7 @@ function limpiarFormularioProgramado() {
     });
 
   // Eventos para filtros
-  document.getElementById("btn-todos-ingresos").onclick = () =>
-    cambiarFiltroIngresos("todos");
+  // Eliminado el evento para el botón de ingresos totales
   document.getElementById("btn-programados-ingresos").onclick = () =>
     cambiarFiltroIngresos("programados");
   document.getElementById("btn-variables-ingresos").onclick = () =>
@@ -187,8 +183,7 @@ function mostrarModalConceptosProgramado() {
   const modal = document.getElementById("modal-conceptos");
   const lista = document.getElementById("lista-conceptos");
   lista.innerHTML = "";
-  // Filtrar conceptos ya usados
-  const usuario = obtenerUsuarioActual();
+    const usuario = obtenerUsuarioActual();
   let usados = [];
   if (usuario) {
     usados = obtenerIngresosUsuario(usuario.id).map(i => i.concepto);
@@ -221,8 +216,7 @@ function mostrarModalConceptosVariable() {
   const modal = document.getElementById("modal-conceptos");
   const lista = document.getElementById("lista-conceptos");
   lista.innerHTML = "";
-  // Filtrar conceptos ya usados
-  const usuario = obtenerUsuarioActual();
+    const usuario = obtenerUsuarioActual();
   let usados = [];
   if (usuario) {
     const clave = `ingresos_variables_usuario_${usuario.id}`;
@@ -454,13 +448,9 @@ function mostrarModalConceptosVariable() {
     });
 });
 
-// === CARGA DEL NAV-BAR ===
 function cargarNavBar() {
-  // Aquí iría la lógica para cargar el nav-bar si no está implementada en nav-bar.js
-  // Por ahora solo es un placeholder
-}
+  }
 
-// === AUTENTICACIÓN Y USUARIO ACTUAL ===
 function verificarAutenticacion() {
   const usuarioActivoId = localStorage.getItem("usuarioActivoId");
   if (!usuarioActivoId) {
@@ -478,13 +468,11 @@ function obtenerUsuarioActual() {
   return usuarios.find((u) => u.id === parseInt(usuarioActivoId));
 }
 
-// === GESTIÓN DE INGRESOS ===
 function obtenerIngresosUsuario(usuarioId) {
   const clave = `ingresos_usuario_${usuarioId}`;
   return JSON.parse(localStorage.getItem(clave)) || [];
 }
 
-// === REVISIÓN Y CONFIRMACIÓN DE INGRESOS PROGRAMADOS ===
 function revisarIngresosProgramadosPendientes() {
   const usuario = obtenerUsuarioActual();
   if (!usuario) return;
@@ -522,29 +510,29 @@ function revisarIngresosProgramadosPendientes() {
 // Modal de confirmación de ingreso programado pendiente
 function mostrarModalConfirmarIngresoPendiente(ingreso, fechaPendiente) {
   // Crear modal si no existe
-  let modal = document.getElementById('modal-confirmar-ingreso-pendiente');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'modal-confirmar-ingreso-pendiente';
-    modal.className = 'modal-ingreso-oculto';
-    modal.innerHTML = `
-      <div class="modal-contenido">
-        <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
-        <h2>Confirmar ingreso programado</h2>
-        <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
-        <div style="text-align:right;margin-top:24px">
-          <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
-          <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
+  // let modal = document.getElementById('modal-confirmar-ingreso-pendiente');
+  // if (!modal) {
+  //   modal = document.createElement('div');
+  //   modal.id = 'modal-confirmar-ingreso-pendiente';
+  //   modal.className = 'modal-ingreso-oculto';
+  //   modal.innerHTML = `
+  //     <div class="modal-contenido">
+  //       <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
+  //       <h2>Confirmar ingreso programado</h2>
+  //       <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
+  //       <div style="text-align:right;margin-top:24px">
+  //         <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
+  //         <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
+  //       </div>
+  //     </div>
+  //   `;
+  //   document.body.appendChild(modal);
+  // }
   // Poblar datos
-  document.getElementById('concepto-ingreso-pendiente').textContent = ingreso.concepto;
-  document.getElementById('fecha-ingreso-pendiente').textContent = fechaPendiente;
-  modal.classList.remove('modal-ingreso-oculto');
-  modal.style.display = 'flex';
+  // document.getElementById('concepto-ingreso-pendiente').textContent = ingreso.concepto;
+  // document.getElementById('fecha-ingreso-pendiente').textContent = fechaPendiente;
+  // modal.classList.remove('modal-ingreso-oculto');
+  // modal.style.display = 'flex';
   // Cerrar modal
   document.getElementById('cerrar-modal-confirmar-ingreso-pendiente').onclick = function() {
     modal.classList.add('modal-ingreso-oculto');
@@ -576,7 +564,6 @@ function mostrarModalConfirmarIngresoPendiente(ingreso, fechaPendiente) {
   };
 }
 
-// === ACTIVAR/DESACTIVAR INGRESO PROGRAMADO ===
 function toggleActivoIngresoProgramado(ingresoId) {
   const usuario = obtenerUsuarioActual();
   if (!usuario) return;
@@ -596,7 +583,6 @@ function toggleActivoIngresoProgramado(ingresoId) {
   }, 100);
 }
 
-// === GESTIÓN DE INGRESOS INTERNOS (PERIÓDICOS) ===
 function getIngresosInternos(usuarioId, ingresoId) {
   const clave = `ingresos_internos_usuario_${usuarioId}_programado_${ingresoId}`;
   return JSON.parse(localStorage.getItem(clave)) || [];
@@ -608,8 +594,7 @@ function setIngresosInternos(usuarioId, ingresoId, lista) {
 // Genera automáticamente ingresos internos según frecuencia
 // Esta función ya no debe registrar automáticamente, solo se usa para poblar la tabla
 function generarIngresosInternosSiCorresponde(ingreso, usuarioId) {
-  // No hacer nada aquí, la confirmación es manual
-  return;
+    return;
 }
 function avanzarFrecuencia(dateObj, frecuencia) {
   if (frecuencia === "mensual") dateObj.setMonth(dateObj.getMonth() + 1);
@@ -706,7 +691,6 @@ function eliminarIngresoUsuario(ingresoId) {
   return ingresoEliminado;
 }
 
-// === INTERFAZ Y TARJETAS ===
 function crearTarjetaIngreso(ingreso, contenedor) {
   const tarjeta = document.createElement("div");
   tarjeta.className = "tarjeta-ingreso";
@@ -816,8 +800,7 @@ function asignarEventosTarjeta(tarjeta) {
     const usuario = obtenerUsuarioActual();
     let ingresos = obtenerIngresosUsuario(usuario.id);
     let ingreso = ingresos.find((i) => i && i.id == ingresoId);
-    // Si no se encuentra, buscar en ingresos variables
-    if (!ingreso || typeof ingreso !== 'object') {
+        if (!ingreso || typeof ingreso !== 'object') {
       const ingresosVariables = JSON.parse(localStorage.getItem(`ingresos_variables_usuario_${usuario.id}`)) || [];
       ingreso = ingresosVariables.find((i) => i && i.id == ingresoId);
     }
@@ -835,8 +818,7 @@ function asignarEventosTarjeta(tarjeta) {
       : "-";
     document.getElementById("modal-fijo").textContent = ingreso.fijo;
 
-    // Mostrar próxima recurrencia solo si es programado
-    if (ingreso.fijo === "Sí") {
+        if (ingreso.fijo === "Sí") {
       document.getElementById("modal-proxima-recurrencia-row").style.display =
         "";
       document.getElementById("modal-proxima-recurrencia").textContent =
@@ -1096,8 +1078,7 @@ function poblarTablaIngresosInternos(ingreso) {
       // Llenar el modal de edición interna
       document.getElementById('editar-interno-monto').value = registro.monto || '';
       document.getElementById('editar-interno-frecuencia').value = registro.frecuencia || 'mensual';
-      // Autollenar fechas con hoy si están vacías
-      const hoy = new Date();
+            const hoy = new Date();
       const yyyy = hoy.getFullYear();
       const mm = String(hoy.getMonth() + 1).padStart(2, "0");
       const dd = String(hoy.getDate()).padStart(2, "0");
@@ -1157,8 +1138,7 @@ function poblarTablaIngresosInternos(ingreso) {
     const usuario = obtenerUsuarioActual();
     let ingresos = obtenerIngresosUsuario(usuario.id);
     let ingreso = ingresos.find((i) => i && i.id == ingresoId);
-    // Si no se encuentra, buscar en ingresos variables
-    if (!ingreso || typeof ingreso !== 'object') {
+        if (!ingreso || typeof ingreso !== 'object') {
       const ingresosVariables = JSON.parse(localStorage.getItem(`ingresos_variables_usuario_${usuario.id}`)) || [];
       ingreso = ingresosVariables.find((i) => i && i.id == ingresoId);
     }
@@ -1246,6 +1226,10 @@ function mostrarModalConfirmarProgramado(datosIngreso, tarjeta) {
   const modal = document.getElementById("modal-confirmar-programado");
   modal.classList.remove("modal-ingreso-oculto");
   modal.style.display = "flex";
+  modal.style.position = "fixed";
+  modal.style.top = "50%";
+  modal.style.left = "50%";
+  modal.style.transform = "translate(-50%, -50%)";
 
   // Cerrar modal
   document.getElementById("cerrar-modal-confirmar-programado").onclick =
@@ -1265,6 +1249,8 @@ document.getElementById("btn-confirmar-programado").onclick = function () {
     modalFormulario.style.display = "";
   }
   guardarIngreso(datosIngreso, tarjeta);
+  // Revisar ingresos programados pendientes después de guardar
+  setTimeout(revisarIngresosProgramadosPendientes, 300);
 };
 }
 
@@ -1433,13 +1419,10 @@ function cambiarFiltroIngresos(nuevoFiltro) {
   document
     .querySelectorAll(".btn-filtro-ingresos")
     .forEach((btn) => btn.classList.remove("activo"));
-  if (nuevoFiltro === "todos") {
-    document.getElementById("btn-todos-ingresos").classList.add("activo");
-    document.getElementById("tarjeta-agregar-ingreso").style.display = "none";
-  } else if (nuevoFiltro === "programados") {
+  if (filtroActual === "programados") {
     document.getElementById("btn-programados-ingresos").classList.add("activo");
     document.getElementById("tarjeta-agregar-ingreso").style.display = "";
-  } else if (nuevoFiltro === "variables") {
+  } else if (filtroActual === "variables") {
     document.getElementById("btn-variables-ingresos").classList.add("activo");
     document.getElementById("tarjeta-agregar-ingreso").style.display = "";
   }
@@ -1449,9 +1432,7 @@ function cambiarFiltroIngresos(nuevoFiltro) {
 }
 
 function mostrarGraficoPorFiltro() {
-  if (filtroActual === "todos") {
-    renderizarGraficoIngresos();
-  } else if (filtroActual === "programados") {
+  if (filtroActual === "programados") {
     renderizarGraficoSoloProgramados();
   } else if (filtroActual === "variables") {
     renderizarGraficoSoloVariables();
@@ -1974,8 +1955,7 @@ function crearTarjetaConcepto(concepto, ingresos) {
     </div>
   `;
 
-  // Botón para agregar más ingresos a este concepto
-  tarjeta.querySelector(".btn-agregar").onclick = function (e) {
+    tarjeta.querySelector(".btn-agregar").onclick = function (e) {
     e.stopPropagation();
     abrirFormularioIngresoParaConcepto(concepto);
   };
@@ -1983,7 +1963,6 @@ function crearTarjetaConcepto(concepto, ingresos) {
   return tarjeta;
 }
 
-// === CONCEPTOS DE INGRESOS VARIABLES ===
 const CONCEPTOS_INGRESO_VARIABLE = [
   { nombre: "Trabajos freelance", descripcion: "Pagos por tareas o servicios puntuales sin contrato fijo." },
   { nombre: "Clases particulares", descripcion: "Ingresos por tutorías o asesorías académicas." },
@@ -2007,7 +1986,6 @@ const CONCEPTOS_INGRESO_VARIABLE = [
   { nombre: "Actividades artísticas o musicales", descripcion: "Ingresos por cantar, actuar, bailar, etc." }
 ];
 
-// === MODAL CONCEPTOS INGRESO VARIABLE ===
 function mostrarModalConceptosVariable() {
   const modal = document.getElementById("modal-conceptos");
   const lista = document.getElementById("lista-conceptos");
@@ -2035,11 +2013,9 @@ function mostrarModalConceptosVariable() {
   modal.style.display = "flex";
 }
 
-// Evento para abrir modal de conceptos en formulario variable
 const inputConceptoVariable = document.getElementById("concepto-variable");
 if (inputConceptoVariable) {
   inputConceptoVariable.readOnly = true;
   inputConceptoVariable.onclick = mostrarModalConceptosVariable;
 }
 
-// Ingresos variables

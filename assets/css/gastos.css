@@ -1,17 +1,4 @@
-/* ================================
-   VARIABLES CSS
-   ================================ */
-:root {
-    --nequi-guanabana: #f8f6f0;
-    --nequi-beige: #f5f3ed;
-    --gasto-primary: #d72638;
-    --gasto-hover: #b91e2f;
-    --gasto-text: #ffffff;
-    --gasto-gris: #6c757d;
-    --gasto-muted: #6c757d;
-    --gasto-guanabana: #f8f6f0;
-    --gasto-beige: #f5f3ed;
-}
+
 
 /* ================================
    CONFIGURACIÓN BÁSICA
@@ -163,7 +150,7 @@ body  {
 
 .tabla-modal {
     background-color: var(--nequi-guanabana);
-    margin: 50px auto;
+    margin: 50px auto auto 35vh;
     padding: 20px;
     border-radius: 10px;
     width: 85%;
@@ -727,38 +714,537 @@ h3 {
     background: var(--gasto-primary);
 }
 
+
 /* ================================
-   RESPONSIVE DESIGN
+   MEDIA QUERIES - RESPONSIVO
    ================================ */
-@media (max-width: 1200px) {
+
+/* Tablets (768px - 1024px) */
+@media screen and (max-width: 1024px) {
+    .page-content {
+        width: 100vw;
+        height: 100vh;
+        padding: 10px;
+    }
+    
+    .contenedor-vistas {
+        width: 100%;
+    }
+    
+    .vista.activa {
+        height: 85vh;
+    }
+    
     #categoriasSeleccionadas {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        padding: 15px;
+        gap: 12px;
     }
     
     .categoria-cuadro {
-        width: 300px;
+        height: 100px;
+        font-size: 18px;
+        padding: 15px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 16px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 13px;
+    }
+    
+    .tabla-modal {
+        margin: 20px auto;
+        width: 95%;
+        max-width: none;
+        height: 85vh;
+    }
+    
+    .modal-content {
+        max-width: 90%;
+        margin: 10vh auto;
+    }
+    
+    .botones-vista button {
+        padding: 8px 16px;
+        font-size: 14px;
     }
 }
 
-@media (max-width: 768px) {
+/* Tablets pequeñas (481px - 768px) */
+@media screen and (max-width: 768px) {
+    body {
+        align-items: flex-start;
+        padding-top: 10px;
+    }
+    
+    .page-content {
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+        padding: 5px;
+    }
+    
+    .vista.activa {
+        height: auto;
+        min-height: 80vh;
+        border-radius: 0 5px 5px 5px;
+    }
+    
+    #categoriasSeleccionadas {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 10px;
+        gap: 10px;
+        max-height: 500px;
+    }
+    
+    .categoria-cuadro {
+        height: 90px;
+        font-size: 16px;
+        padding: 10px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 15px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 12px;
+    }
+    
+    .tabla-modal {
+        margin: 10px;
+        width: calc(100% - 20px);
+        height: 90vh;
+        padding: 15px;
+    }
+    
+    .modal-content {
+        max-width: 95%;
+        margin: 5vh auto;
+        padding: 15px;
+    }
+    
+    .botones-vista {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .botones-vista button {
+        padding: 6px 12px;
+        font-size: 13px;
+        margin-right: 0;
+        border-radius: 5px;
+    }
+    
+    .div-btnAgregarProgramado {
+        height: auto;
+        padding: 15px 0;
+    }
+    
+    .div-btnAgregarProgramado .boton-primario {
+        margin-left: 15px;
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+    
+    /* DataTables responsivo para tablets */
+    .dataTables_wrapper {
+        padding: 10px;
+        overflow-x: auto;
+    }
+    
+    .dataTables_filter,
+    .dataTables_length {
+        margin-bottom: 10px;
+    }
+    
+    .dataTables_filter input {
+        width: 150px !important;
+    }
+    
+    table {
+        min-width: 600px;
+    }
+    
+    th, td {
+        padding: 8px 6px;
+        font-size: 13px;
+    }
+    
+    .acciones-gasto {
+        flex-direction: column;
+        gap: 3px;
+    }
+    
+    .boton-accion {
+        min-width: 50px;
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+}
+
+/* Móviles (320px - 480px) */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 0;
+        align-items: flex-start;
+    }
+    
+    .page-content {
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+        padding: 0;
+    }
+    
     .contenedor-vistas {
-        width: 95%;
+        width: 100%;
+        height: auto;
+    }
+    
+    .vista.activa {
+        height: auto;
+        min-height: 90vh;
+        border-radius: 0;
+        overflow-x: hidden;
     }
     
     #categoriasSeleccionadas {
         grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 8px;
+        max-height: 400px;
     }
     
     .categoria-cuadro {
-        width: 280px;
+        height: 80px;
+        font-size: 14px;
+        padding: 8px;
+        max-width: none;
     }
     
-    .modal-content {
-        width: 90%;
-        margin: 50px auto;
+    .categoria-cuadro h3 {
+        font-size: 14px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 11px;
     }
     
     .tabla-modal {
-        width: 95%;
+        margin: 0;
+        width: 100%;
+        height: 100vh;
+        padding: 10px;
+        border-radius: 0;
+    }
+    
+    .modal-content {
+        max-width: 100%;
+        margin: 0;
+        padding: 15px;
+        border-radius: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+    
+    .modal {
+        padding: 0;
+    }
+    
+    .botones-vista {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 5px;
+    }
+    
+    .botones-vista button {
+        padding: 8px 10px;
+        font-size: 12px;
+        margin-right: 0;
+        border-radius: 4px;
+        flex: 1;
+        min-width: 80px;
+    }
+    
+    .div-btnAgregarProgramado {
+        height: auto;
+        padding: 10px;
+        justify-content: center;
+    }
+    
+    .div-btnAgregarProgramado .boton-primario {
+        margin-left: 0;
+        font-size: 14px;
+        padding: 10px 16px;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    /* Botones principales más pequeños */
+    .boton-primario,
+    .boton-exitoso,
+    .boton-exitoso-prorgamado {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    .boton-secundario,
+    .boton-peligro {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    /* Formularios móviles */
+    .form-gasto-subcategoria,
+    .form-gasto-programado {
+        gap: 15px;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .campo-formulario label {
+        font-size: 13px;
+    }
+    
+    /* DataTables para móviles */
+    .dataTables_wrapper {
+        padding: 5px;
+        font-size: 12px;
+    }
+    
+    .dataTables_filter {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    .dataTables_filter label {
+        display: block;
+        font-size: 12px;
+    }
+    
+    .dataTables_filter input {
+        width: 100% !important;
+        max-width: 200px !important;
+        margin: 5px 0 !important;
+        font-size: 12px !important;
+    }
+    
+    .dataTables_length {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    .dataTables_length label {
+        font-size: 12px;
+    }
+    
+    .dataTables_length select {
+        font-size: 12px !important;
+    }
+    
+    .dataTables_info {
+        font-size: 11px !important;
+        text-align: center;
+        margin: 10px 0;
+    }
+    
+    .dataTables_paginate {
+        text-align: center;
+    }
+    
+    .dataTables_paginate .paginate_button {
+        padding: 6px 8px !important;
+        font-size: 12px !important;
+        margin: 0 1px !important;
+    }
+    
+    /* Tabla responsiva para móviles */
+    .contenedor-tabla {
+        overflow-x: auto;
+        max-height: 300px;
+    }
+    
+    table {
+        min-width: 500px;
+        font-size: 12px;
+    }
+    
+    th {
+        padding: 8px 4px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+    
+    td {
+        padding: 6px 4px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+    
+    /* Ocultar columnas menos importantes en móviles */
+    .mobile-hidden {
+        display: none;
+    }
+    
+    /* Acciones en tabla para móviles */
+    .acciones-gasto {
+        flex-direction: column;
+        gap: 2px;
+        min-width: 60px;
+    }
+    
+    .boton-accion {
+        min-width: 40px;
+        font-size: 10px;
+        padding: 3px 5px;
+        white-space: nowrap;
+    }
+    
+    /* Badges más pequeños */
+    .badge-activo,
+    .badge-inactivo {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+    
+    /* Modal de confirmación móvil */
+    .modal-confirmacion {
+        margin: 20px auto;
+        max-width: 100%;
+        padding: 0 10px;
+    }
+    
+    .emoji-dinero {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .modal-confirmacion h3 {
+        font-size: 20px;
+    }
+    
+    .mensaje-confirmacion,
+    .pregunta-confirmacion {
+        font-size: 14px;
+    }
+    
+    .info-gasto-programado {
+        padding: 15px;
+    }
+    
+    .info-gasto-programado p {
+        font-size: 13px;
+    }
+    
+    /* Botones de formulario móviles */
+    .botones-formulario,
+    .botones-confirmacion {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 10px;
+    }
+    
+    .botones-formulario button,
+    .botones-confirmacion button {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    
+    /* Títulos más pequeños */
+    h3 {
+        font-size: 18px;
+    }
+    
+    #nombreSubcategoria {
+        font-size: 18px;
+    }
+    
+    .gastos-programados h2 {
+        font-size: 20px;
+    }
+    
+    /* Close buttons para móviles */
+    .close,
+    .close-tabla,
+    .close-confirmar {
+        font-size: 24px;
+        top: 10px;
+        right: 15px;
+    }
+}
+
+/* Móviles muy pequeños (menos de 360px) */
+@media screen and (max-width: 360px) {
+    .botones-vista button {
+        font-size: 11px;
+        padding: 6px 8px;
+        min-width: 70px;
+    }
+    
+    .categoria-cuadro {
+        height: 70px;
+        font-size: 13px;
+    }
+    
+    .categoria-cuadro h3 {
+        font-size: 13px;
+    }
+    
+    .categoria-cuadro p {
+        font-size: 10px;
+    }
+    
+    table {
+        min-width: 400px;
+        font-size: 11px;
+    }
+    
+    th, td {
+        padding: 4px 2px;
+        font-size: 10px;
+    }
+    
+    .boton-accion {
+        font-size: 9px;
+        padding: 2px 4px;
+    }
+    
+    .dataTables_filter input {
+        max-width: 150px !important;
+        font-size: 11px !important;
+    }
+}
+
+/* Landscape móviles */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .vista.activa {
+        height: 85vh;
+    }
+    
+    #categoriasSeleccionadas {
+        grid-template-columns: repeat(3, 1fr);
+        max-height: 60vh;
+    }
+    
+    .tabla-modal {
+        height: 85vh;
+    }
+    
+    .modal-content {
+        max-height: 85vh;
+        overflow-y: auto;
     }
 }

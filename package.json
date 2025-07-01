@@ -1,0 +1,26 @@
+{
+  "name": "registro-de-gastos-personales",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdroudox/Registro-de-Gastos-Personales.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xdroudox/Registro-de-Gastos-Personales/issues"
+  },
+  "homepage": "https://github.com/xdroudox/Registro-de-Gastos-Personales#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0"
+  }
+}

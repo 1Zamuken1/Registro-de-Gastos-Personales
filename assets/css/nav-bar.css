@@ -10,13 +10,15 @@ html, body {
   box-sizing: inherit;
   max-width: 100%;
 }
-
+.gastu-logo{
+  filter: invert(1);
+}
 /* --- BODY & LAYOUT BACKGROUND --- */
 body {
-  background: #b3b7cf; /* o el color de fondo de tu contenido */
+  background: #f5f5f5; /* dashboard background start */
 }
 .layout {
-  background: #b3b7cf; /* igual que el body */
+  background: #f5f5f5; /* dashboard background start */
 }
 
 /* --- SIDEBAR BASE --- */
@@ -28,14 +30,14 @@ body {
   min-width: 250px;
   max-width: 250px;
   height: 100vh;
-  background: #fff;
-  color: #2d3748;
+  background: #292929; /* color-dark-gray para un look moderno */
+  color: #f0f0f0; /* background-gray como texto claro */
   display: flex;
   flex-direction: column;
   overflow-x: hidden !important;
   z-index: 1000;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08), 2px 0 8px rgba(0, 0, 0, 0.04);
-  border-right: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15), 2px 0 8px rgba(0, 0, 0, 0.08);
+  border-right: 1px solid #666; /* medium-gray para bordes */
   transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -92,10 +94,10 @@ body {
 .side-nav-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #764ba2;
+  color: #fff; /* white para destacar */
   letter-spacing: 0.5px;
   margin: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ccc 0%, #fff 100%); /* lighter-gray a white */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -107,7 +109,7 @@ body {
   width: 90%;
   border: none;
   border-top: 2px solid transparent;
-  background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+  background: linear-gradient(90deg, transparent, #666, transparent); /* medium-gray */
   margin: 16px auto 0 auto;
   height: 2px;
 }
@@ -127,7 +129,7 @@ body {
   display: flex;
   align-items: center;
   padding: 14px 20px;
-  color: #4a5568;
+  color: #ccc; /* lighter-gray para texto inactivo */
   text-decoration: none;
   font-size: 1rem;
   transition: all 0.3s;
@@ -143,15 +145,15 @@ body {
 }
 .side-nav-list li.active a,
 .side-nav-list li a.active {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-  color: #553c9a;
-  border-left: 4px solid #667eea;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(221, 221, 221, 0.08) 100%); /* white/very-light-gray con transparencia */
+  color: #fff; /* white para texto activo */
+  border-left: 4px solid #999; /* light-gray para borde activo */
   font-weight: 600;
 }
 .side-nav-list li a:hover {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
-  color: #553c9a;
-  border-left: 4px solid #667eea;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(221, 221, 221, 0.06) 100%); /* hover más sutil */
+  color: #fff; /* white en hover */
+  border-left: 4px solid #999; /* light-gray para borde hover */
   transform: translateX(4px);
 }
 
@@ -161,13 +163,13 @@ body {
   width: 24px;
   height: 24px;
   margin-right: 10px;
-  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%) hue-rotate(200deg) brightness(95%) contrast(95%);
+  filter: brightness(0) saturate(100%) invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%); /* iconos grises claros */
   transition: all 0.3s;
 }
 .side-nav-list li.active .side-nav-icon img,
 .side-nav-list li a.active .side-nav-icon img,
 .side-nav-list li a:hover .side-nav-icon img {
-  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%) hue-rotate(250deg) brightness(110%) contrast(110%);
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); /* iconos blancos cuando activos */
   transform: scale(1.1);
 }
 
@@ -175,7 +177,7 @@ body {
 .side-nav-menu-btn {
   background: none;
   border: none;
-  color: #4a5568;
+  color: #ccc; /* lighter-gray */
   font-size: 1.1rem;
   padding: 14px 20px;
   text-align: left;
@@ -217,7 +219,7 @@ body {
 .side-nav-footer-link {
   display: flex;
   align-items: center;
-  color: #4a5568;
+  color: #ccc; /* lighter-gray */
   text-decoration: none;
   padding: 12px 20px;
   font-size: 1rem;
@@ -233,20 +235,20 @@ body {
 }
 .side-nav-footer-link.active,
 .side-nav-footer-link:hover {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
-  color: #553c9a;
-  border-left: 4px solid #667eea;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(221, 221, 221, 0.06) 100%); /* hover sutil */
+  color: #fff; /* white */
+  border-left: 4px solid #999; /* light-gray */
   transform: translateX(4px);
 }
 .side-nav-footer-link .side-nav-icon img {
   width: 22px;
   height: 22px;
   margin-right: 8px;
-  filter: brightness(0) saturate(100%) invert(30%) sepia(15%) saturate(1100%) hue-rotate(200deg) brightness(95%) contrast(95%);
+  filter: brightness(0) saturate(100%) invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%); /* iconos grises claros */
   transition: all 0.3s;
 }
 .side-nav-footer-link:hover .side-nav-icon img {
-  filter: brightness(0) saturate(100%) invert(35%) sepia(50%) saturate(1500%) hue-rotate(250deg) brightness(110%) contrast(110%);
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); /* iconos blancos en hover */
   transform: scale(1.1);
 }
 
@@ -254,7 +256,7 @@ body {
 .side-nav,
 .side-nav-main {
   scrollbar-width: thin;
-  scrollbar-color: #e2e8f0 #fff;
+  scrollbar-color: #666 #333; /* medium-gray sobre dark-gray */
   overflow-x: hidden !important;
 }
 .side-nav::-webkit-scrollbar,
@@ -264,7 +266,7 @@ body {
 }
 .side-nav::-webkit-scrollbar-thumb,
 .side-nav-main::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: #666; /* medium-gray */
   border-radius: 4px;
 }
 
