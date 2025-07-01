@@ -447,13 +447,11 @@ h1 {
   z-index: 1001;
 }
 
-#modal-confirmar-programado {
+#modal-confirmar-programado, #modal-confirmar-ingreso-pendiente, #modal-formulario-programado, #modal-formulario-variable, #modal-conceptos, #modal-editar-ingreso, #modal-eliminar-ingreso, #modal-interno, #modal-editar-interno {
   display: none; /* Oculto por defecto */
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(36, 36, 36, 0.35);
-  backdrop-filter: blur(6px);
-  z-index: 3002;
+  z-index: 5000; /* Ensure all modals are on top */
   align-items: center;
   justify-content: center;
 }
@@ -1044,8 +1042,6 @@ h1 {
 #modal-confirmar-programado {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(36, 36, 36, 0.35);
-  backdrop-filter: blur(8px);
   z-index: 3002 !important;
   display: flex;
   align-items: center;

@@ -510,29 +510,29 @@ function revisarIngresosProgramadosPendientes() {
 // Modal de confirmación de ingreso programado pendiente
 function mostrarModalConfirmarIngresoPendiente(ingreso, fechaPendiente) {
   // Crear modal si no existe
-  let modal = document.getElementById('modal-confirmar-ingreso-pendiente');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'modal-confirmar-ingreso-pendiente';
-    modal.className = 'modal-ingreso-oculto';
-    modal.innerHTML = `
-      <div class="modal-contenido">
-        <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
-        <h2>Confirmar ingreso programado</h2>
-        <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
-        <div style="text-align:right;margin-top:24px">
-          <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
-          <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
+  // let modal = document.getElementById('modal-confirmar-ingreso-pendiente');
+  // if (!modal) {
+  //   modal = document.createElement('div');
+  //   modal.id = 'modal-confirmar-ingreso-pendiente';
+  //   modal.className = 'modal-ingreso-oculto';
+  //   modal.innerHTML = `
+  //     <div class="modal-contenido">
+  //       <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
+  //       <h2>Confirmar ingreso programado</h2>
+  //       <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
+  //       <div style="text-align:right;margin-top:24px">
+  //         <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
+  //         <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
+  //       </div>
+  //     </div>
+  //   `;
+  //   document.body.appendChild(modal);
+  // }
   // Poblar datos
-  document.getElementById('concepto-ingreso-pendiente').textContent = ingreso.concepto;
-  document.getElementById('fecha-ingreso-pendiente').textContent = fechaPendiente;
-  modal.classList.remove('modal-ingreso-oculto');
-  modal.style.display = 'flex';
+  // document.getElementById('concepto-ingreso-pendiente').textContent = ingreso.concepto;
+  // document.getElementById('fecha-ingreso-pendiente').textContent = fechaPendiente;
+  // modal.classList.remove('modal-ingreso-oculto');
+  // modal.style.display = 'flex';
   // Cerrar modal
   document.getElementById('cerrar-modal-confirmar-ingreso-pendiente').onclick = function() {
     modal.classList.add('modal-ingreso-oculto');
