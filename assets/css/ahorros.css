@@ -1,5 +1,4 @@
 body {
-  background:  #8D99AE;
   color: #FFFFFF;
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 0;
@@ -17,26 +16,34 @@ body {
 .page-content {
   flex: 1 1 0%;
   min-width: 0;
-  background:  #8D99AE;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .contenedor {
   max-width: 1400px;
-  margin: 40px auto;
+  margin: 40px;
   padding: 36px;
-  background: rgb(250, 240, 229);
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  width: 95%;
+  height: 100%;
 }
+
 h1 {
   color: #c0a615;
   text-align: center;
   margin-bottom: 32px;
   font-size: 2.8rem;
   font-weight: bold;
+  margin-top: 0;
 }
+.tarjetas-ahorros {
+  /* Los estilos de grid ya están bien, se adaptarán al ancho del contenedor */
+  /* Si quieres que ocupen todo el ancho dentro del contenedor, podrías agregar: */
+  width: 100%;
+}
+
 
 /* --- TARJETAS DE AHORROS --- */
 .tarjetas-ahorros {
@@ -100,7 +107,6 @@ h1 {
   cursor: pointer;
   padding: 4px 6px;
   border-radius: 4px;
-  transition: background 0.2s;
 }
 
 .acciones button:hover {
@@ -382,30 +388,6 @@ h1 {
   background: #FFFFFF;
   color: #333;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* --- RESPONSIVA --- */
 @media (max-width: 1100px) {

@@ -101,7 +101,7 @@ body {
 }
 
 .stat-icon.egresos {
-    background: linear-gradient(45deg, #FF9800, #F57C00);
+    background: linear-gradient(45deg, #d72638 ,#b91e2f );
 }
 
 .stat-icon.saldo {
@@ -109,7 +109,7 @@ body {
 }
 
 .stat-icon.ahorros {
-    background: linear-gradient(45deg, #9C27B0, #7B1FA2);
+    background: linear-gradient(45deg, #c7b132, #c0a615);
 }
 
 .stat-number {

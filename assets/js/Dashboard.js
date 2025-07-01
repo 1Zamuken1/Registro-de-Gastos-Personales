@@ -170,14 +170,14 @@ window.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             },
-            colors: ["#4CAF50", "#FF9800"],
+            colors: ["#4CAF50", "#d72638"],
             stroke: {
                 width: 4,
                 curve: "smooth",
             },
             markers: {
                 size: 6,
-                colors: ["#4CAF50", "#FF9800"],
+                colors: ["#4CAF50", "#d72638"],
                 strokeColors: "#333333",
                 strokeWidth: 2,
             },
