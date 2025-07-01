@@ -1,10 +1,9 @@
 
-let filtroActual = "todos";
+let filtroActual = "programados";
 
 document.addEventListener("DOMContentLoaded", function () {
   verificarAutenticacion();
-  mostrarIngresosFiltrados();
-  mostrarGraficoPorFiltro();
+  cambiarFiltroIngresos("programados");
   
   // Revisión de ingresos programados pendientes de confirmación
   revisarIngresosProgramadosPendientes();
@@ -153,8 +152,7 @@ function limpiarFormularioProgramado() {
     });
 
   // Eventos para filtros
-  document.getElementById("btn-todos-ingresos").onclick = () =>
-    cambiarFiltroIngresos("todos");
+  // Eliminado el evento para el botón de ingresos totales
   document.getElementById("btn-programados-ingresos").onclick = () =>
     cambiarFiltroIngresos("programados");
   document.getElementById("btn-variables-ingresos").onclick = () =>
@@ -1421,13 +1419,10 @@ function cambiarFiltroIngresos(nuevoFiltro) {
   document
     .querySelectorAll(".btn-filtro-ingresos")
     .forEach((btn) => btn.classList.remove("activo"));
-  if (nuevoFiltro === "todos") {
-    document.getElementById("btn-todos-ingresos").classList.add("activo");
-    document.getElementById("tarjeta-agregar-ingreso").style.display = "none";
-  } else if (nuevoFiltro === "programados") {
+  if (filtroActual === "programados") {
     document.getElementById("btn-programados-ingresos").classList.add("activo");
     document.getElementById("tarjeta-agregar-ingreso").style.display = "";
-  } else if (nuevoFiltro === "variables") {
+  } else if (filtroActual === "variables") {
     document.getElementById("btn-variables-ingresos").classList.add("activo");
     document.getElementById("tarjeta-agregar-ingreso").style.display = "";
   }
@@ -1437,9 +1432,7 @@ function cambiarFiltroIngresos(nuevoFiltro) {
 }
 
 function mostrarGraficoPorFiltro() {
-  if (filtroActual === "todos") {
-    renderizarGraficoIngresos();
-  } else if (filtroActual === "programados") {
+  if (filtroActual === "programados") {
     renderizarGraficoSoloProgramados();
   } else if (filtroActual === "variables") {
     renderizarGraficoSoloVariables();
