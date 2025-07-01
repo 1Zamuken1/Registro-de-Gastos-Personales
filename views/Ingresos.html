@@ -321,7 +321,7 @@
         </div>
 
         <!-- Modal de confirmación para ingreso programado -->
-        <!-- <div id="modal-confirmar-programado" class="modal-ingreso-oculto">
+        <div id="modal-confirmar-programado" class="modal-ingreso-oculto">
         <div class="modal-content-centered">
         <span
         class="modal-cerrar"
@@ -351,7 +351,33 @@
         </button>
         </div>
         </div>
-        </div> -->
+        </div>
+
+        <!-- Modal de confirmación de ingreso programado pendiente -->
+        <div id="modal-confirmar-ingreso-pendiente" class="modal-ingreso-oculto">
+          <div class="modal-contenido">
+            <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
+            <h2>Confirmar ingreso programado</h2>
+            <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
+            <div style="text-align:right;margin-top:24px">
+              <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
+              <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal de confirmación de ingreso programado pendiente -->
+        <div id="modal-confirmar-ingreso-pendiente" class="modal-ingreso-oculto">
+          <div class="modal-contenido">
+            <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
+            <h2>Confirmar ingreso programado</h2>
+            <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
+            <div style="text-align:right;margin-top:24px">
+              <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
+              <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
+            </div>
+          </div>
+        </div>
 
         <!-- Modal para seleccionar concepto -->
         <div id="modal-conceptos" class="modal-ingreso-oculto">
