@@ -10,7 +10,7 @@ body {
   color: #333333;
   line-height: 1.6;
 }
-.navbar {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,7 +18,7 @@ body {
   box-shadow: 0 2px 5px  rgba(0, 0, 0, 0.1);
 }
 
-.navbar a {
+.header a {
   color:white;
   text-decoration: none;
   margin: 0.5rem;
@@ -26,24 +26,28 @@ body {
   transition: color 0.3s;
 }
 
-.navbar a:hover {
+.header a:hover {
   color: #9B59B6; 
 }
 
-.nav-left, .nav-right {
+.header-left, .header-right {
   display: flex;
 }
 
-
-.header {
+#giro {
+  height: 100vh;
   text-align: center;
   padding: 3rem 2rem;
   background: linear-gradient(to right, #9B59B6,#8E4EC6);
-  color: white;
+  color: orange;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.header a {
+.giro a {
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
   background-color: white;
@@ -97,9 +101,10 @@ body {
 
 .devices {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
   margin-top: 2rem;
+  justify-items: center;
 }
 
 .beneficios {
@@ -149,17 +154,6 @@ body {
 .footer li {
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
-}
-.multidispositivo {
-  padding: 2rem;
-  background-color: #FFFFFF;
-  text-align: center;
-}
-.devices {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  justify-items: center;
 }
 
 .devices img {
