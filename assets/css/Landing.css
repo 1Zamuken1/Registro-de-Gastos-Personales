@@ -19,7 +19,11 @@ body {
 }
 
 .header a {
+<<<<<<< HEAD
+  color:white;
+=======
   color:black;
+>>>>>>> b8bfa290c2b3b815355685a5b25baf4f2a93d52f
   text-decoration: none;
   margin: 0.5rem;
   font-weight: bold;
@@ -34,12 +38,21 @@ body {
   display: flex;
 }
 
+<<<<<<< HEAD
+#giro {
+  height: 100vh;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(to right, #9B59B6,#8E4EC6);
+  color: orange;
+=======
 .hero {
   height: 100vh;
   text-align: center;
   padding: 3rem 2rem;
   background: black;
   color: white;
+>>>>>>> b8bfa290c2b3b815355685a5b25baf4f2a93d52f
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -47,7 +60,11 @@ body {
   align-items: center;
 }
 
+<<<<<<< HEAD
+.giro a {
+=======
 .hero a {
+>>>>>>> b8bfa290c2b3b815355685a5b25baf4f2a93d52f
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
   background-color: white;
