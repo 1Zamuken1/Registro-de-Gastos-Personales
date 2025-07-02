@@ -1,27 +1,35 @@
 body {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
   background-color: #f5f5f5;
   color: #333;
+  overflow: hidden;
 }
-.header {
+
+.scroll {
+  overflow-y: auto;
+  height: 100vh;
+}
+
+header {
+  position: fixed;
+  width: 98%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1a1a1a;
-  box-shadow: 0 2px 5px  rgba(0, 0, 0, 0.1);
+  padding: 20px 20px;
+  background-color: #000000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .header a {
-  color:white;
+  color: #ffffff;
   text-decoration: none;
   margin: 0.5rem;
   font-weight: bold;
-  transition: color 0.3s;
-}
-
-.header a:hover {
-  color: #9B59B6; 
+  transition: all 0.3s ease;
 }
 
 .header-left, .header-right {
@@ -29,107 +37,41 @@ body {
 }
 
 .inicio {
-  background-color: #9B59B6;
-  color: white;
+  display: flex;
   text-align: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  background-color: #ffffff;
+  height: 15rem;
+  color: #000000;
   padding: 2.5rem 1rem;
+  text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.inicio h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #000000;
+}
+
+.inicio p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .pasos-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  padding: 3rem;
-  background-color: #FFFFFF;
+  padding: 2rem;
+  background-color: #ffffff;
 }
 
 .paso {
-  background-color: white;
-  padding: 1.5rem;
-  text-align: center;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.paso:hover {
-  transform: translateY(-5px);
-}
-
-.icon-placeholder {
-  width: 110%;
-  height: 220px;
-  background-color: #dcdcdc;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-}
-
-.footer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  padding: 2rem;
-  background-color: black;
-  color: white;
-}
-
-.footer h3 {
-  color: #9B59B6;
-  margin-bottom: 0.5rem;
-}
-
-.footer ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.footer li {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-}
-.grid-funciones {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
-  justify-items: center;
-}
-
-.card {
-  width: 180px;
-  height: 260px;
-  background-color: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  padding: 1rem;
-  text-align: center;
-  transition: transform 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.icon-placeholder {
-  width: 100%;
-  height: 120px;
-  background-color: #ddd;
-  border-radius: 10px;
-}
-.pasos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
-  gap: 2rem;
-  padding: 2rem;
-  background-color: #FFFFFF;
-}
-
-.paso {
-  background-color: #F9F7FD;
+  background-color: #f9f7fd;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(155, 89, 182, 0.1);
   padding: 1.5rem;
@@ -149,13 +91,78 @@ body {
 
 .paso p:first-of-type {
   font-weight: bold;
-  color: #9B59B6;
+  color: #000000;
   margin-bottom: 0.5rem;
 }
 
 .paso p:last-of-type {
-  color: #333;
+  color: #333333;
   font-size: 0.95rem;
+}
+
+.icon-placeholder {
+  width: 100%;
+  height: 120px;
+  background-color: #ddd;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  padding: 2rem;
+  background-color: #000000;
+  color: #f1f1f1;
+}
+
+.footer h3 {
+  color: #6c63ff;
+  margin-bottom: 0.5rem;
+}
+
+.footer ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.footer li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #cccccc;
+  transition: color 0.3s ease;
+}
+
+.footer li:hover {
+  color: #6c63ff;
+  cursor: pointer;
+}
+
+.grid-funciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  justify-items: center;
+}
+
+.card {
+  width: 180px;
+  height: 260px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 /* RESPONSIVA */
@@ -164,4 +171,3 @@ body {
     grid-template-columns: 1fr;
   }
 }
-

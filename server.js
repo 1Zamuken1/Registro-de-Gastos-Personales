@@ -1,10 +1,26 @@
+
 require("dotenv").config();
 const express = require("express");
 const fetch = require("node-fetch");
 const path = require("path");
 const app = express();
 
-// Servir archivos estáticos - todas las carpetas de tu estructura
+// Middleware para manejar headers de CSS correctamente
+app.use((req, res, next) => {
+  // Headers específicos para archivos CSS
+  if (req.url.endsWith('.css')) {
+    res.header('Content-Type', 'text/css; charset=utf-8');
+  }
+  
+  // Headers para archivos JavaScript
+  if (req.url.endsWith('.js')) {
+    res.header('Content-Type', 'application/javascript; charset=utf-8');
+  }
+  
+  next();
+});
+
+// Servir archivos estáticos - todas las carpetas de tu estructura (TU CÓDIGO ORIGINAL)
 app.use(express.static("assets"));           // Para CSS, JS, imágenes, iconos
 app.use(express.static("chatBot"));          // Para archivos del chatbot
 app.use(express.static("components"));       // Para componentes
@@ -12,14 +28,15 @@ app.use(express.static("Landing-pages"));    // Para archivos HTML de landing pa
 app.use(express.static("node_modules"));     // Para dependencias (si es necesario)
 app.use(express.static("views"));            // Para otros archivos HTML
 app.use(express.static("."));                // Carpeta raíz como fallback
+
 app.use(express.json());
 
-// Ruta principal - servir tu Landing.html
+// Ruta principal - servir tu Landing.html (TU CÓDIGO ORIGINAL)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'Landing-pages', 'Landing.html'));
 });
 
-// API del chatbot
+// API del chatbot (TU CÓDIGO ORIGINAL)
 app.post("/chat", async (req, res) => {
   const userMessage = req.body.message;
 
@@ -66,4 +83,7 @@ app.listen(PORT, () => {
   console.log(`   - Landing-pages/ (HTML landing)`);
   console.log(`   - views/ (otros HTML)`);
   console.log(`   - node_modules/ (dependencias)`);
+  console.log(`\n✅ Mejoras agregadas:`);
+  console.log(`   - Headers correctos para archivos CSS y JS`);
+  console.log(`   - Soporte mejorado para enlaces CSS`);
 });
