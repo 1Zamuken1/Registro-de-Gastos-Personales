@@ -1,10 +1,35 @@
-<link rel="stylesheet" href="../assets/css/header.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<header class="top-header">
-  <div class="top-header-content">
-    <i class="bi bi-bell icono-notificacion"></i>
-    <span class="saludo" id="saludoUsuario">Hola, [rol] [usuario]</span>
-    <button id="btnCerrarSesionHeader" class="btn-cerrar-header">Cerrar sesión</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HTML</title>
+  
+  <!-- HTML -->
+  
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../assets/css/header.css">
+</head>
+
+<body>
+  <header class="gastu-header">
+  <div class="perfil-info">
+    <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Perfil" class="perfil-icono">
+    <div class="usuario-detalle">
+      <p id="nombreUsuario" class="usuario-nombre">Usuario</p>
+      <p id="rolUsuario" class="usuario-rol">Rol</p>
+    </div>
   </div>
+  <button id="cerrarSesionBtn" class="cerrar-sesion-btn">Cerrar sesión</button>
 </header>
 
+<!-- Enlace a estilos -->
+<link rel="stylesheet" href="../assets/css/header.css" />
+
+<!-- Enlace a script -->
+<script src="../assets/js/header.js" defer></script>
+</body>
+</html>
