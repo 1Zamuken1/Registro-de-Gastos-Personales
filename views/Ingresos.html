@@ -3,508 +3,296 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="../assets/icons/gastu_logo.svg" type="image/x-icon">
-    <title>Ingresos</title>
+    <title>Sistema de Gestión Financiera</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="../assets/css/nav-bar.css" />
     <link rel="stylesheet" href="../assets/css/ingresos.css" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
   </head>
   <body>
     <div class="layout">
-      <!-- Barra lateral de navegación -->
-      <nav id="nav-bar"></nav>
-      <div class="page-content">
-        <div class="contenedor">
-          <div class="ingresos-layout">
-            <div class="ingresos-grafico">
-              <h1>Mis Ingresos</h1>
-              <!--<div id="filtros-grafico" style="text-align:center; margin-bottom: 24px;">
-                <select id="select-rango-grafico" style="padding:8px 16px; border-radius:8px; border:1px solid #e9ecef;">
-                  <option value="dia">Día</option>
-                  <option value="mes" selected>Mes</option>
-                  <option value="trimestre">Trimestre</option>
-                  <option value="semestre">Semestre</option>
-                  <option value="anio">Año</option>
-                </select>
-              </div>
-              <div class="grafico-titulos">
-                <div class="grafico-titulo" id="grafico-titulo"></div>
-                <div class="grafico-subtitulo" id="grafico-subtitulo"></div>
-              </div>
-              <div id="graficos-ingresos" style="max-width:600px; margin:0 auto;">
-                <div id="chart-ingresos" style="max-width:600px; margin:0 auto 24px auto;"></div>
-              </div>
+      <nav class="side-nav" id="nav-bar"></nav>
+
+      <!-- Contenido principal -->
+      <main class="page-content">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-money-bill-wave"></i>
+              <span id="section-title">Ingresos y Proyecciones</span>
             </div>
-            <div class="ingresos-tarjetas"> -->
-              <!-- Filtros debajo del gráfico -->
-              <div class="filtros-ingresos-barra" style="display: flex; justify-content: center; align-items: center; margin-bottom: 32px; max-width: 900px; margin: 0 auto;">
-                <div class="filtros-ingresos" style="gap: 12px; margin-bottom: 0;">
-                  <!-- Botón de Ingresos totales eliminado -->
-                  <button type="button" class="btn-filtro-ingresos" id="btn-variables-ingresos">
-                    Ingresos variables
-                  </button>
-                                    <button type="button" class="btn-filtro-ingresos" id="btn-programados-ingresos">
-                    Ingresos programados
-                  </button>
-                </div>
+            <div class="controls">
+              <div class="records-per-page">
+                Mostrar
+                <select id="recordsPerPage">
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                  <option>Todos</option>
+                </select>
+                registros
               </div>
-              <br>
-              <div class="tarjetas-ingresos">
-                                <!-- Tarjeta para añadir ingreso SIEMPRE PRIMERA -->
-                <div
-                  class="tarjeta-ingreso tarjeta-agregar"
-                  id="tarjeta-agregar-ingreso"
-                  style="display: flex;"
-                >
-                  <div class="agregar-contenido">
-                    <span class="agregar-icono">
-                      <img
-                        src="../assets/icons/plus.svg"
-                        alt="Agregar"
-                        width="32"
-                        height="32"
-                      />
-                    </span>
-                    <span class="agregar-texto">Añadir ingreso</span>
-                  </div>
-                </div>
-                <!-- Las demás tarjetas se agregan por JS -->
-              </div>
+              <button class="add-btn" id="addIncome">
+                <i class="fas fa-plus"></i> Añadir nuevo
+              </button>
             </div>
           </div>
-        </div>
 
-        <!-- MODAL DETALLE DE INGRESO -->
-        <div id="modal-ingreso" class="modal-ingreso-oculto">
-          <div class="modal-contenido modal-contenido-ampliado">
-            <span class="modal-cerrar" id="cerrar-modal">
-              <img
-                src="../assets/icons/close.svg"
-                alt="Cerrar"
-                width="28"
-                height="28"
+          <div class="summary-cards">
+            <div class="summary-card">
+              <div class="card-label">
+                <i class="fas fa-wallet"></i>
+                <span>Total Ingresos</span>
+              </div>
+              <div class="card-value" id="total-income">$0</div>
+            </div>
+            <div class="summary-card proyeccion">
+              <div class="card-label">
+                <i class="fas fa-chart-line"></i>
+                <span>Total Proyecciones</span>
+              </div>
+              <div class="card-value" id="total-projection">$0</div>
+            </div>
+            <div class="summary-card">
+              <div class="card-label">
+                <i class="fas fa-calendar-check"></i>
+                <span>Ingresos este mes</span>
+              </div>
+              <div class="card-value" id="month-income">$0</div>
+            </div>
+          </div>
+
+          <div class="search-container">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Buscar por concepto, monto, tipo..."
               />
-            </span>
-            <h2 id="modal-titulo">Detalle del Ingreso</h2>
-            <div class="modal-campos">
-              <div>
-                <strong>Concepto:</strong> <span id="modal-concepto"></span>
-              </div>
-              <div><strong>Monto:</strong> <span id="modal-monto"></span></div>
-              <div>
-                <strong>Fecha creación:</strong> <span id="modal-fecha"></span>
-              </div>
-              <div><strong>Fijo:</strong> <span id="modal-fijo"></span></div>
-              <div id="modal-proxima-recurrencia-row" style="display:none;">
-                <strong>Próxima recurrencia:</strong> <span id="modal-proxima-recurrencia"></span>
-              </div>
-              <div id="modal-estado-programado-row" style="display:none; margin-top: 12px;">
-                <strong>Estado:</strong> <span id="modal-estado-programado" style="font-weight:700;"></span>
-                <button id="modal-btn-toggle-activo" class="btn-eliminar-cancelar" style="margin-left:16px;"></button>
-              </div>
             </div>
-            <button id="btn-abrir-modal-interno" class="btn-guardar" style="margin:0;">Agregar registro de ingreso</button>
-            <div style="margin-top: 24px;">
-              <table id="tabla-ingresos-internos" class="display" style="width:100%">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Monto</th>
-                    <th>Frecuencia</th>
-                    <th>Subcategoría</th>
-                    <th>Inicio</th>
-                    <th>Fin</th>
-                    <th>Activo</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Se llenará por JS -->
-                </tbody>
-              </table>
-            </div>
-
-            <!-- MODAL PARA AGREGAR REGISTRO DE INGRESO INTERNO -->
-            <div id="modal-interno" class="modal-ingreso-oculto">
-              <div class="modal-contenido modal-contenido-interno">
-                <span class="modal-cerrar" id="cerrar-modal-interno">
-                  <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
-                </span>
-                <h2>Agregar registro de ingreso</h2>
-                <form id="form-agregar-interno" style="display: flex; flex-direction: column; gap: 18px; align-items: flex-start; flex-wrap: nowrap; margin-top: 24px; width: 100%;">
-                <!-- El campo de concepto se gestiona internamente por JS y no se muestra al usuario -->
-                <div style="width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
-                <label for="interno-monto"><strong>Monto</strong></label>
-                <input type="number" id="interno-monto" min="1" required style="width: 100%;" />
-                </div>
-                <div style="width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
-                <label for="interno-frecuencia"><strong>Frecuencia</strong></label>
-                <select id="interno-frecuencia" required style="width: 100%;">
-                <option value="mensual">Mensual</option>
-                <option value="quincenal">Quincenal</option>
-                <option value="semanal">Semanal</option>
-                <option value="anual">Anual</option>
-                </select>
-                </div>
-                <div style="width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
-                <label for="interno-inicio"><strong>Inicio</strong></label>
-                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px; width: 100%;">
-                <input type="date" id="interno-inicio" required style="flex: 1 1 0; min-width: 0; max-width: 220px;" />
-                <button type="button" id="btn-hoy-interno-inicio" class="btn-hoy" style="margin-left: 0;">Hoy</button>
-                </div>
-                </div>
-                <div style="width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
-                <label for="interno-fin"><strong>Fin</strong></label>
-                <div style="display: flex; flex-direction: row; align-items: center; gap: 10px; width: 100%;">
-                <input type="date" id="interno-fin" disabled style="background:#eee; flex: 1 1 0; min-width: 0; max-width: 220px;" />
-                <button type="button" id="btn-hoy-interno-fin" class="btn-hoy" style="margin-left: 0;">Hoy</button>
-                </div>
-                </div>
-                <button type="submit" class="btn-guardar" style="margin: 18px 0 0 0; align-self: flex-start;">Guardar</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- MODAL EDITAR/AGREGAR INGRESO -->
-        <div id="modal-editar-ingreso" class="modal-ingreso-oculto">
-          <div class="modal-contenido">
-            <div class="modal-barra-superior">
-              <h2 id="modal-titulo-editar">Editar Ingreso</h2>
-              <span class="modal-cerrar" id="cerrar-modal-editar">
-                <img
-                  src="../assets/icons/close.svg"
-                  alt="Cerrar"
-                  width="28"
-                  height="28"
-                />
-              </span>
-            </div>
-            <form id="form-editar-ingreso" autocomplete="off">
-              <div class="modal-campos">
-                <div>
-                  <label><strong>Concepto:</strong></label>
-                  <input type="text" id="editar-concepto" readonly placeholder="Selecciona un concepto" required />
-                    <!-- Las opciones se llenan por JS -->
-                  </select>
-                </div>
-                <div>
-                  <label><strong>Descripción:</strong></label>
-                  <input type="text" id="editar-descripcion" />
-                </div>
-                <div>
-                  <label><strong>Tipo de ingreso:</strong></label>
-                  <select id="editar-tipo" required>
-                    <option value="variable">Variable</option>
-                    <option value="fijo">Programado</option>
-                  </select>
-                </div>
-                <div id="campos-variable">
-                  <div>
-                    <label><strong>Monto:</strong></label>
-                    <input type="number" id="editar-monto-variable" min="1" />
-                  </div>
-                  <div>
-                    <label><strong>Fecha recibido:</strong></label>
-                    <input type="date" id="editar-fecha-variable" />
-                  </div>
-                </div>
-                <div id="campos-fijo" style="display: none">
-                  <div>
-                    <label><strong>Monto:</strong></label>
-                    <input type="number" id="editar-monto-fijo" min="1" />
-                  </div>
-                  <div>
-                    <label><strong>Frecuencia:</strong></label>
-                    <select id="editar-frecuencia">
-                      <option value="mensual">Mensual</option>
-                      <option value="quincenal">Quincenal</option>
-                      <option value="semanal">Semanal</option>
-                      <option value="anual">Anual</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label><strong>Fecha inicio:</strong></label>
-                    <input type="date" id="editar-fecha-inicio" />
-                    <button type="button" id="btn-hoy-editar-programado" class="btn-eliminar-cancelar" style="padding: 8px 16px; margin-top: 0;">Hoy</button>
-                  </div>
-                </div>
-              </div>
-              <button type="submit" class="btn-guardar">Guardar</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- MODAL PARA EDITAR REGISTRO DE INGRESO INTERNO -->
-        <div id="modal-editar-interno" class="modal-ingreso-oculto">
-          <div class="modal-contenido modal-contenido-interno">
-            <span class="modal-cerrar" id="cerrar-modal-editar-interno">
-              <img src="../assets/icons/close.svg" alt="Cerrar" width="28" height="28" />
-            </span>
-            <h2>Editar registro de ingreso</h2>
-            <form id="form-editar-interno" style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-top: 24px;">
-            <div>
-            <label for="editar-interno-monto"><strong>Monto</strong></label>
-            <input type="number" id="editar-interno-monto" min="1" required />
-            </div>
-            <div>
-            <label for="editar-interno-frecuencia"><strong>Frecuencia</strong></label>
-            <select id="editar-interno-frecuencia" required>
-            <option value="mensual">Mensual</option>
-            <option value="quincenal">Quincenal</option>
-            <option value="semanal">Semanal</option>
-            <option value="anual">Anual</option>
+            <select class="filter" id="statusFilter">
+              <option value="all">Todos los estados</option>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
             </select>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-            <label for="editar-interno-inicio"><strong>Inicio</strong></label>
-            <div style="display: flex; align-items: center; gap: 6px;">
-            <input type="date" id="editar-interno-inicio" required />
-            <button type="button" id="btn-hoy-editar-interno-inicio" class="btn-hoy">Hoy</button>
-            </div>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-            <label for="editar-interno-fin"><strong>Fin</strong></label>
-            <div style="display: flex; align-items: center; gap: 6px;">
-            <input type="date" id="editar-interno-fin" />
-            <button type="button" id="btn-hoy-editar-interno-fin" class="btn-hoy">Hoy</button>
-            </div>
-            </div>
-            <button type="submit" class="btn-guardar" style="margin:0;">Guardar</button>
-            </form>
+            <select class="filter" id="typeFilter">
+              <option value="all">Todos los tipos</option>
+              <option value="Ingreso">Ingreso</option>
+              <option value="Proyección">Proyección</option>
+            </select>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Concepto</th>
+                <th>Monto</th>
+                <th>Tipo</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="incomeTable">
+              <!-- Datos generados por JavaScript -->
+            </tbody>
+          </table>
+
+          <div class="pagination-info" id="paginationInfo">
+            Mostrando 0 de 0 registros
           </div>
         </div>
+      </main>
+    </div>
 
-        <!-- MODAL ELIMINAR INGRESO -->
-        <div id="modal-eliminar-ingreso" class="modal-ingreso-oculto">
-          <div class="modal-contenido modal-eliminar">
-            <span class="modal-cerrar" id="cerrar-modal-eliminar">
-              <img
-                src="../assets/icons/close.svg"
-                alt="Cerrar"
-                width="28"
-                height="28"
+    <!-- Modal para añadir/editar -->
+    <div class="modal" id="incomeModal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span id="modalTitle">Añadir nuevo registro</span>
+          </div>
+          <button class="close-modal" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="incomeForm">
+            <input type="hidden" id="editId" />
+            <!-- Tipo movido a la primera posición -->
+            <div class="form-group">
+              <label for="tipo">Tipo *</label>
+              <select id="tipo" class="form-control" required>
+                <option value="">Seleccione un tipo</option>
+                <option value="Ingreso">Ingreso</option>
+                <option value="Proyección">Proyección</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="concepto">Concepto *</label>
+              <div class="concepto-selector">
+                <input
+                  type="text"
+                  id="concepto"
+                  class="form-control"
+                  required
+                  readonly
+                  placeholder="Haga clic para seleccionar un concepto"
+                  style="cursor: pointer"
+                />
+                <button
+                  type="button"
+                  class="btn-select-concepto"
+                  id="selectConcepto"
+                >
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="monto">Monto ($) *</label>
+              <input
+                type="number"
+                id="monto"
+                class="form-control"
+                required
+                placeholder="Ingrese el monto"
               />
-            </span>
-            <div class="modal-eliminar-icono">
-              <img
-                src="../assets/icons/delete.svg"
-                alt="Eliminar"
-                width="48"
-                height="48"
-              />
             </div>
-            <h2>¿Eliminar ingreso?</h2>
-            <p>
-              ¿Estás seguro de que deseas eliminar el ingreso
-              <strong id="nombre-ingreso-eliminar"></strong>? Esta acción no se
-              puede deshacer.
-            </p>
-            <div class="modal-eliminar-botones">
-              <button
-                id="btn-confirmar-eliminar"
-                class="btn-eliminar-confirmar"
-              >
-                Sí, eliminar
-              </button>
-              <button id="btn-cancelar-eliminar" class="btn-eliminar-cancelar">
-                No, cancelar
-              </button>
+            <div class="form-group">
+              <label for="fecha">Fecha *</label>
+              <div class="fecha-container">
+                <input type="date" id="fecha" class="form-control" required />
+                <button type="button" id="btnHoy" class="btn-hoy">Hoy</button>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Modal de confirmación para ingreso programado -->
-        <div id="modal-confirmar-programado" class="modal-ingreso-oculto">
-        <div class="modal-content-centered">
-        <span
-        class="modal-cerrar"
-        id="cerrar-modal-confirmar-programado"
-        style="cursor: pointer; float: right; font-size: 1.5rem"
-        >&times;</span
-        >
-        <h2>Confirmar ingreso programado</h2>
-        <p>
-        ¿Estás seguro de que deseas registrar este ingreso como
-        <strong>programado</strong>? Se generarán ingresos automáticamente
-        según la frecuencia y fecha de inicio.
-        </p>
-        <div style="text-align: right; margin-top: 24px">
-        <button
-        id="btn-cancelar-programado"
-        class="btn-eliminar-cancelar"
-        >
-        Cancelar
-        </button>
-        <button
-        id="btn-confirmar-programado"
-        class="btn-guardar"
-        style="margin-left: 12px"
-        >
-        Confirmar
-        </button>
-        </div>
-        </div>
-        </div>
-
-        <!-- Modal de confirmación de ingreso programado pendiente -->
-        <div id="modal-confirmar-ingreso-pendiente" class="modal-ingreso-oculto">
-          <div class="modal-contenido">
-            <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
-            <h2>Confirmar ingreso programado</h2>
-            <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
-            <div style="text-align:right;margin-top:24px">
-              <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
-              <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
+            <div class="form-group">
+              <label for="estado">Estado *</label>
+              <select id="estado" class="form-control" required>
+                <option value="">Seleccione un estado</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
             </div>
-          </div>
-        </div>
-
-        <!-- Modal de confirmación de ingreso programado pendiente -->
-        <div id="modal-confirmar-ingreso-pendiente" class="modal-ingreso-oculto">
-          <div class="modal-contenido">
-            <span class="modal-cerrar" id="cerrar-modal-confirmar-ingreso-pendiente" style="cursor:pointer;float:right;font-size:1.5rem">&times;</span>
-            <h2>Confirmar ingreso programado</h2>
-            <p>¿Recibiste el ingreso programado <strong id="concepto-ingreso-pendiente"></strong> correspondiente a la fecha <strong id="fecha-ingreso-pendiente"></strong>?</p>
-            <div style="text-align:right;margin-top:24px">
-              <button id="btn-rechazar-ingreso-pendiente" class="btn-eliminar-cancelar">No, preguntar después</button>
-              <button id="btn-confirmar-ingreso-pendiente" class="btn-guardar" style="margin-left:12px">Sí, registrar</button>
+            <div class="form-group">
+              <label>Recurrencia</label>
+              <div class="recurrence-container">
+                <label for="recurrencia">Frecuencia:</label>
+                <select id="recurrencia" class="form-control">
+                  <option value="ninguna">Ninguna</option>
+                  <option value="diaria">Diaria</option>
+                  <option value="semanal">Semanal</option>
+                  <option value="quincenal">Quincenal</option>
+                  <option value="mensual">Mensual</option>
+                  <option value="trimestral">Trimestral</option>
+                  <option value="semestral">Semestral</option>
+                  <option value="anual">Anual</option>
+                </select>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
-
-        <!-- Modal para seleccionar concepto -->
-        <div id="modal-conceptos" class="modal-ingreso-oculto">
-          <div class="modal-contenido" style="max-width: 900px; position: relative;">
-            <span class="modal-cerrar" id="cerrar-modal-conceptos" style="top: 16px; right: 20px;">&times;</span>
-            <h2>Selecciona un concepto de ingreso</h2>
-            <div id="lista-conceptos"></div>
-            <button class="btn-eliminar-cancelar" style="margin-top: 24px" onclick="document.getElementById('modal-conceptos').classList.add('modal-ingreso-oculto');document.getElementById('modal-conceptos').style.display='';">
-              Cancelar
-            </button>
-          </div>
-        </div>
-
-        <!-- Modal para formulario de ingresos programados -->
-        <div id="modal-formulario-programado" class="modal-ingreso-oculto">
-          <div class="modal-contenido">
-            <span class="modal-cerrar" id="cerrar-modal-formulario-programado">&times;</span>
-            <h2>Agregar ingreso programado</h2>
-            <form id="form-programado" autocomplete="off">
-              <div class="modal-campos">
-                <div>
-                  <label for="concepto-programado"><strong>Concepto:</strong></label>
-                  <input type="text" id="concepto-programado" readonly placeholder="Selecciona un concepto" required />
-                </div>
-                <div>
-                  <label for="descripcion-programado"><strong>Descripción:</strong></label>
-                  <input type="text" id="descripcion-programado" />
-                </div>
-                <div>
-                  <label for="monto-programado"><strong>Monto:</strong></label>
-                  <input type="number" id="monto-programado" min="1" required />
-                </div>
-                <div>
-                  <label for="frecuencia-programado"><strong>Frecuencia:</strong></label>
-                  <select id="frecuencia-programado" required>
-                    <option value="mensual">Mensual</option>
-                    <option value="quincenal">Quincenal</option>
-                    <option value="semanal">Semanal</option>
-                    <option value="anual">Anual</option>
-                  </select>
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <label for="fecha-inicio-programado" style="flex: 0 0 120px;"><strong>Fecha inicio:</strong></label>
-                  <input type="date" id="fecha-inicio-programado" required style="flex: 1;" />
-                  <button type="button" id="btn-hoy-programado" class="btn-eliminar-cancelar" style="padding: 8px 16px; margin-top: 0;">Hoy</button>
-                </div>
-              </div>
-              <div style="display: flex; gap: 16px; margin-top: 24px;">
-                <button type="submit" class="btn-guardar">Guardar</button>
-                <button type="button" class="btn-eliminar-cancelar" id="cancelar-programado">Cancelar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Modal para formulario de ingresos variables -->
-        <div id="modal-formulario-variable" class="modal-ingreso-oculto">
-          <div class="modal-contenido">
-            <span class="modal-cerrar" id="cerrar-modal-formulario-variable">&times;</span>
-            <h2>Agregar ingreso variable</h2>
-            <form id="form-variable" autocomplete="off">
-              <div class="modal-campos">
-                <div>
-                  <label for="concepto-variable"><strong>Concepto:</strong></label>
-                  <input type="text" id="concepto-variable" placeholder="Escribe el concepto" required />
-                </div>
-                <div>
-                  <label for="descripcion-variable"><strong>Descripción:</strong></label>
-                  <input type="text" id="descripcion-variable" />
-                </div>
-                <div>
-                  <label for="monto-variable"><strong>Monto:</strong></label>
-                  <input type="number" id="monto-variable" min="1" required />
-                </div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <label for="fecha-variable" style="flex: 0 0 120px;"><strong>Fecha recibido:</strong></label>
-                  <input type="date" id="fecha-variable" required style="flex: 1;" />
-                  <button type="button" id="btn-hoy-variable" class="btn-eliminar-cancelar" style="padding: 8px 16px; margin-top: 0;">Hoy</button>
-                </div>
-              </div>
-              <div style="display: flex; gap: 16px; margin-top: 24px;">
-                <button type="submit" class="btn-guardar">Guardar</button>
-                <button type="button" class="btn-eliminar-cancelar" id="cancelar-variable">Cancelar</button>
-              </div>
-            </form>
-          </div>
+        <div class="modal-footer">
+          <button class="btn btn-cancel" id="cancelModal">Cancelar</button>
+          <button class="btn btn-save" id="saveIncome">
+            <i class="fas fa-save"></i> Guardar
+          </button>
         </div>
       </div>
     </div>
-    <!-- Notificaciones flotantes -->
-    <div id="notificaciones-flotantes" style="position:fixed;top:32px;right:32px;z-index:9999;display:flex;flex-direction:column;gap:12px;"></div>
-    <!-- Scripts -->
-    <script>
-    function mostrarNotificacion(mensaje, tipo = 'info') {
-      const cont = document.getElementById('notificaciones-flotantes');
-      if (!cont) return;
-      const notif = document.createElement('div');
-      notif.className = 'notificacion-flotante ' + tipo;
-      notif.style.cssText = `
-        min-width: 260px;
-        max-width: 340px;
-        background: ${tipo==='error' ? '#ffeaea' : tipo==='success' ? '#e6f9ee' : '#eaf6ff'};
-        color: ${tipo==='error' ? '#b13a3a' : tipo==='success' ? '#16603a' : '#1a2b1a'};
-        border-left: 6px solid ${tipo==='error' ? '#e74c3c' : tipo==='success' ? '#2de38a' : '#4e8ec6'};
-        box-shadow: 0 4px 24px rgba(26,122,77,0.10);
-        border-radius: 10px;
-        padding: 18px 22px 18px 18px;
-        font-size: 1.08rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        opacity: 0.98;
-        cursor: pointer;
-        transition: opacity 0.2s;
-      `;
-      notif.innerText = mensaje;
-      notif.onclick = () => notif.remove();
-      cont.appendChild(notif);
-      setTimeout(() => {
-        notif.style.opacity = '0';
-        setTimeout(()=>notif.remove(), 400);
-      }, 3500);
-    }
-    </script>
+
+    <!-- Modal para seleccionar concepto -->
+    <div class="modal" id="conceptoModal">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" style="max-width: 800px">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i class="fas fa-list"></i>
+            <span id="conceptoModalTitle">Seleccionar Concepto</span>
+          </div>
+          <button class="close-modal" id="closeConceptoModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="search-container" style="margin-bottom: 20px">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="searchConcepto"
+                placeholder="Buscar concepto..."
+              />
+            </div>
+          </div>
+          <div class="conceptos-grid" id="conceptosGrid">
+            <!-- Conceptos generados por JavaScript -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-cancel" id="cancelConceptoModal">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div class="delete-modal" id="deleteConfirmationModal">
+      <div class="delete-modal-backdrop"></div>
+      <div class="delete-modal-content">
+        <div class="delete-modal-header">
+          <div class="delete-modal-title">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Confirmar Eliminación</span>
+          </div>
+          <button class="close-delete-modal" id="closeDeleteModal">
+            &times;
+          </button>
+        </div>
+        <div class="delete-modal-body">
+          <p>¿Está seguro de que desea eliminar este registro?</p>
+          <p>Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="delete-modal-footer">
+          <button class="btn btn-cancel" id="cancelDelete">Cancelar</button>
+          <button class="btn btn-delete" id="confirmDelete">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para recurrencias -->
+    <div class="recurrence-modal" id="recurrenceModal">
+      <div class="recurrence-modal-backdrop"></div>
+      <div class="recurrence-modal-content">
+        <div class="recurrence-modal-header">
+          <div class="recurrence-modal-title">
+            <i class="fas fa-calendar-check"></i>
+            <span>Confirmación de Proyecciones Recurrentes</span>
+          </div>
+        </div>
+        <div class="recurrence-modal-body">
+          <p>
+            Se han detectado proyecciones recurrentes que deben confirmarse:
+          </p>
+
+          <div id="recurrenceItems">
+            <!-- Las proyecciones recurrentes se insertarán aquí -->
+          </div>
+        </div>
+        <div class="recurrence-footer">
+          <button class="btn btn-remind" id="remindLater">
+            Recordarme mañana
+          </button>
+          <button class="btn btn-confirm" id="confirmRecurrences">
+            Confirmar ingresos
+          </button>
+        </div>
+      </div>
+    </div>
     <script src="../assets/js/nav-bar.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <!-- jQuery y DataTables JS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/ingresos.js"></script>
   </body>
 </html>
