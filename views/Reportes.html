@@ -78,6 +78,25 @@
       </div>
     </main>
   </div>
+</main>
+</div>
+ <!-- Scripts -->
+     <!-- INCLUIR EL CHATBOT -->
+    <script src="/chatBot/public/script.js"></script>
+    <script>
+        // Inicializar el chatbot cuando se cargue la página
+        initChatBot({
+            serverUrl: 'http://localhost:5500/chat' // Cambia esta URL por la de tu servidor
+        });
+        
+        // Opcional: También puedes configurar el chatbot después
+        document.addEventListener('DOMContentLoaded', function() {
+            // Si necesitas cambiar la URL del servidor después
+            // window.chatBot.setServerUrl('https://tu-servidor.com/chat');
+            
+            console.log('Vista de ahorros cargada con ChatBot');
+        });
+    </script>
 
   <script src="../assets/js/nav-bar.js"></script>
   <script src="../assets/js/reportes.js"></script>
